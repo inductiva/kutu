@@ -1,4 +1,4 @@
-# Fetch base image of ubuntu with 77 MB.
+# Fetch base image of ubuntu with 77 MB. 
 FROM ubuntu:22.04
 
 # Set frontend to be noninteractive, to avoid prompts during installation.

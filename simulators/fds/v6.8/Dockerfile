@@ -56,5 +56,4 @@ ENV DISPLAY :1
 WORKDIR /
 
 COPY ./smokeview.sh /smokeview.sh
-
 RUN chmod +x /smokeview.sh
