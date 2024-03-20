@@ -1,7 +1,6 @@
 # Start from the official Ubuntu Bionic (18.04 LTS) image
 FROM ubuntu:focal
 
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install any extra things we might need
