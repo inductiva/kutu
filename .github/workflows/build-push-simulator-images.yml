@@ -9,7 +9,14 @@
 # to incorporate caching of the Docker build process in the GitHub actions.
 name: Build and push simulator Docker images
 on:
+  # On any PR we will save the docker images as -dev on docker hub
   pull_request:
+  
+  # When we merge into main we need to run this on push otherwise we would
+  # never have the prod images on docker hub.
+  push:
+    branches:
+      - main
 
 jobs:
   generate-simulator-matrix:
