@@ -1,4 +1,4 @@
-# Start from an official GROMACS image from GROMACS. 
+# Start from an official GROMACS image from GROMACS.
 FROM gromacs/gromacs:2022.2
 
 # Set environment variable to allow GPU direct communication

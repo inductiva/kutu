@@ -1,4 +1,4 @@
-# Start from an official CUDA image from NVIDIA. 
+# Start from an official CUDA image from NVIDIA.
 FROM nvidia/cuda:11.2.2-devel-ubuntu20.04
 
 # Set frontend to be noninteractive, to avoid prompts during installation.
