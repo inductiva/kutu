@@ -56,6 +56,19 @@ jobs:
         simulator-dockerfile-path: ${{ fromJSON(needs.generate-simulator-matrix.outputs.simulator-dockerfile-paths) }}
 
     steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          # this might remove tools that are actually needed,
+          # if set to "true" but frees about 6 GB
+          tool-cache: false
+          
+          # all of these default to true, but feel free to set to
+          # "false" if necessary for your workflow
+          android: true
+          dotnet: true
+          haskell: true
+          
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -107,10 +120,10 @@ jobs:
           file: ${{ matrix.simulator-dockerfile-path }}
           tags: |
              inductiva/kutu:${{ steps.image-tag.outputs.full_tag }}
-      - name: Test
+      - name: Test docker image
         run: |
           docker run --rm inductiva/kutu:${{ steps.image-tag.outputs.full_tag }} ./home/test_sim.sh
-          
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:

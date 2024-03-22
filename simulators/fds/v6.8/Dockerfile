@@ -1,3 +1,16 @@
+FROM ubuntu:22.04 as test_env
+
+RUN apt-get update \
+    && apt-get install -y \
+    wget \
+    unzip &&\
+    wget https://storage.googleapis.com/inductiva-api-demo-files/fds-input-example.zip -P /home/ && \
+    unzip /home/fds-input-example.zip -d /home/ && \
+    rm /home/fds-input-example.zip
+
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
 # Ubuntu Image
 FROM ubuntu:22.04
 
@@ -55,5 +68,6 @@ ENV PATH=/opt/smokeview/smvbin:$PATH
 ENV DISPLAY :1
 WORKDIR /
 
+COPY --from=test_env /home /home
 COPY ./smokeview.sh /smokeview.sh
 RUN chmod +x /smokeview.sh

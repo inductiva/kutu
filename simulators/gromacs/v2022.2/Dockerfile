@@ -1,11 +1,13 @@
 # Start from an official GROMACS image from GROMACS.
-FROM gromacs/gromacs:2022.2 as build
+FROM gromacs/gromacs:2022.2 as test_env
 
 RUN apt-get update && apt-get install -y \
     wget \
     unzip && \
     wget https://storage.googleapis.com/inductiva-api-demo-files/gromacs-input-example.zip -P /home/ && \
-    unzip /home/gromacs-input-example.zip -d /home/
+    unzip /home/gromacs-input-example.zip -d /home/ && \
+    rm /home/gromacs-input-example.zip
+    
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
@@ -15,4 +17,4 @@ FROM gromacs/gromacs:2022.2
 # Set environment variable to allow GPU direct communication
 ENV GMX_ENABLE_DIRECT_GPU_COMM=1
 
-COPY --from=build /home /home
+COPY --from=test_env /home /home
