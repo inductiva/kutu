@@ -59,7 +59,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Get simulator name, version, directory and enviorment
+      - name: Get simulator name, version, directory and environment
         id: get
         run: | 
           : # Get Simulator name
@@ -75,14 +75,16 @@ jobs:
           : # Get Simulation Directory
           echo "simulator-directory=$(dirname ${{ matrix.simulator-dockerfile-path }})" >> $GITHUB_OUTPUT
 
-          : # Current enviorment 
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "enviorment=''" >> $GITHUB_OUTPUT
-          else
-            echo "enviorment=_dev" >> $GITHUB_OUTPUT
+          : # Current environment 
+          if [[ "${{ github.ref }}" != "refs/heads/main" ]]; then
+            echo "environment=_dev"
           fi
 
           cat $GITHUB_OUTPUT
+
+      - name: Echo environment
+        run: |
+          echo "environment=${{ steps.get.outputs.environment }}"
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -97,7 +99,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           tags: |
-            inductiva/kutu:${{ steps.get.outputs.simulator-name }}_${{ steps.get.outputs.simulator-version }}${{ steps.get.outputs.enviorment }}
+            inductiva/kutu:${{ steps.get.outputs.simulator-name }}_${{ steps.get.outputs.simulator-version }}${{ steps.get.outputs.environment }}
           context: ${{ steps.get.outputs.simulator-directory }}
           file: ${{ matrix.simulator-dockerfile-path }}
           push: true
