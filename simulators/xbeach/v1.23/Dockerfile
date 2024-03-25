@@ -40,6 +40,8 @@ RUN ./autogen.sh && \
 	make && \
 	make install
 
+COPY --from=test_env /home /home
+
 FROM library/centos:7
 
 RUN yum update -y && \
@@ -79,4 +81,4 @@ ENV MPIRUN_BIN=mpirun
 ENV XBEACH_BIN=xbeach
 
 COPY --from=builder /usr/local/ /usr/local/
-COPY --from=test_env /home /home
+COPY --from=builder /home /home
