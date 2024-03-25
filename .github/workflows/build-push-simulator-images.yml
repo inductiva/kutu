@@ -122,7 +122,7 @@ jobs:
              inductiva/kutu:${{ steps.image-tag.outputs.full_tag }}
       - name: Test docker image
         run: |
-          docker run --rm inductiva/kutu:${{ steps.image-tag.outputs.full_tag }} ./home/test_sim.sh
+          docker run --rm inductiva/kutu:${{ steps.image-tag.outputs.full_tag }} /home/test_sim.sh
 
       - name: Build and push
         uses: docker/build-push-action@v4
