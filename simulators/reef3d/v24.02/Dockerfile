@@ -1,6 +1,7 @@
 # ubuntu base image
 FROM ubuntu:22.04
 
+
 # install required dependencies
 RUN apt-get update --fix-missing
 RUN apt-get -y install git cmake build-essential gfortran wget

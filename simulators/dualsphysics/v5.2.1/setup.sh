@@ -19,4 +19,3 @@ for file_path in $DUALSPHYSICS_BIN_DIR/*; do
         echo "Symbolic link to $file_path in $new_file_path set up."
     fi
 done
-
