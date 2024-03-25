@@ -1,3 +1,16 @@
+FROM ubuntu:focal as test_env
+
+RUN apt-get update \
+    && apt-get install -y \
+    wget \
+    unzip &&\
+    wget https://storage.googleapis.com/inductiva-api-demo-files/openfoam-input-example.zip -P /home/ && \
+    unzip /home/openfoam-input-example.zip -d /home/ && \
+    rm /home/openfoam-input-example.zip
+
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
 # Start from the official Ubuntu Bionic (18.04 LTS) image
 FROM ubuntu:focal
 
@@ -26,5 +39,6 @@ RUN sh -c "wget -O - http://dl.openfoam.org/gpg.key | apt-key add -" ;\
 	rm -rf /var/lib/apt/lists/*
 
 ENV OPENFOAM_SOURCE_FILE=/opt/${openfoam_version}/etc/bashrc
+COPY --from=test_env /home /home
 COPY ./launch.sh /launch.sh
 RUN chmod +x /launch.sh
