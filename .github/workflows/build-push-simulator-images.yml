@@ -12,7 +12,7 @@ on:
   # On any PR we will save the docker images as -dev on docker hub
   pull_request:
     branches-ignore:
-     - main
+      - main
   # When we merge into main we need to run this on push otherwise we would
   # never have the prod images on docker hub.
   push:
