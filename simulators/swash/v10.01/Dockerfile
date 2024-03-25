@@ -1,4 +1,4 @@
-# Image with Debian bookworm doesn't work
+# Image with Debian bookworm doesn't work.
 FROM python:3.11-bullseye
 
 # Set frontend to be noninteractive, to avoid prompts during installation.

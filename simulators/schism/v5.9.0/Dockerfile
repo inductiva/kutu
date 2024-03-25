@@ -61,4 +61,3 @@ RUN cd schism && \
     cmake -C ../cmake/SCHISM.local.my_own -C ../cmake/SCHISM.local.ubuntu ../src/ && \
     make -j8 pschism && \
     cp bin/pschism_* bin/pschism
-

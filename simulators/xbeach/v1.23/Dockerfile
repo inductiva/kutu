@@ -1,4 +1,5 @@
 FROM library/centos:7 as builder
+
 RUN yum update -y && \
 	yum install epel-release -y
 
