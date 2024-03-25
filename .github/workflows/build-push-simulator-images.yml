@@ -91,7 +91,7 @@ jobs:
 
           : # Current environment 
           if [[ "${{ github.ref }}" != "refs/heads/main" ]]; then
-            echo "environment=_dev"
+            echo "environment=_dev" >> $GITHUB_OUTPUT
           fi
 
           cat $GITHUB_OUTPUT
@@ -99,7 +99,7 @@ jobs:
       - name: Generate full image tag
         id: image-tag
         run: |
-          echo "full_tag=${{ steps.get.outputs.simulator-name }}_${{ steps.get.outputs.simulator-version }}${{ steps.get.outputs.enviorment }}">> $GITHUB_OUTPUT
+          echo "full_tag=${{ steps.get.outputs.simulator-name }}_${{ steps.get.outputs.simulator-version }}${{ steps.get.outputs.environment }}">> $GITHUB_OUTPUT
           cat $GITHUB_OUTPUT
 
       - name: Echo environment
