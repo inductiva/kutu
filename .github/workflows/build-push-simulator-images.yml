@@ -77,7 +77,7 @@ jobs:
 
           : # Current environment 
           if [[ "${{ github.ref }}" != "refs/heads/main" ]]; then
-            echo "environment=_dev"
+            echo "environment=_dev" >> $GITHUB_OUTPUT
           fi
 
           cat $GITHUB_OUTPUT
