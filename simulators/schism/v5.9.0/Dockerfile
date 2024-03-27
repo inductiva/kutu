@@ -1,3 +1,16 @@
+FROM ubuntu:22.04 as test_env
+
+RUN apt-get update \
+    && apt-get install -y \
+    wget \
+    unzip &&\
+    wget https://storage.googleapis.com/inductiva-api-demo-files/schism-input-example.zip -P /home/ && \
+    unzip /home/schism-input-example.zip -d /home/ && \
+    rm /home/schism-input-example.zip
+
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
 # Fetch base image of ubuntu with 77 MB.
 FROM ubuntu:22.04
 
@@ -61,3 +74,5 @@ RUN cd schism && \
     cmake -C ../cmake/SCHISM.local.my_own -C ../cmake/SCHISM.local.ubuntu ../src/ && \
     make -j8 pschism && \
     cp bin/pschism_* bin/pschism
+
+COPY --from=test_env /home /home

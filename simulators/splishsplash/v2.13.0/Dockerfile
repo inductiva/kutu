@@ -1,3 +1,16 @@
+FROM nvidia/cuda:11.2.2-devel-ubuntu20.04 as test_env
+
+RUN apt-get update \
+    && apt-get install -y \
+    wget \
+    unzip &&\
+    wget https://storage.googleapis.com/inductiva-api-demo-files/splishsplash-input-example.zip -P /home/ && \
+    unzip /home/splishsplash-input-example.zip -d /home/ && \
+    rm /home/splishsplash-input-example.zip
+
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
 # Start from an official CUDA image from NVIDIA.
 FROM nvidia/cuda:11.2.2-devel-ubuntu20.04
 
@@ -56,3 +69,5 @@ RUN make -j 4
 # Install gmsh.
 RUN apt-get update -y; \
     apt-get install -y gmsh
+
+COPY --from=test_env /home /home
