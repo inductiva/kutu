@@ -23,7 +23,7 @@ jobs:
   generate-simulator-matrix:
     runs-on: ubuntu-latest
     outputs:
-      simulator-dockerfile-paths: ${{ steps.changed-dockerfiles.outputs.all_changed_files }}
+      simulator-dockerfile-paths: ${{ steps.unique-changed-dockerfiles.outputs.all_unique_changed_simulators_json_array }}
 
     steps:
       # fetch-depth is set to 2 to ensure that the two last commits are
@@ -38,16 +38,52 @@ jobs:
         id: changed-dockerfiles
         uses: tj-actions/changed-files@v43
         with:
-          matrix: true
           files: |
-             simulators/**/*Dockerfile
+             simulators/**/*
       - name: Echo changed files
         run: |
           echo "all_changed_files=${{ steps.changed-dockerfiles.outputs.all_changed_files }}"
+        
+      - name: Removed duplicated paths
+        id: unique-changed-dockerfiles
+        # Remove duplicated paths if multiple files in the same directory have changed
+        run: |
+          array=(${{ steps.changed-dockerfiles.outputs.all_changed_files }})
+          resulting_array=()
+          for file_path in "${array[@]}"
+          do
+              : # Leaves only the first 3 directories of the path (with dockerfile at the end)
+              : # simulators/fds/v6.8/Test_files/file1.txt -> simulators/fds/v6.8/Dockerfile
+              resulting_array+=("$(echo "$file_path" | cut -d '/' -f1-3)/Dockerfile")
+          done
+          
+          : # Remove duplicates
+          unique_changed_simulators=()
+          for element in "${resulting_array[@]}"
+          do
+              if [[ ! " ${unique_changed_simulators[@]} " =~ " $element " ]]; then
+                  unique_changed_simulators+=("$element")
+              fi
+          done
+          
+          # Convert bash array to JSON array
+          json_array="["
+          for ((i = 0; i < ${#unique_changed_simulators[@]}; i++)); do
+              json_array+="\"${unique_changed_simulators[i]}\""
+              # if i less than the last index, add a comma
+              if [[ $i -lt $(( ${#unique_changed_simulators[@]} - 1 )) ]]; then
+                  json_array+=", "
+              fi
+          done
+          json_array+="]"
+          
+          echo "$json_array"
+          
+          echo "all_unique_changed_simulators_json_array=${json_array[@]}" >> $GITHUB_OUTPUT
 
   publish-simulator-image:
     runs-on: ubuntu-latest
-    needs: [generate-simulator-matrix]
+    needs: generate-simulator-matrix
     if: ${{ needs.generate-simulator-matrix.outputs.simulator-dockerfile-paths != '' && needs.generate-simulator-matrix.outputs.simulator-dockerfile-paths != '[]' }}
     strategy:
       # If building one simulator fails, continue with the others anyway.
