@@ -34,15 +34,6 @@ RUN apt-get update -y; \
 # Clone the DualSPHysics repository.
 WORKDIR /
 
-# Source: https://github.com/DualSPHysics/DualSPHysics/wiki/5.-Running-DualSPHysics
-# Folder src:
-# The folder source contains the source files of v5.0 (.cpp, .cu and .h). The makefile of linux and the text file for CMAKE.txt are also included in this folder.
-# Visual studio (Community 2015) project for windows can be found in VS.
-# The libraries (.a and .lib) necessary for compilation are included in lib.
-# Folder src_extra:
-# The release includes not only the source files of DualSPHysics v5.0 but also the source files of a code named “ToVTK5”. This code is provided to show how to load particle data, how to read .bi4 files and how to create .vtk or .csv files.
-# Folder src_mphase:
-# The source files of the of DualSPHysics_v4.0_LiquidGas and DSPH_v5.0_NNmphase are included here.
 RUN wget -O DualSPHysics_v5.2.zip  https://storage.googleapis.com/inductiva-host-source-codes/DualSPHysics_v5.2.1.zip\
     && unzip /DualSPHysics_v5.2.zip && \
     rm -r /DualSPHysics_v5.2.zip \ 
@@ -65,12 +56,12 @@ RUN CC=gcc CXX=g++ cmake .. && make DualSPHysics5.2CPU_linux64
 
 FROM ubuntu:22.04 
 
-# Copy libgomp libraries from the build stage.
-Copy --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0 /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0
-Copy --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1 /usr/lib/x86_64-linux-gnu/libgomp.so.1
-Copy --from=build /DualSPHysics_v5.2 /DualSPHysics_v5.2
+# COPY libgomp libraries from the build stage.
+COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0 /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0
+COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1 /usr/lib/x86_64-linux-gnu/libgomp.so.1
+COPY --from=build /DualSPHysics_v5.2 /DualSPHysics_v5.2
 
-Copy --from=test_env /home /home
+COPY --from=test_env /home /home
 # Set environment variable with path to DualSPHysics binaries.
 ENV DUALSPHYSICS_BIN_DIR="/DualSPHysics_v5.2/bin/linux"
 

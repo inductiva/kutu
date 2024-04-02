@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-From ubuntu:22.04 as build
+FROM ubuntu:22.04 as build
 
 ENV OMPI_ALLOW_RUN_AS_ROOT=1
 ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
@@ -45,21 +45,21 @@ RUN apt-get update \
     mv /usr/local/gromacs/bin/gmx_mpi /usr/local/gromacs/bin/gmx && \
     rm -r /gromacs-2022.2
 
-From ubuntu:22.04 
+FROM ubuntu:22.04 
 
-Copy --from=build /usr/local/gromacs /usr/local/gromacs
+COPY --from=build /usr/local/gromacs /usr/local/gromacs
 
 ENV PATH="${PATH}:/usr/local/gromacs/bin/"
     
-Copy --from=test_env /home /home
+COPY --from=test_env /home /home
 
-Run apt-get update -y && \
+RUN apt-get update -y && \
     apt-get install -y openmpi-bin
 
-Copy --from=build /usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7 /usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7
-Copy --from=build /usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7 /usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7
-Copy --from=build /usr/lib/x86_64-linux-gnu/libopen-rte.so.40 /usr/lib/x86_64-linux-gnu/libopen-rte.so.40
-Copy --from=build /usr/lib/x86_64-linux-gnu/libopen-pal.so.40 /usr/lib/x86_64-linux-gnu/libopen-pal.so.40
-Copy --from=build /usr/lib/x86_64-linux-gnu/libhwloc.so.15 /usr/lib/x86_64-linux-gnu/libhwloc.so.15
-Copy --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1 /usr/lib/x86_64-linux-gnu/libgomp.so.1
-Copy --from=build /usr/lib/x86_64-linux-gnu/libmpi.so.40 /usr/lib/x86_64-linux-gnu/libmpi.so.40
+COPY --from=build /usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7 /usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7
+COPY --from=build /usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7 /usr/lib/x86_64-linux-gnu/libevent_core-2.1.so.7
+COPY --from=build /usr/lib/x86_64-linux-gnu/libopen-rte.so.40 /usr/lib/x86_64-linux-gnu/libopen-rte.so.40
+COPY --from=build /usr/lib/x86_64-linux-gnu/libopen-pal.so.40 /usr/lib/x86_64-linux-gnu/libopen-pal.so.40
+COPY --from=build /usr/lib/x86_64-linux-gnu/libhwloc.so.15 /usr/lib/x86_64-linux-gnu/libhwloc.so.15
+COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1 /usr/lib/x86_64-linux-gnu/libgomp.so.1
+COPY --from=build /usr/lib/x86_64-linux-gnu/libmpi.so.40 /usr/lib/x86_64-linux-gnu/libmpi.so.40
