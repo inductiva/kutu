@@ -1,3 +1,6 @@
+
+![kutu-banner](https://github.com/inductiva/kutu/assets/7538022/847e6ba9-e420-45d7-b98e-d21192fbdafe)
+
 # Kutu
 
 Kutu, _куту_, is the Kyrgyz word for "box". In this repository, we box in containers
