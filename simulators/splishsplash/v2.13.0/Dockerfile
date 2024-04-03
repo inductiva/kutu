@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.2.2-devel-ubuntu20.04 as test_env
+FROM ubuntu:22.04 as test_env
 
 RUN apt-get update \
     && apt-get install -y \
@@ -12,7 +12,7 @@ COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
 # Start from an official CUDA image from NVIDIA.
-FROM nvidia/cuda:11.2.2-devel-ubuntu20.04
+FROM ubuntu:22.04 as build
 
 # Set frontend to be noninteractive, to avoid prompts during installation.
 ENV DEBIAN_FRONTEND=noninteractive
@@ -34,24 +34,6 @@ RUN apt-get update -y; \
 WORKDIR /
 RUN git clone https://github.com/InteractiveComputerGraphics/SPlisHSPlasH.git
 
-
-# Build SPlisHSPlasH with GPU support.
-RUN cmake \
-    -S /SPlisHSPlasH -B /SPlisHSPlasH_GPU/build \
-    -DUSE_GPU_NEIGHBORHOOD_SEARCH=ON \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE=/SPlisHSPlasH_GPU/bin \
-    -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/SPlisHSPlasH_GPU/bin \
-    -DUSE_PYTHON_BINDINGS=OFF \
-    -DBuild_PartioViewer=OFF \
-    -DBuild_FoamGenerator=OFF \
-    -DBuild_VolumeSampling=OFF \
-    -DBuild_MeshSkinning=OFF
-
-WORKDIR /SPlisHSPlasH_GPU/build
-RUN make -j 4
-
-# Build SPlisHSPlasH without GPU suppport.
 RUN cmake \
     -S /SPlisHSPlasH -B /SPlisHSPlasH_CPU/build \
     -DCMAKE_BUILD_TYPE=Release \
@@ -70,4 +52,23 @@ RUN make -j 4
 RUN apt-get update -y; \
     apt-get install -y gmsh
 
+FROM ubuntu:22.04 
+
+COPY --from=build /usr/lib/x86_64-linux-gnu/libGLdispatch.so.0 /usr/lib/x86_64-linux-gnu/libGLdispatch.so.0
+COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0 /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0
+COPY --from=build /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0 /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+COPY --from=build /usr/lib/x86_64-linux-gnu/libGLU.so.1.3.1 /usr/lib/x86_64-linux-gnu/libGLU.so.1.3.1
+COPY --from=build /usr/lib/x86_64-linux-gnu/libOpenGL.so.0 /usr/lib/x86_64-linux-gnu/libOpenGL.so.0
+COPY --from=build /usr/lib/x86_64-linux-gnu/libXdmcp.so.6 /usr/lib/x86_64-linux-gnu/libXdmcp.so.6
+COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1 /usr/lib/x86_64-linux-gnu/libgomp.so.1
+COPY --from=build /usr/lib/x86_64-linux-gnu/libX11.so.6 /usr/lib/x86_64-linux-gnu/libX11.so.6
+COPY --from=build /usr/lib/x86_64-linux-gnu/libGLU.so.1 /usr/lib/x86_64-linux-gnu/libGLU.so.1
+COPY --from=build /usr/lib/x86_64-linux-gnu/libxcb.so.1 /usr/lib/x86_64-linux-gnu/libxcb.so.1
+COPY --from=build /usr/lib/x86_64-linux-gnu/libXau.so.6 /usr/lib/x86_64-linux-gnu/libXau.so.6
+COPY --from=build /usr/lib/x86_64-linux-gnu/libbsd.so.0 /usr/lib/x86_64-linux-gnu/libbsd.so.0
+COPY --from=build /usr/lib/x86_64-linux-gnu/libmd.so.0 /usr/lib/x86_64-linux-gnu/libmd.so.0
+COPY --from=build /usr/lib/x86_64-linux-gnu/libX11.so /usr/lib/x86_64-linux-gnu/libX11.so
+COPY --from=build /usr/lib/x86_64-linux-gnu/libX11.a /usr/lib/x86_64-linux-gnu/libX11.a
+
+COPY --from=build /SPlisHSPlasH_CPU/bin /SPlisHSPlasH_CPU/bin
 COPY --from=test_env /home /home
