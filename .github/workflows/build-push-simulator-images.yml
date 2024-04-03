@@ -48,29 +48,19 @@ jobs:
         id: unique-changed-dockerfiles
         # Remove duplicated paths if multiple files in the same directory have changed
         run: |
-          array=(${{ steps.changed-dockerfiles.outputs.all_changed_files }})
-          resulting_array=()
-          for file_path in "${array[@]}"
-          do
-              : # Leaves only the first 3 directories of the path (with dockerfile at the end)
-              : # simulators/fds/v6.8/Test_files/file1.txt -> simulators/fds/v6.8/Dockerfile
-              resulting_array+=("$(echo "$file_path" | cut -d '/' -f1-3)/Dockerfile")
-          done
+          : # Get unique changed simulators
+          unique_changed_simulators=($( \
+            echo "${{ steps.changed-dockerfiles.outputs.all_changed_files }}" | \
+            sed s'/ /\n/g' | \
+            cut -d '/' -f1-3 | \
+            sort | \
+            uniq))
           
-          : # Remove duplicates
-          unique_changed_simulators=()
-          for element in "${resulting_array[@]}"
-          do
-              if [[ ! " ${unique_changed_simulators[@]} " =~ " $element " ]]; then
-                  unique_changed_simulators+=("$element")
-              fi
-          done
-          
-          # Convert bash array to JSON array
+          : # Convert bash array to JSON array and adds Dockerfile to each element
           json_array="["
           for ((i = 0; i < ${#unique_changed_simulators[@]}; i++)); do
-              json_array+="\"${unique_changed_simulators[i]}\""
-              # if i less than the last index, add a comma
+              json_array+="\"${unique_changed_simulators[i]}/Dockerfile\""
+              : # if i less than the last index, add a comma
               if [[ $i -lt $(( ${#unique_changed_simulators[@]} - 1 )) ]]; then
                   json_array+=", "
               fi
