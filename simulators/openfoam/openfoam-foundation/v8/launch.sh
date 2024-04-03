@@ -3,5 +3,5 @@
 # Utility to run OpenFOAM commands that sources the OpenFOAM startup file
 source $OPENFOAM_SOURCE_FILE
 
-# Run the command
+# RUN the command
 $1
