@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     unzip && \
     wget https://storage.googleapis.com/inductiva-api-demo-files/cans-input-example.zip -P /home/ && \
-    unzip /home/cans-input-example.zip -d /home/cans-input-example && \
+    unzip /home/cans-input-example.zip -d /home/ && \
     rm /home/cans-input-example.zip && \
     ls -l
 
