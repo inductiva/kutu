@@ -30,7 +30,7 @@ RUN apt-get update -y; \
     apt-get install -y python3.11 python3.11-distutils; \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11; \
     rm -f /usr/bin/python && ln -s /usr/bin/python3.11 /usr/bin/python
-    
+
 # Clone the DualSPHysics repository.
 WORKDIR /
 
