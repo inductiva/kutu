@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     rm /home/amr-wind-input-example.zip 
 
 COPY ./test_sim.sh /home/test_sim.sh
+
 RUN chmod +x /home/test_sim.sh
 
 FROM ubuntu:22.04 as build
