@@ -1,3 +1,16 @@
+FROM ubuntu:22.04 as test_env
+
+RUN apt-get update \
+    && apt-get install -y \
+    wget \
+    unzip &&\
+    wget https://storage.googleapis.com/inductiva-api-demo-files/reef3d-input-example.zip -P /home/ && \
+    unzip /home/reef3d-input-example.zip -d /home/ && \
+    rm /home/reef3d-input-example.zip
+
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
 # ubuntu base image
 FROM ubuntu:22.04
 
@@ -34,3 +47,5 @@ ENV REEF3D_BIN=/REEF3D/bin/REEF3D
 ENV DIVEMESH_BIN=/DIVEMesh/bin/DiveMESH
 
 RUN echo "export PATH=${DIVEMESH_HOME}:${REEF3D_HOME}:$PATH" >> ~/.bashrc
+
+COPY --from=test_env /home /home

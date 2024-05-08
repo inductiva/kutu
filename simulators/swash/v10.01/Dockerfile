@@ -1,3 +1,16 @@
+FROM python:3.11-bullseye as test_env
+
+RUN apt-get update \
+    && apt-get install -y \
+    wget \
+    unzip &&\
+    wget https://storage.googleapis.com/inductiva-api-demo-files/swash-input-example.zip -P /home/ && \
+    unzip /home/swash-input-example.zip -d /home/ && \
+    rm /home/swash-input-example.zip
+
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
 # Image with Debian bookworm doesn't work.
 FROM python:3.11-bullseye
 
@@ -60,3 +73,5 @@ RUN wget https://swash.sourceforge.io/download/zip/swash-${SWASH_VERSION}.tar.gz
     chmod +rx ${SWASH_HOME}/swashrun && \
     rm -rf ${SWASH_TMP}
 ENV PATH ${SWASH_HOME}:$PATH
+
+COPY --from=test_env /home /home

@@ -1,3 +1,16 @@
+FROM ubuntu:22.04 as test_env
+
+RUN apt-get update \
+    && apt-get install -y \
+    wget \
+    unzip &&\
+    wget https://storage.googleapis.com/inductiva-api-demo-files/swan-input-example.zip -P /home/ && \
+    unzip /home/swan-input-example.zip -d /home/ && \
+    rm /home/swan-input-example.zip
+
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
 # Fetch base image of ubuntu with 77 MB. 
 FROM ubuntu:22.04
 
@@ -57,3 +70,5 @@ RUN wget https://swanmodel.sourceforge.io/download/zip/swan${SWAN_VERSION}.tar.g
     chmod +rx ${SWAN_HOME}/swanrun && \
     rm -rf ${SWAN_TMP}
 ENV PATH ${SWAN_HOME}:$PATH
+
+COPY --from=test_env /home /home

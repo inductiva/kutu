@@ -1,3 +1,16 @@
+FROM library/centos:7 as test_env
+
+RUN yum update -y && \
+	yum install -y wget \
+    unzip &&\
+    wget https://storage.googleapis.com/inductiva-api-demo-files/xbeach-input-example.zip -P /home/ && \
+    unzip /home/xbeach-input-example.zip -d /home/ && \
+    rm /home/xbeach-input-example.zip
+
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
+
 FROM library/centos:7 as builder
 
 RUN yum update -y && \
@@ -26,6 +39,8 @@ RUN ./autogen.sh && \
 	make clean && \
 	make && \
 	make install
+
+COPY --from=test_env /home /home
 
 FROM library/centos:7
 
@@ -66,3 +81,4 @@ ENV MPIRUN_BIN=mpirun
 ENV XBEACH_BIN=xbeach
 
 COPY --from=builder /usr/local/ /usr/local/
+COPY --from=builder /home /home
