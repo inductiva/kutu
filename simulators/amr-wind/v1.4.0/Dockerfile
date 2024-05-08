@@ -30,9 +30,8 @@ RUN apt update -qq && \
     # Clone Openfast repository
     git clone --recursive --branch v1.4.0 https://github.com/Exawind/amr-wind.git amr-wind && \
     mkdir amr-wind/build && cd amr-wind/build && \
-    cmake   -DAMR_WIND_ENABLE_OPENMP:BOOL=ON \
+    cmake   -DAMR_WIND_ENABLE_OPENMP:BOOL=FALSE \
             -DCMAKE_BUILD_TYPE:STRING=RELEASE \
-            -DAMR_WIND_ENABLE_TESTS:BOOL=ON \
             -DAMR_WIND_ENABLE_MPI:BOOL=ON .. && \
     # Using -j may cause the build to fail
     make && \
