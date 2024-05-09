@@ -5,8 +5,8 @@ RUN apt-get update \
     wget \
     unzip &&\
     wget https://storage.googleapis.com/inductiva-api-demo-files/schism-input-example-09-05-2024.zip -P /home/ && \
-    unzip /home/schism-input-example.zip -d /home/ && \
-    rm /home/schism-input-example.zip
+    unzip /home/schism-input-example-09-05-2024.zip -d /home/ && \
+    rm /home/schism-input-example-09-05-2024.zip
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
