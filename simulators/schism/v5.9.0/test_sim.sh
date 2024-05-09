@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/schism-input-example
+cd /home/schism-input-example-09-05-2024
 mkdir outputs
 
 /schism/build/bin/pschism && \
