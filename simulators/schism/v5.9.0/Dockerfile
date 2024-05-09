@@ -61,7 +61,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN apt-get install -y libnetcdf-dev libnetcdff-dev
 
 # Clone the source code
-RUN git clone --recurse-submodules --branch v5.9.0 https://github.com/schism-dev/schism.git
+RUN git clone --recurse-submodules https://github.com/schism-dev/schism.git
 
 # Install according to the instructions
 RUN cd schism && \
