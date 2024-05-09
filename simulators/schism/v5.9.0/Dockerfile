@@ -4,7 +4,7 @@ RUN apt-get update \
     && apt-get install -y \
     wget \
     unzip &&\
-    wget https://storage.googleapis.com/inductiva-api-demo-files/schism-input-example.zip -P /home/ && \
+    wget https://storage.googleapis.com/inductiva-api-demo-files/schism-input-example-09-05-2024.zip -P /home/ && \
     unzip /home/schism-input-example.zip -d /home/ && \
     rm /home/schism-input-example.zip
 
