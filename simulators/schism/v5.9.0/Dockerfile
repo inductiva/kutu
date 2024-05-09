@@ -4,9 +4,9 @@ RUN apt-get update \
     && apt-get install -y \
     wget \
     unzip &&\
-    wget https://storage.googleapis.com/inductiva-api-demo-files/schism-input-example.zip -P /home/ && \
-    unzip /home/schism-input-example.zip -d /home/ && \
-    rm /home/schism-input-example.zip
+    wget https://storage.googleapis.com/inductiva-api-demo-files/schism-input-example-09-05-2024.zip -P /home/ && \
+    unzip /home/schism-input-example-09-05-2024.zip -d /home/ && \
+    rm /home/schism-input-example-09-05-2024.zip
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
@@ -72,7 +72,7 @@ RUN cd schism && \
     new_line='set (OLDIO ON CACHE BOOLEAN "Old nc output (each rank dumps its own data)")' && \
     sed "s|$old_line|$new_line|" ../cmake/SCHISM.local.build > ../cmake/SCHISM.local.my_own && \
     cmake -C ../cmake/SCHISM.local.my_own -C ../cmake/SCHISM.local.ubuntu ../src/ && \
-    make -j8 pschism && \
+    make pschism && \
     cp bin/pschism_* bin/pschism
 
 COPY --from=test_env /home /home
