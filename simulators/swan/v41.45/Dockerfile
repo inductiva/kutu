@@ -54,14 +54,15 @@ ENV LD_LIBRARY_PATH ${OPENMPI_HOME}/lib:$LD_LIBRARY_PATH
 
 # Environment variables and arguments for SWAN
 ENV SWAN_HOME=/swan
-ARG SWAN_VERSION=4145
+ARG SWAN_VERSION=41.45
 ARG SWAN_TMP=/tmp/swan
 ENV SWAN_BIN=swan.exe
 
 # Instal SWAN from source code
 RUN mkdir ${SWAN_TMP}
 WORKDIR ${SWAN_TMP}
-RUN wget https://swanmodel.sourceforge.io/download/zip/swan${SWAN_VERSION}.tar.gz && \
+
+RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
     tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
     make config && \
     make mpi && \
