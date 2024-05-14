@@ -4,23 +4,22 @@ RUN apt-get update \
     && apt-get install -y \
     wget \
     unzip &&\
-    wget https://storage.googleapis.com/inductiva-api-demo-files/swan-input-example.zip -P /home/ && \
-    unzip /home/swan-input-example.zip -d /home/ && \
-    rm /home/swan-input-example.zip
+    wget https://storage.googleapis.com/inductiva-api-demo-files/schism-input-example-09-05-2024.zip -P /home/ && \
+    unzip /home/schism-input-example-09-05-2024.zip -d /home/ && \
+    rm /home/schism-input-example-09-05-2024.zip
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-# Fetch base image of ubuntu with 77 MB. 
+# Fetch base image of ubuntu with 77 MB.
 FROM ubuntu:22.04
 
 # Set frontend to be noninteractive, to avoid prompts during installation.
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install updates and essential tools to build and install Open MPI and SWAN.
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y wget ssh build-essential
+    apt-get install -y git wget perl cmake
 
 # Install gcc-10 and set it as the default GNU compiler.
 RUN apt-get install -y gcc-10 g++-10 gfortran-10 && \
@@ -30,6 +29,7 @@ RUN apt-get install -y gcc-10 g++-10 gfortran-10 && \
     update-alternatives --set g++ /usr/bin/g++-10 && \
     update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-10 10 && \
     update-alternatives --set gfortran /usr/bin/gfortran-10
+
 
 
 # Set Open MPI options.
@@ -51,25 +51,29 @@ RUN wget https://download.open-mpi.org/release/open-mpi/v${OPENMPI_MAJOR_VERSION
     rm -rf ${OPENMPI_TMP}
 ENV PATH ${OPENMPI_HOME}/bin:$PATH
 ENV LD_LIBRARY_PATH ${OPENMPI_HOME}/lib:$LD_LIBRARY_PATH
+WORKDIR /
 
-# Environment variables and arguments for SWAN
-ENV SWAN_HOME=/swan
-ARG SWAN_VERSION=41.45
-ARG SWAN_TMP=/tmp/swan
-ENV SWAN_BIN=swan.exe
+# Install Python and pip
+RUN apt-get install -y python3 python3-pip
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
-# Instal SWAN from source code
-RUN mkdir ${SWAN_TMP}
-WORKDIR ${SWAN_TMP}
+# Install netcfd as required by the simulator
+RUN apt-get update && \
+    apt-get install -y libnetcdf-dev libnetcdff-dev
 
-RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
-    tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
-    make config && \
-    make mpi && \
-    mkdir ${SWAN_HOME} && \
-    mv swan.exe swanrun ${SWAN_HOME} && \
-    chmod +rx ${SWAN_HOME}/swanrun && \
-    rm -rf ${SWAN_TMP}
-ENV PATH ${SWAN_HOME}:$PATH
+# Clone the source code
+RUN git clone --recurse-submodules --branch v5.11 https://github.com/schism-dev/schism.git && \
+    cd schism && \
+    git reset --hard 4af0f8c32930f50a0ea45532506991afc247bd8f && \
+    # Install according to the instructions
+    mkdir build && \
+    cd build && \
+    rm -rf * && \
+    old_line='set (OLDIO OFF CACHE BOOLEAN "Old nc output (each rank dumps its own data)")' && \
+    new_line='set (OLDIO ON CACHE BOOLEAN "Old nc output (each rank dumps its own data)")' && \
+    sed "s|$old_line|$new_line|" ../cmake/SCHISM.local.build > ../cmake/SCHISM.local.my_own && \
+    cmake -C ../cmake/SCHISM.local.my_own -C ../cmake/SCHISM.local.ubuntu ../src/ && \
+    make pschism && \
+    cp bin/pschism_* bin/pschism
 
 COPY --from=test_env /home /home
