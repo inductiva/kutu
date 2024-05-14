@@ -1,8 +1,6 @@
-FROM ubuntu:22.04 as test_env
+FROM inductiva/kutu:base-image_v0.1.0 as test_env
 
-RUN apt-get update -y; \
-    apt-get install curl unzip -y; \
-    curl https://storage.googleapis.com/inductiva-api-demo-files/dualsphysics-input-example.zip\ 
+RUN curl https://storage.googleapis.com/inductiva-api-demo-files/dualsphysics-input-example.zip\ 
         --output /home/dualsphysics-input-example.zip && \
     unzip /home/dualsphysics-input-example.zip -d /home/ && \
     rm /home/dualsphysics-input-example.zip && \
@@ -14,22 +12,10 @@ COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
 # Start from an image provided by NVIDIA with CUDA 11.7.
-FROM ubuntu:22.04 as build
+FROM inductiva/kutu:base-image_v0.1.0 as build
 
 # Set frontend to be noninteractive, to avoid prompts during installation.
 ENV DEBIAN_FRONTEND=noninteractive
-
-# Install git and cmake.
-RUN apt-get update -y \
-    && apt-get install -y git cmake wget unzip
-
-# Install Python 3.11.
-RUN apt-get update -y; \
-    apt-get install curl software-properties-common g++ -y; \
-    add-apt-repository ppa:deadsnakes/ppa; \
-    apt-get install -y python3.11 python3.11-distutils; \
-    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11; \
-    rm -f /usr/bin/python && ln -s /usr/bin/python3.11 /usr/bin/python
 
 # Clone the DualSPHysics repository.
 WORKDIR /
@@ -52,7 +38,6 @@ RUN wget -O DualSPHysics_v5.2.zip  https://storage.googleapis.com/inductiva-host
 # Build DualSPHysics.
 WORKDIR /DualSPHysics_v5.2/src/source/build
 RUN CC=gcc CXX=g++ cmake .. && make DualSPHysics5.2CPU_linux64
-
 
 FROM ubuntu:22.04 
 
