@@ -35,7 +35,7 @@ RUN git clone https://github.com/openearth/xbeach.git /xbeach
 WORKDIR /xbeach
 
 RUN ./autogen.sh && \
-	FCFLAGS=-I/usr/lib64/gfortran/modules ./configure --with-netcdf --without-mpi && \
+	FCFLAGS=-I/usr/lib64/gfortran/modules ./configure --with-netcdf --with-mpi && \
 	make clean && \
 	make && \
 	make install
