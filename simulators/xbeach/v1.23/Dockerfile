@@ -10,7 +10,6 @@ RUN yum update -y && \
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-
 FROM library/centos:7 as builder
 
 RUN yum update -y && \
