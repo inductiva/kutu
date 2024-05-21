@@ -34,7 +34,7 @@ RUN git clone https://github.com/openearth/xbeach.git /xbeach
 WORKDIR /xbeach
 
 RUN ./autogen.sh && \
-	FCFLAGS=-I/usr/lib64/gfortran/modules ./configure --with-netcdf --without-mpi && \
+	FCFLAGS=-I/usr/lib64/gfortran/modules ./configure --with-netcdf --with-mpi && \
 	make clean && \
 	make && \
 	make install
@@ -65,12 +65,12 @@ RUN yum update -y && \
 # Install openssl 1.1.1, needed for Python 3.10
 # Install instructions from:
 #  - https://gist.github.com/Bill-tran/5e2ab062a9028bf693c934146249e68c
-RUN wget https://ftp.openssl.org/source/openssl-1.1.1k.tar.gz && \
-	tar -xzf openssl-1.1.1k.tar.gz
+# RUN wget https://ftp.openssl.org/source/openssl-1.1.1k.tar.gz && \
+# 	tar -xzf openssl-1.1.1k.tar.gz
 
-WORKDIR /openssl-1.1.1k
-RUN ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib no-shared zlib-dynamic
-RUN make && make install
+# WORKDIR /openssl-1.1.1k
+# RUN ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib no-shared zlib-dynamic
+# RUN make && make install
 ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
 
 ENV PATH=/usr/lib64/openmpi/bin:$PATH \
