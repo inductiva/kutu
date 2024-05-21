@@ -2,4 +2,4 @@
 
 cd /home/xbeach-input-example
 
-xbeach .
+mpirun -np 1 xbeach .
