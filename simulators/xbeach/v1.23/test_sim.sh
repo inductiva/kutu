@@ -2,4 +2,4 @@
 
 cd /home/xbeach-input-example
 
-xbeach .
+mpirun --allow-run-as-root -np 2 xbeach .
