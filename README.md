@@ -1,7 +1,13 @@
+
+![kutu-banner](https://github.com/inductiva/kutu/assets/7538022/847e6ba9-e420-45d7-b98e-d21192fbdafe)
+
 # Kutu
 
-Kutu, _куту_, is the Kyrgyz word for "box". In this repository, we box in containers
-several open-source simulators used in [Inductiva API](https://github.com/inductiva/inductiva/tree/main).
+Kutu, _куту_, is the Kyrgyz word for "box". Here we store all the container
+images of the open-source simulators supported by the 
+[Inductiva API](https://github.com/inductiva/inductiva/tree/main),
+which allows users to easily run physical simulations on the cloud.
+
 These containers are inspired by many others available online. Moving forward, these
 containers will take into consideration high-performance computing environments (HPC),
 platform versatility and be as lightweight as possible.
