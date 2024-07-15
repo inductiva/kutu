@@ -34,3 +34,12 @@ docker run -it gromacs-image
 ```
 
 This will allow the isolation of the simulation environment from the host machine.
+
+Additionally, all our Docker images are available in our
+[Docker Hub repository](https://hub.docker.com/r/inductiva/kutu). You can pull
+any image directly from there without needing to build it locally. For instance,
+to pull the GROMACS image, you can use:
+
+```bash
+docker pull inductiva/kutu:gromacs_v2022.2
+```
