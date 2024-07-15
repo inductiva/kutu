@@ -12,25 +12,23 @@ RUN chmod +x /home/test_sim.sh
 
 FROM inductiva/kutu:base-image_v0.1.1_dev as build
 
-#SCALAPACK="-L/usr/lib/x86_64-linux-gnu -lscalapack-openmpi" \
+
 ENV NWCHEM_TOP=/nwchem-7.2.2 \
 	NWCHEM_TARGET=LINUX64 \
 	ARMCI_NETWORK=MPI-MT \
 	NWCHEM_MODULES=all \
 	PYTHONVERSION=3.10 \
-	LARGE_FILES=TRUE \
-	USE_OPENMP=1  \
-	USE_NOIO=y  \
-	USE_MPIF=y \
-	USE_MPI=y \
-    BUILD_OPENBLAS=1 \
     BUILD_SCALAPACK=1 \
+	LARGE_FILES=TRUE \
+    BUILD_OPENBLAS=1 \
     SCALAPACK_SIZE=4 \
+    USE_SCALAPACK=y \
+	USE_OPENMP=1 \
 	USE_MPIF4=y \
     BLAS_SIZE=4 \
-    USE_SCALAPACK=y \
-    #LAPACK_LIB="-lopenblas" \
-    #BLASOPT="-lopenblas" \
+	USE_NOIO=y \
+	USE_MPIF=y \
+	USE_MPI=y \
     #nb_wait_for_handle Error: all user-level nonblocking handles have been exhausted
     #source: https://nwchemgit.github.io/FAQ.html#nb_wait_for_handle-error
     COMEX_MAX_NB_OUTSTANDING=16
@@ -41,8 +39,6 @@ RUN wget https://github.com/nwchemgit/nwchem/releases/download/v7.2.2-release/nw
     make nwchem_config && \
     make 64_to_32 && \
     make V=1 USE_64TO32=y
-# RUN cd $NWCHEM_TOP/src && \
-#     make clean
 
 FROM ubuntu:22.04
 
@@ -50,7 +46,6 @@ RUN apt update -qq && \
     apt install --no-install-recommends -y \
         openmpi-bin=4.1.2-2ubuntu1 && \
     apt clean
-
 
 COPY --from=build /lib/x86_64-linux-gnu/libscalapack-openmpi.so.2.1 /lib/x86_64-linux-gnu/libscalapack-openmpi.so.2.1
 COPY --from=build /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7 /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7
