@@ -1,4 +1,4 @@
-FROM inductiva/kutu:base-image_v0.1.1_dev as test_env
+FROM inductiva/kutu:base-image_v0.1.1 as test_env
 
 RUN apt-get update && apt-get install -y \
     wget \
@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-FROM inductiva/kutu:base-image_v0.1.1_dev as build
+FROM inductiva/kutu:base-image_v0.1.1 as build
 
 
 ENV NWCHEM_TOP=/nwchem-7.2.2 \
