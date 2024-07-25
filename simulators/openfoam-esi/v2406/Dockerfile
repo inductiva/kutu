@@ -34,20 +34,17 @@ RUN wget https://dl.openfoam.com/source/v2406/OpenFOAM-v2406.tgz && \
     wget https://dl.openfoam.com/source/v2406/ThirdParty-v2406.tgz && \
 	tar -xzf ThirdParty-v2406.tgz && \
 	mv ThirdParty-v2406 ThirdParty && \
-	./Allwmake -j 
+	./Allwmake -j
 
 FROM ubuntu:22.04
 
-ARG DEBIAN_FRONTEND=noninteractive
-
-COPY --from=build /OpenFOAM-v2406 /OpenFOAM-v2406
-COPY --from=test_env /home /home
-COPY ./launch.sh /launch.sh
-
 SHELL ["/bin/bash", "-c"]
 
-RUN chmod +x /launch.sh && \
-	apt update -qq && \
+ENV OPENFOAM_SOURCE_FILE=/OpenFOAM-v2406/etc/bashrc
+ARG DEBIAN_FRONTEND=noninteractive
+
+#run as root
+RUN apt update -qq && \
 	apt-get install -y wget make \
 		gfortran-10 \
         gfortran \
@@ -67,12 +64,25 @@ RUN chmod +x /launch.sh && \
     apt install --no-install-recommends -y \
         openmpi-bin=4.1.2-2ubuntu1 && \
     apt clean && \
+    # Create user openfoam_user
+    useradd -ms /bin/bash openfoam_user
+# Switch to user openfoam_user
+USER openfoam_user
+
+COPY --from=build --chown=openfoam_user /OpenFOAM-v2406 /OpenFOAM-v2406
+COPY --from=test_env --chown=openfoam_user /home /home
+COPY --chown=openfoam_user ./launch.sh /launch.sh
+
+# run as openfoam_user
+RUN chmod +x /launch.sh && \
 	cd /OpenFOAM-v2406 && \
 	source etc/bashrc && \
 	# This second Allwmake is necessary
 	# https://www.cfd-online.com/Forums/openfoam-installation/100347-libscotch-so-missing.html
-	./Allwmake
-RUN useradd -ms /bin/bash openfoam_user
-USER openfoam_user
-
-ENV OPENFOAM_SOURCE_FILE=/usr/lib/openfoam/${openfoam_version}/etc/bashrc
+	./Allwmake && \
+    rm -r /OpenFOAM-v2406/ThirdParty/sources/ && \
+    rm /OpenFOAM-v2406/ThirdParty-v2406.tgz && \
+    rm -r /OpenFOAM-v2406/ThirdParty/build/ && \
+    rm -r /OpenFOAM-v2406/tutorials/ && \
+    rm -r /OpenFOAM-v2406/build/ && \
+    rm -r /OpenFOAM-v2406/src/
