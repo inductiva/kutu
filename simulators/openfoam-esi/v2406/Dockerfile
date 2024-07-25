@@ -80,9 +80,10 @@ RUN chmod +x /launch.sh && \
 	# This second Allwmake is necessary
 	# https://www.cfd-online.com/Forums/openfoam-installation/100347-libscotch-so-missing.html
 	./Allwmake && \
-    rm -r /OpenFOAM-v2406/ThirdParty/sources/ && \
     rm /OpenFOAM-v2406/ThirdParty-v2406.tgz && \
     rm -r /OpenFOAM-v2406/ThirdParty/build/ && \
-    rm -r /OpenFOAM-v2406/tutorials/ && \
     rm -r /OpenFOAM-v2406/build/ && \
-    rm -r /OpenFOAM-v2406/src/
+    rm -r /OpenFOAM-v2406/tutorials/ 
+    #cant delete src folders because it might be needed to create new libraries
+    #in some cases some libraries cannot be loaded so Openfoam creates them
+    #on the fly (we need src for that)
