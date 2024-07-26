@@ -149,6 +149,8 @@ jobs:
           file: ${{ matrix.simulator-dockerfile-path }}
           tags: |
              inductiva/kutu:${{ steps.image-tag.outputs.full_tag }}
+          cache-from: type=registry,ref=inductiva/kutu:${{ steps.image-tag.outputs.full_tag }}
+          cache-to: type=registry,ref=inductiva/kutu:${{ steps.image-tag.outputs.full_tag }},mode=max
       - name: Test docker image
         run: |
           docker run --rm inductiva/kutu:${{ steps.image-tag.outputs.full_tag }} /home/test_sim.sh
@@ -164,3 +166,5 @@ jobs:
             org.opencontainers.image.source=https://github.com/inductiva/kutu
             maintainer=Inductiva Research Labs <contact@inductiva.ai>
             org.opencontainers.image.revision=$GITHUB_SHA
+          cache-from: type=registry,ref=inductiva/kutu:${{ steps.image-tag.outputs.full_tag }}
+          cache-to: type=registry,ref=inductiva/kutu:${{ steps.image-tag.outputs.full_tag }},mode=max

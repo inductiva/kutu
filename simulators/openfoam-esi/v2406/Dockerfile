@@ -34,7 +34,11 @@ RUN wget https://dl.openfoam.com/source/v2406/OpenFOAM-v2406.tgz && \
     wget https://dl.openfoam.com/source/v2406/ThirdParty-v2406.tgz && \
 	tar -xzf ThirdParty-v2406.tgz && \
 	mv ThirdParty-v2406 ThirdParty && \
-	./Allwmake -j
+	./Allwmake -j && \
+    rm -r /OpenFOAM-v2406/tutorials/ && \
+    rm /OpenFOAM-v2406/ThirdParty-v2406.tgz && \
+    rm -r /OpenFOAM-v2406/ThirdParty/sources/ && \
+    rm -r /OpenFOAM-v2406/ThirdParty/sources/
 
 FROM ubuntu:22.04
 
@@ -84,11 +88,8 @@ RUN chmod +x /launch.sh && \
 	# This second Allwmake is necessary
 	# https://www.cfd-online.com/Forums/openfoam-installation/100347-libscotch-so-missing.html
 	./Allwmake && \
-    rm /OpenFOAM-v2406/ThirdParty-v2406.tgz && \
-    rm -r /OpenFOAM-v2406/ThirdParty/build/ && \
     rm -r /OpenFOAM-v2406/build/ && \
-    rm -r /OpenFOAM-v2406/tutorials/ && \
-    rm -r /OpenFOAM-v2406/ThirdParty/sources/
+    rm -r /OpenFOAM-v2406/ThirdParty/build/
     #cant delete src folders because it might be needed to create new libraries
     #in some cases some libraries cannot be loaded so Openfoam creates them
     #on the fly (we need src for that)
