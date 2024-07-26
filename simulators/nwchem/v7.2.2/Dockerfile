@@ -45,7 +45,8 @@ FROM ubuntu:22.04
 RUN apt update -qq && \
     apt install --no-install-recommends -y \
         openmpi-bin=4.1.2-2ubuntu1 && \
-    apt clean
+    apt clean && \
+    ls
 
 COPY --from=build /lib/x86_64-linux-gnu/libscalapack-openmpi.so.2.1 /lib/x86_64-linux-gnu/libscalapack-openmpi.so.2.1
 COPY --from=build /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7 /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7
