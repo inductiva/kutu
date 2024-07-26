@@ -37,7 +37,6 @@ RUN wget https://dl.openfoam.com/source/v2406/OpenFOAM-v2406.tgz && \
 	./Allwmake -j && \
     rm -r /OpenFOAM-v2406/tutorials/ && \
     rm /OpenFOAM-v2406/ThirdParty-v2406.tgz && \
-    rm -r /OpenFOAM-v2406/ThirdParty/sources/ && \
     rm -r /OpenFOAM-v2406/ThirdParty/sources/
 
 FROM ubuntu:22.04
