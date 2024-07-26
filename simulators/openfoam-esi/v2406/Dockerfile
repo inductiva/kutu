@@ -45,25 +45,29 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 #run as root
 RUN apt update -qq && \
-	apt-get install -y wget make \
-		gfortran-10 \
-        gfortran \
-        g++-10 \
-        gcc-10 \
+    #https://develop.openfoam.com/Development/openfoam/blob/develop/doc/Requirements.md
+	apt-get install -y make \
         gcc \
         g++ \
-		make \
-        libqt5x11extras5-dev \
-        qttools5-dev-tools \
-		libqt5opengl5-dev \
-		paraview-dev \
-		qttools5-dev \
-        qtbase5-dev \
-		libxt-dev \
-		flex && \
+        autoconf \
+        autotools-dev \
+        cmake \
+        gawk \
+        gnuplot \
+        flex \
+        libfl-dev \
+        libreadline-dev \
+        zlib1g-dev \
+        libgmp-dev \
+        libmpfr-dev \
+        libmpc-dev && \
     apt install --no-install-recommends -y \
         openmpi-bin=4.1.2-2ubuntu1 && \
     apt clean && \
+    apt-get clean && \
+    apt-get autoclean && \
+    apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/* && \
     # Create user openfoam_user
     useradd -ms /bin/bash openfoam_user
 # Switch to user openfoam_user
@@ -83,7 +87,8 @@ RUN chmod +x /launch.sh && \
     rm /OpenFOAM-v2406/ThirdParty-v2406.tgz && \
     rm -r /OpenFOAM-v2406/ThirdParty/build/ && \
     rm -r /OpenFOAM-v2406/build/ && \
-    rm -r /OpenFOAM-v2406/tutorials/ 
+    rm -r /OpenFOAM-v2406/tutorials/ && \
+    rm -r /OpenFOAM-v2406/ThirdParty/sources/
     #cant delete src folders because it might be needed to create new libraries
     #in some cases some libraries cannot be loaded so Openfoam creates them
     #on the fly (we need src for that)
