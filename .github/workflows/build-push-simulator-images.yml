@@ -142,19 +142,21 @@ jobs:
         uses: docker/setup-buildx-action@v2
       
       - name: Build and export to Docker
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ${{ steps.get.outputs.simulator-directory }}
           load: true
           file: ${{ matrix.simulator-dockerfile-path }}
           tags: |
              inductiva/kutu:${{ steps.image-tag.outputs.full_tag }}
+          cache-from: type=registry,ref=inductiva/kutu:${{ steps.image-tag.outputs.full_tag }}
+          cache-to: type=registry,ref=inductiva/kutu:${{ steps.image-tag.outputs.full_tag }},mode=max
       - name: Test docker image
         run: |
           docker run --rm inductiva/kutu:${{ steps.image-tag.outputs.full_tag }} /home/test_sim.sh
 
       - name: Build and push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           tags: |
             inductiva/kutu:${{ steps.image-tag.outputs.full_tag }}
@@ -165,3 +167,5 @@ jobs:
             org.opencontainers.image.source=https://github.com/inductiva/kutu
             maintainer=Inductiva Research Labs <contact@inductiva.ai>
             org.opencontainers.image.revision=$GITHUB_SHA
+          cache-from: type=registry,ref=inductiva/kutu:${{ steps.image-tag.outputs.full_tag }}
+          cache-to: type=registry,ref=inductiva/kutu:${{ steps.image-tag.outputs.full_tag }},mode=max
