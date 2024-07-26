@@ -72,3 +72,4 @@ COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
 COPY --from=build /nwchem-7.2.2/bin/LINUX64/nwchem /bin/nwchem
 COPY --from=build /nwchem-7.2.2/src /nwchem-7.2.2/src
 COPY --from=test_env /home /home
+
