@@ -13,6 +13,8 @@ RUN chmod +x /home/test_sim.sh
 
 FROM ubuntu:22.04 as build
 
+
+
 RUN apt update -qq && \
     apt install -y software-properties-common build-essential && \
     add-apt-repository ppa:git-core/ppa -y && \
