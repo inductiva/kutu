@@ -74,10 +74,10 @@ RUN apt update -qq && \
 # Switch to user openfoam_user
 USER openfoam_user
 
-
 COPY --from=build --chown=openfoam_user /OpenFOAM-v2406 /OpenFOAM-v2406
 COPY --from=test_env --chown=openfoam_user /home /home
 COPY --chown=openfoam_user ./launch.sh /launch.sh
+
 
 # run as openfoam_user
 RUN chmod +x /launch.sh && \
