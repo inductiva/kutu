@@ -115,6 +115,7 @@ RUN apt update -qq && \
     apt clean
 
 COPY --from=build /FVCOM/src/fvcom /fvcom
+COPY ./test_sim.sh /home/test_sim.sh
 
 COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
 COPY --from=build /lib/x86_64-linux-gnu/libm.so.6 /lib/x86_64-linux-gnu/libm.so.6
