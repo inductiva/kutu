@@ -94,7 +94,7 @@ dashL= $(empty) -L
 #                           SET PATH TO LIBRARIES WITH IOLIBS      
 #                           SET PATH TO INCLUDE FILES (netcdf.mod) WITH IOINCS
 #--------------------------------------------------------------------------
-#            FLAG_USE_NETCDF4     = -DUSE_NETCDF4
+            FLAG_USE_NETCDF4     = -DUSE_NETCDF4
 #            FLAG_USE_COMPRESSION = -DUSE_COMPRESSION
              IOLIBS       =  -lnetcdff -lnetcdf #-lhdf5_hl -lhdf5 -lz -lcurl -lm
              IOINCS       =  #-I/hosts/mao/usr/medm/install/netcdf/3.6.3/em64t/include
@@ -117,7 +117,7 @@ dashL= $(empty) -L
 #            include ${PETSC_DIR}/bmake/common/variables
 #
 #       FOR VERSION 3.18.5
-            FLAG_41 = -DPETSC_C
+#            FLAG_41 = -DPETSC_C
             include ${PETSC_DIR}/lib/petsc/conf/variables
 
 #==========================================================================
@@ -460,6 +460,7 @@ dashL= $(empty) -L
 #        WAVE-CURRENT INTERACTION
 #--------------------------------------------------------------------------
 #             FLAG_32 =  -DWAVE_CURRENT_INTERACTION
+#             FLAG_321 = -DVORTEX_FORCE
 #             FLAG_33 =  -DPLBC
 #           NOTE! THis option is for wave code          
 #             FLAG_34 =  -DEXPLICIT
@@ -493,6 +494,11 @@ dashL= $(empty) -L
 #             FLAG_42 = -DPARTITION_SPECIAL
 
 #--------------------------------------------------------------------------
+#        Vegetation Impact on FLows, Waves and Sediment (with FLAG_32 turned on)
+#--------------------------------------------------------------------------
+#             FLAG_45 = -DVEGETATION
+
+#--------------------------------------------------------------------------
 #        DEVELOPMENT FLAGS
 #            FOR BETA WORK ONLY 
 #--------------------------------------------------------------------------
@@ -509,6 +515,14 @@ dashL= $(empty) -L
 #--------------------------------------------------------------------------
 
 #             FLAG_80 = -DPIO
+
+#--------------------------------------------------------------------------
+#    NUOPC (The National Unified Operational Prediction Capability)
+#    This FLAG is only used for creating FVCOM library file 
+#    with command 'make libfvcom'.
+#--------------------------------------------------------------------------
+
+#             FLAG_81 = -DFVCOM_COUPLED
 
 #--------------------------------------------------------------------------
 #        SELECT COMPILER/PLATFORM SPECIFIC DEFINITIONS
