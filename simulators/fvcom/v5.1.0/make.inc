@@ -136,7 +136,7 @@ dashL= $(empty) -L
 #                           UNCOMMENT TO SELECT DOUBLE PRECISION
 #--------------------------------------------------------------------------
 
-#            FLAG_1 =  -DDOUBLE_PRECISION 
+            FLAG_1 =  -DDOUBLE_PRECISION 
 
 #        SINGLE PRECISION OUTPUT FOR VISIT
 #            FLAG_1 =  -DDOUBLE_PRECISION -DSINGLE_OUTPUT
@@ -157,7 +157,7 @@ dashL= $(empty) -L
 #                           UNCOMMENT TO INCLUDE FLOODYING/DRYING
 #--------------------------------------------------------------------------
 
-             FLAG_3 = -DWET_DRY
+#             FLAG_3 = -DWET_DRY
 
 #--------------------------------------------------------------------------
 #        MULTI_PROCESSOR    INCLUDES PARALLELIZATION WITH MPI
@@ -220,7 +220,7 @@ dashL= $(empty) -L
 #                           UNCOMMENT TO INCLUDE DATA ASSIMILATION 
 #--------------------------------------------------------------------------
 
-             FLAG_7 = -DDATA_ASSIM
+#             FLAG_7 = -DDATA_ASSIM
 #             OILIB  = -lmkl_lapack -lmkl_em64t -lguide -lpthread
 
 #             OILIB  = -L/usr/local/share/Intel-Compilers/mkl/lib/em64t -lmkl_lapack -lmkl_em64t -lguide -lpthread
@@ -248,7 +248,7 @@ dashL= $(empty) -L
 #  Semi-Implicit time stepping method
 #--------------------------------------------------------------------------
 
-             FLAG_9 = -DSEMI_IMPLICIT
+#             FLAG_9 = -DSEMI_IMPLICIT
 
 
 #---------------------------------------------------------------------------
@@ -296,7 +296,7 @@ dashL= $(empty) -L
 #       RIVER INPUT FILES!
 #--------------------------------------------------------------------------
 
-            FLAG_14 = -DRIVER_FLOAT
+#            FLAG_14 = -DRIVER_FLOAT
 
 #--------------------------------------------------------------------------
 #        The TVD (total variational diminishing) option for FVCOM was developed by 
@@ -426,7 +426,7 @@ dashL= $(empty) -L
 #         AIR_PRESSURE FROM SURFACE FORCING                           
 #--------------------------------------------------------------------------
 
-            FLAG_28 = -DAIR_PRESSURE  
+#            FLAG_28 = -DAIR_PRESSURE  
 
 #--------------------------------------------------------------------------
 # Visit online simulation mode

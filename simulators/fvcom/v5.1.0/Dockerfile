@@ -88,9 +88,8 @@ COPY make.inc /make.inc
 COPY makefile /makefile
 
 RUN apt-get install libmetis-dev -y && \
-    git clone https://github.com/FVCOM-GitHub/FVCOM.git && \
+    git clone --branch v5.1.0 https://github.com/FVCOM-GitHub/FVCOM.git && \
     cd FVCOM && \
-    git checkout e5cc25bb9a9043e29d94307d1b99650f0d345f83 && \
     cd / && \
     mv -f /make.inc /FVCOM/src/make.inc && \
     mv -f /makefile /FVCOM/src/libs/makefile && \
@@ -108,3 +107,4 @@ RUN apt-get install libmetis-dev -y && \
     cd /FVCOM/src && \
     make
     
+#FROM ubuntu:22.04
