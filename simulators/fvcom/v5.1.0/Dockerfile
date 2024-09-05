@@ -43,7 +43,7 @@ RUN apt update -qq && \
         openmpi-bin=4.1.2-2ubuntu1 && \
     apt clean
 
-COPY --from=build /FVCOM/src/fvcom /fvcom
+COPY --from=build /FVCOM/src/fvcom /bin/fvcom
 
 COPY --from=test_env /home /home
 
