@@ -1,11 +1,11 @@
-# FROM inductiva/kutu:base-image_v0.1.1 as test_env
+FROM inductiva/kutu:base-image_v0.1.1 as test_env
 
-# RUN wget https://storage.googleapis.com/inductiva-api-demo-files/cans-input-example.zip -P /home/ && \
-#     unzip /home/cans-input-example.zip -d /home/ && \
-#     rm /home/cans-input-example.zip
+RUN wget https://storage.googleapis.com/inductiva-api-demo-files/fvcom-input-example.zip -P /home/ && \
+    unzip /home/fvcom-input-example.zip -d /home/ && \
+    rm /home/fvcom-input-example.zip
 
-# COPY ./test_sim.sh /home/test_sim.sh
-# RUN chmod +x /home/test_sim.sh
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
 
 FROM inductiva/kutu:base-image_v0.1.1 as build
 
@@ -44,8 +44,8 @@ RUN apt update -qq && \
     apt clean
 
 COPY --from=build /FVCOM/src/fvcom /fvcom
-COPY ./test_sim.sh /home/test_sim.sh
-RUN chmod +x /home/test_sim.sh
+
+COPY --from=test_env /home /home
 
 COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
 COPY --from=build /lib/x86_64-linux-gnu/libm.so.6 /lib/x86_64-linux-gnu/libm.so.6

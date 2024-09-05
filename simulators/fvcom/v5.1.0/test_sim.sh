@@ -1,3 +1,5 @@
 #!/bin/bash
 
-echo "There is no test yet for FVCOM"
+cd /home/fvcom-input-example/run
+cp /fvcom .
+./fvcom --CASENAME=tst
