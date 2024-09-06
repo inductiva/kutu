@@ -4,6 +4,10 @@ RUN wget https://storage.googleapis.com/inductiva-api-demo-files/fvcom-input-exa
     unzip /home/fvcom-input-example.zip -d /home/ && \
     rm /home/fvcom-input-example.zip
 
+RUN wget https://storage.googleapis.com/inductiva-api-demo-files/fvcom-input-example-wet-dry.zip -P /home/ && \
+    unzip /home/fvcom-input-example-wet-dry.zip -d /home/ && \
+    rm /home/fvcom-input-example-wet-dry.zip
+
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
