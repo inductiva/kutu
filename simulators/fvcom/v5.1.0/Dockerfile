@@ -18,8 +18,8 @@ ENV PETSC_ARCH=arch-linux-c-debug
 ENV INCLUDEPATH=/usr/lib/x86_64-linux-gnu/fortran/gfortran-mod-15/openmpi:/FVCOM/src/libs/install/include/:/usr/include/
 
 COPY make.inc /make.inc
-COPY make_estuary.inc /make_estuary.inc
 COPY makefile /makefile
+COPY make_estuary.inc /make_estuary.inc
 
 RUN apt-get install libmetis-dev -y && \
     git clone --branch v5.1.0 https://github.com/FVCOM-GitHub/FVCOM.git && \
