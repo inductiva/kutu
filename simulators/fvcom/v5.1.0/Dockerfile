@@ -18,7 +18,7 @@ ENV PETSC_ARCH=arch-linux-c-debug
 ENV INCLUDEPATH=/usr/lib/x86_64-linux-gnu/fortran/gfortran-mod-15/openmpi:/FVCOM/src/libs/install/include/:/usr/include/
 
 COPY make.inc /make.inc
-COPY make_ESTUARY.inc /make_ESTUARY.inc
+COPY make_estuary.inc /make_estuary.inc
 COPY makefile /makefile
 
 RUN apt-get install libmetis-dev -y && \
@@ -43,11 +43,11 @@ RUN apt-get install libmetis-dev -y && \
     mv fvcom /bin/fvcom && \
     mv make.inc /make.inc && \
     # compile another fvcom binary with nother flags
-    mv -f /make_ESTUARY.inc /FVCOM/src/make.inc && \
+    mv -f /make_estuary.inc /FVCOM/src/make.inc && \
     make clean && \
     make && \
-    mv fvcom /bin/fvcom_ESTUARY && \
-    mv make.inc /make_ESTUARY.inc
+    mv fvcom /bin/fvcom_estuary && \
+    mv make.inc /make_estuary.inc
     
 FROM ubuntu:22.04
 
@@ -57,10 +57,10 @@ RUN apt update -qq && \
     apt clean
 
 COPY --from=build /bin/fvcom /bin/fvcom
-COPY --from=build /bin/fvcom_ESTUARY /bin/fvcom_ESTUARY
+COPY --from=build /bin/fvcom_estuary /bin/fvcom_estuary
 
 COPY --from=build /make.inc /make.inc
-COPY --from=build /make_ESTUARY.inc /make_ESTUARY.inc
+COPY --from=build /make_estuary.inc /make_estuary.inc
 
 COPY --from=test_env /home /home
 
