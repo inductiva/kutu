@@ -136,7 +136,7 @@ dashL= $(empty) -L
 #                           UNCOMMENT TO SELECT DOUBLE PRECISION
 #--------------------------------------------------------------------------
 
-            FLAG_1 =  -DDOUBLE_PRECISION 
+#            FLAG_1 =  -DDOUBLE_PRECISION 
 
 #        SINGLE PRECISION OUTPUT FOR VISIT
 #            FLAG_1 =  -DDOUBLE_PRECISION -DSINGLE_OUTPUT
@@ -169,7 +169,7 @@ dashL= $(empty) -L
 
              FLAG_4 = -DMULTIPROCESSOR
 #         If using METIS 5 or above, uncomment FLAG_411 and read the file readme_metis in folder METIS_readme for detail
-             FLAG_411 = -DMETIS_5
+#             FLAG_411 = -DMETIS_5
 #        If FLAG_411 is defined, uncomment path below        
 #             PARLIB = 
 #             PARTINCS = -I/usr/local/install/metis/5.1.0/intel/19/include
@@ -296,7 +296,7 @@ dashL= $(empty) -L
 #       RIVER INPUT FILES!
 #--------------------------------------------------------------------------
 
-#            FLAG_14 = -DRIVER_FLOAT
+            FLAG_14 = -DRIVER_FLOAT
 
 #--------------------------------------------------------------------------
 #        The TVD (total variational diminishing) option for FVCOM was developed by 

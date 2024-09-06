@@ -14,6 +14,7 @@ ENV PETSC_ARCH=arch-linux-c-debug
 ENV INCLUDEPATH=/usr/lib/x86_64-linux-gnu/fortran/gfortran-mod-15/openmpi:/FVCOM/src/libs/install/include/:/usr/include/
 
 COPY make.inc /make.inc
+COPY make_ESTUARY.inc /make_ESTUARY.inc
 COPY makefile /makefile
 
 RUN apt-get install libmetis-dev -y && \
@@ -34,7 +35,15 @@ RUN apt-get install libmetis-dev -y && \
     cd /FVCOM/src/libs && \
     make && \
     cd /FVCOM/src && \
-    make
+    make && \
+    mv fvcom /bin/fvcom && \
+    mv make.inc /make.inc && \
+    # compile another fvcom binary with nother flags
+    mv -f /make_ESTUARY.inc /FVCOM/src/make.inc && \
+    make clean && \
+    make && \
+    mv fvcom /bin/fvcom_ESTUARY && \
+    mv make.inc /make_ESTUARY.inc
     
 FROM ubuntu:22.04
 
@@ -43,7 +52,11 @@ RUN apt update -qq && \
         openmpi-bin=4.1.2-2ubuntu1 && \
     apt clean
 
-COPY --from=build /FVCOM/src/fvcom /bin/fvcom
+COPY --from=build /bin/fvcom /bin/fvcom
+COPY --from=build /bin/fvcom_ESTUARY /bin/fvcom_ESTUARY
+
+COPY --from=build /make.inc /make.inc
+COPY --from=build /make_ESTUARY.inc /make_ESTUARY.inc
 
 COPY --from=test_env /home /home
 
