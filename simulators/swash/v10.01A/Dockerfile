@@ -57,14 +57,14 @@ ENV LD_LIBRARY_PATH ${OPENMPI_HOME}/lib:$LD_LIBRARY_PATH
 
 # Set SWASH options.
 ENV SWASH_HOME=/swash
-ARG SWASH_VERSION=10.05
+ARG SWASH_VERSION=10.01A
 ARG SWASH_TMP=/tmp/swash
 ENV SWASH_BIN=swash.exe
 
 # Download, build, and install SWASH.
 RUN mkdir ${SWASH_TMP}
 WORKDIR ${SWASH_TMP}
-RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swash/v10.01/swash-${SWASH_VERSION}.tar.gz && \
+RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swash/v${SWASH_VERSION}/swash-${SWASH_VERSION}.tar.gz && \
     tar -xzf swash-${SWASH_VERSION}.tar.gz --directory . --strip-components 1 && \
     make config && \
     make mpi && \
