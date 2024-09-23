@@ -31,7 +31,7 @@ FROM inductiva/kutu:base-image_v0.1.1
 
 COPY --from=build /qe-openmp /qe-openmp
 COPY --from=build /qe-mpi /qe-mpi
-COPY --from=build /root/espresso /root/espresso
+COPY --from=build /root/espresso /home/executer-tracker/espresso
 
 ENV PATH="$PATH:/qe-openmp/bin:/qe-mpi/bin"
 ENV OPENBLAS_NUM_THREADS=1
