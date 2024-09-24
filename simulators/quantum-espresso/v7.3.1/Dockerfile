@@ -31,6 +31,7 @@ FROM inductiva/kutu:base-image_v0.1.1
 
 COPY --from=build /qe-openmp /qe-openmp
 COPY --from=build /qe-mpi /qe-mpi
+COPY --from=build /root/espresso /home/executer-tracker/espresso
 COPY --from=build /root/espresso /root/espresso
 
 ENV PATH="$PATH:/qe-openmp/bin:/qe-mpi/bin"
@@ -58,7 +59,3 @@ COPY --from=build /lib/x86_64-linux-gnu/libevent_core-2.1.so.7 /lib/x86_64-linux
 COPY --from=build /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7 /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7
 
 COPY --from=test_env /home /home
-
-USER executer-tracker
-
-COPY --from=build /root/espresso /home/executer-tracker/espresso
