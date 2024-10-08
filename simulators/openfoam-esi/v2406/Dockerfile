@@ -87,7 +87,6 @@ RUN chmod +x /launch.sh && \
 	./Allwmake -j && \
     rm -r /OpenFOAM-v2406/ThirdParty/build/ && \
     rm -r /OpenFOAM-v2406/build/ && \
-    rm -r /OpenFOAM-v2406/tutorials/ && \
     rm -r /OpenFOAM-v2406/ThirdParty/sources/
     #cant delete src folders because it might be needed to create new libraries
     #in some cases some libraries cannot be loaded so Openfoam creates them
