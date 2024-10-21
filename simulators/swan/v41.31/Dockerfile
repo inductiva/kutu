@@ -65,7 +65,7 @@ WORKDIR ${SWAN_TMP}
 RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
     tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
     make config && \
-    make mpi FLAGS_OPT="-fallow-argument-mismatch" && \
+    make mpi FLAGS_OPT="-g -fallow-argument-mismatch" && \
     mkdir ${SWAN_HOME} && \
     mv swan.exe swanrun ${SWAN_HOME} && \
     chmod +rx ${SWAN_HOME}/swanrun && \
