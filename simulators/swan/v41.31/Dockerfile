@@ -34,9 +34,9 @@ RUN apt-get install -y gcc-10 g++-10 gfortran-10 && \
 
 # Set Open MPI options.
 ENV OPENMPI_HOME=/openmpi
-ARG OPENMPI_VERSION=4.1.3
+ARG OPENMPI_VERSION=4.0.1
 ARG OPENMPI_TMP=/tmp/openmpi
-ARG OPENMPI_MAJOR_VERSION=4.1
+ARG OPENMPI_MAJOR_VERSION=4.0
 
 ENV MPIRUN_BIN=mpirun
 
