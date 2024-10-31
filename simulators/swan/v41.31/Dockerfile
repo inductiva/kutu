@@ -62,6 +62,8 @@ ENV SWAN_BIN=swan.exe
 RUN mkdir ${SWAN_TMP}
 WORKDIR ${SWAN_TMP}
 
+ENV FLAGS_MSC ="-W0 -assume byterecl -traceback -diag-disable 8290 -diag-disable 8291 -diag-disable 8293"
+
 RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
     tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
     make config && \
