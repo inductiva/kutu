@@ -27,7 +27,7 @@ RUN apt-get update && \
         qttools5-dev-tools libqt5opengl5-dev \
         libqt5x11extras5-dev libxt-dev flex
 
-RUN wget https://altushost-swe.dl.sourceforge.net/project/openfoam/v2406/OpenFOAM-v2406.tgz?viasf=1 && \
+RUN wget "https://altushost-swe.dl.sourceforge.net/project/openfoam/v2406/OpenFOAM-v2406.tgz?viasf=1" -O OpenFOAM-v2406.tgz && \
 	tar -xzf OpenFOAM-v2406.tgz && \
 	cd OpenFOAM-v${openfoam_num_version} && \
 	source etc/bashrc && \
