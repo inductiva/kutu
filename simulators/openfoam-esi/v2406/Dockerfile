@@ -1,4 +1,4 @@
-FROM inductiva/kutu:base-image_v0.1.1_dev as test_env
+FROM inductiva/kutu:base-image_v0.1.1_dev AS test_env
 
 RUN apt-get update \
     && apt-get install -y \
@@ -11,7 +11,7 @@ RUN apt-get update \
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-FROM inductiva/kutu:base-image_v0.1.1_dev as build
+FROM inductiva/kutu:base-image_v0.1.1_dev AS build
 
 SHELL ["/bin/bash", "-c"]
 
@@ -91,7 +91,7 @@ RUN chmod +x /launch.sh && \
     #cant delete src folders because it might be needed to create new libraries
     #in some cases some libraries cannot be loaded so Openfoam creates them
     #on the fly (we need src for that)
-    
+
 ENV FOAM_API=2406
 ENV WM_COMPILER=Gcc
 ENV WM_ARCH=linux64
