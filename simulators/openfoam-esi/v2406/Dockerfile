@@ -31,7 +31,7 @@ RUN wget "https://altushost-swe.dl.sourceforge.net/project/openfoam/v2406/OpenFO
 	tar -xzf OpenFOAM-v2406.tgz && \
 	cd OpenFOAM-v${openfoam_num_version} && \
 	source etc/bashrc && \
-    wget https://dl.openfoam.com/source/v2406/ThirdParty-v2406.tgz && \
+    wget "https://deac-fra.dl.sourceforge.net/project/openfoam/v2406/ThirdParty-v2406.tgz?viasf=1" -O ThirdParty-v2406.tgz && \
 	tar -xzf ThirdParty-v2406.tgz && \
 	mv ThirdParty-v2406 ThirdParty && \
     rm /OpenFOAM-v2406/ThirdParty-v2406.tgz && \
