@@ -91,3 +91,44 @@ RUN chmod +x /launch.sh && \
     #cant delete src folders because it might be needed to create new libraries
     #in some cases some libraries cannot be loaded so Openfoam creates them
     #on the fly (we need src for that)
+    
+ENV FOAM_API=2406
+ENV WM_COMPILER=Gcc
+ENV WM_ARCH=linux64
+ENV WM_LABEL_SIZE=32
+ENV MPI_ARCH_PATH=/usr
+ENV WM_PROJECT=OpenFOAM
+ENV FOAM_MPI=sys-openmpi
+ENV WM_LABEL_OPTION=Int32
+ENV WM_COMPILE_OPTION=Opt
+ENV WM_PRECISION_OPTION=DP
+ENV WM_MPLIB=SYSTEMOPENMPI
+ENV WM_COMPILER_TYPE=system
+ENV WM_COMPILER_LIB_ARCH=64
+ENV WM_PROJECT_VERSION=v2406
+ENV FOAM_ETC=/OpenFOAM-v2406/etc
+ENV WM_DIR=/OpenFOAM-v2406/wmake
+ENV FOAM_SRC=/OpenFOAM-v2406/src
+ENV WM_PROJECT_DIR=/OpenFOAM-v2406
+ENV WM_OPTIONS=linux64GccDPInt32Opt
+ENV FOAM_APP=/OpenFOAM-v2406/applications
+ENV FOAM_TUTORIALS=/OpenFOAM-v2406/tutorials
+ENV WM_THIRD_PARTY_DIR=/OpenFOAM-v2406/ThirdParty
+ENV FOAM_SOLVERS=/OpenFOAM-v2406/applications/solvers
+ENV FOAM_RUN=/home/openfoam_user/OpenFOAM/user-v2406/run
+ENV FOAM_UTILITIES=/OpenFOAM-v2406/applications/utilities
+ENV WM_PROJECT_USER_DIR=/home/openfoam_user/OpenFOAM/user-v2406
+ENV FOAM_APPBIN=/OpenFOAM-v2406/platforms/linux64GccDPInt32Opt/bin
+ENV FOAM_LIBBIN=/OpenFOAM-v2406/platforms/linux64GccDPInt32Opt/lib
+ENV CGAL_ARCH_PATH=/OpenFOAM-v2406/ThirdParty/platforms/linux64Gcc/CGAL-4.14.3
+ENV FOAM_EXT_LIBBIN=/OpenFOAM-v2406/ThirdParty/platforms/linux64GccDPInt32/lib
+ENV FFTW_ARCH_PATH=/OpenFOAM-v2406/ThirdParty/platforms/linux64Gcc/fftw-3.3.10
+ENV BOOST_ARCH_PATH=/OpenFOAM-v2406/ThirdParty/platforms/linux64Gcc/boost_1_74_0
+ENV FOAM_SITE_LIBBIN=/OpenFOAM-v2406/site/2406/platforms/linux64GccDPInt32Opt/lib
+ENV FOAM_SITE_APPBIN=/OpenFOAM-v2406/site/2406/platforms/linux64GccDPInt32Opt/bin
+ENV ADIOS2_ARCH_PATH=/OpenFOAM-v2406/ThirdParty/platforms/linux64Gcc/ADIOS2-2.10.1
+ENV SCOTCH_ARCH_PATH=/OpenFOAM-v2406/ThirdParty/platforms/linux64GccDPInt32/scotch_6.1.0
+ENV FOAM_USER_LIBBIN=/home/openfoam_user/OpenFOAM/user-v2406/platforms/linux64GccDPInt32Opt/lib
+ENV FOAM_USER_APPBIN=/home/openfoam_user/OpenFOAM/user-v2406/platforms/linux64GccDPInt32Opt/bin
+ENV PATH=/OpenFOAM-v2406/ThirdParty/platforms/linux64Gcc/ADIOS2-2.10.1/bin:/home/openfoam_user/OpenFOAM/user-v2406/platforms/linux64GccDPInt32Opt/bin:/OpenFOAM-v2406/site/2406/platforms/linux64GccDPInt32Opt/bin:/OpenFOAM-v2406/platforms/linux64GccDPInt32Opt/bin:/OpenFOAM-v2406/bin:/OpenFOAM-v2406/wmake:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV LD_LIBRARY_PATH=/home/openfoam_user/OpenFOAM/user-v2406/platforms/linux64GccDPInt32Opt/lib:/OpenFOAM-v2406/site/2406/platforms/linux64GccDPInt32Opt/lib:/OpenFOAM-v2406/platforms/linux64GccDPInt32Opt/lib/sys-openmpi:/OpenFOAM-v2406/platforms/linux64GccDPInt32Opt/lib:/OpenFOAM-v2406/ThirdParty/platforms/linux64GccDPInt32/lib/sys-openmpi:/OpenFOAM-v2406/ThirdParty/platforms/linux64GccDPInt32/lib:/OpenFOAM-v2406/ThirdParty/platforms/linux64Gcc/fftw-3.3.10/lib:/OpenFOAM-v2406/ThirdParty/platforms/linux64Gcc/CGAL-4.14.3/lib64:/OpenFOAM-v2406/ThirdParty/platforms/linux64Gcc/boost_1_74_0/lib64:/OpenFOAM-v2406/ThirdParty/platforms/linux64Gcc/ADIOS2-2.10.1/lib:/usr/lib/x86_64-linux-gnu/openmpi/lib:/OpenFOAM-v2406/platforms/linux64GccDPInt32Opt/lib/dummy
