@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as test_env
+FROM ubuntu:22.04 AS test_env
 
 RUN apt-get update \
     && apt-get install -y \
