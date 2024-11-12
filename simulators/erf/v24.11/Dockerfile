@@ -30,7 +30,7 @@ RUN git clone --recursive https://github.com/erf-model/ERF.git && \
       -DERF_ENABLE_FCOMPARE:BOOL=ON \
       -DERF_ENABLE_TESTS:BOOL=ON \
       .. && \
-    make -j && \
+    make && \
     make install
 
 # Ubuntu Image
