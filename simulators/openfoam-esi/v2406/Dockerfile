@@ -92,4 +92,4 @@ RUN chmod +x /launch.sh && \
     #in some cases some libraries cannot be loaded so Openfoam creates them
     #on the fly (we need src for that)
 
-ENTRYPOINT ["/bin/bash", "-c", "bash /OpenFOAM-v2406/etc/bashrc && bash /OpenFOAM-v2406/bin/tools/RunFunctions && exec \"$@\""]
+ENTRYPOINT ["/launch.sh"]

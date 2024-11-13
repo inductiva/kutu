@@ -93,4 +93,4 @@ RUN chmod +x /launch.sh && \
     #on the fly (we need src for that)
 
 
-ENTRYPOINT ["/bin/bash", "-c", "bash /OpenFOAM-v2206/etc/bashrc && bash /OpenFOAM-v2206/bin/tools/RunFunctions && exec \"$@\""]
+ENTRYPOINT ["/launch.sh"]
