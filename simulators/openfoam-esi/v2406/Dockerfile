@@ -71,8 +71,6 @@ RUN apt update -qq && \
     rm -rf /var/lib/apt/lists/* && \
     # Create user openfoam_user
     useradd -ms /bin/bash openfoam_user
-# Switch to user openfoam_user
-USER openfoam_user
 
 COPY --from=build --chown=openfoam_user /OpenFOAM-v2406 /OpenFOAM-v2406
 COPY --from=test_env --chown=openfoam_user /home /home
@@ -92,20 +90,7 @@ COPY ./functions/cloneCase /bin/cloneCase
 COPY ./functions/cloneParallelCase /bin/cloneParallelCase
 COPY ./functions/restore0Dir /bin/restore0Dir
 
-# run as openfoam_user
-RUN chmod +x /launch.sh && \
-	cd /OpenFOAM-v2406 && \
-	source etc/bashrc && \
-	# This second Allwmake is necessary
-	# https://www.cfd-online.com/Forums/openfoam-installation/100347-libscotch-so-missing.html
-	./Allwmake -j && \
-    rm -r /OpenFOAM-v2406/ThirdParty/build/ && \
-    rm -r /OpenFOAM-v2406/build/ && \
-    rm -r /OpenFOAM-v2406/ThirdParty/sources/ && \
-    #cant delete src folders because it might be needed to create new libraries
-    #in some cases some libraries cannot be loaded so Openfoam creates them
-    #on the fly (we need src for that)
-    chmod +x /bin/isParallel && \
+RUN chmod +x /bin/isParallel && \
     chmod +x /bin/isTest && \
     chmod +x /bin/notTest && \
     chmod +x /bin/canCompile && \
@@ -119,6 +104,23 @@ RUN chmod +x /launch.sh && \
     chmod +x /bin/cloneCase && \
     chmod +x /bin/cloneParallelCase && \
     chmod +x /bin/restore0Dir
+
+# Switch to user openfoam_user
+USER openfoam_user
+
+# run as openfoam_user
+RUN chmod +x /launch.sh && \
+	cd /OpenFOAM-v2406 && \
+	source etc/bashrc && \
+	# This second Allwmake is necessary
+	# https://www.cfd-online.com/Forums/openfoam-installation/100347-libscotch-so-missing.html
+	./Allwmake -j && \
+    rm -r /OpenFOAM-v2406/ThirdParty/build/ && \
+    rm -r /OpenFOAM-v2406/build/ && \
+    rm -r /OpenFOAM-v2406/ThirdParty/sources/
+    #cant delete src folders because it might be needed to create new libraries
+    #in some cases some libraries cannot be loaded so Openfoam creates them
+    #on the fly (we need src for that)
 
 ENV FOAM_API=2406
 ENV WM_COMPILER=Gcc
