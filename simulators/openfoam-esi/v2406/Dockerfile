@@ -72,45 +72,15 @@ RUN apt update -qq && \
     # Create user openfoam_user
     useradd -ms /bin/bash openfoam_user
 
-COPY --from=build --chown=openfoam_user /OpenFOAM-v2406 /OpenFOAM-v2406
-COPY --from=test_env --chown=openfoam_user /home /home
-COPY --chown=openfoam_user ./launch.sh /launch.sh
-COPY ./functions/isParallel /bin/isParallel
-COPY ./functions/isTest /bin/isTest
-COPY ./functions/notTest /bin/notTest
-COPY ./functions/canCompile /bin/canCompile
-COPY ./functions/isTrue /bin/isTrue
-COPY ./functions/getNumberOfPatchFaces /bin/getNumberOfPatchFaces
-COPY ./functions/getNumberOfProcessors /bin/getNumberOfProcessors
-COPY ./functions/getApplication /bin/getApplication
-COPY ./functions/runApplication /bin/runApplication
-COPY ./functions/runParallel /bin/runParallel
-COPY ./functions/compileApplication /bin/compileApplication
-COPY ./functions/cloneCase /bin/cloneCase
-COPY ./functions/cloneParallelCase /bin/cloneParallelCase
-COPY ./functions/restore0Dir /bin/restore0Dir
+COPY ./functions/* /bin/
 
-RUN chmod +x /bin/isParallel && \
-    chmod +x /bin/isTest && \
-    chmod +x /bin/notTest && \
-    chmod +x /bin/canCompile && \
-    chmod +x /bin/isTrue && \
-    chmod +x /bin/getNumberOfPatchFaces && \
-    chmod +x /bin/getNumberOfProcessors && \
-    chmod +x /bin/getApplication && \
-    chmod +x /bin/runApplication && \
-    chmod +x /bin/runParallel && \
-    chmod +x /bin/compileApplication && \
-    chmod +x /bin/cloneCase && \
-    chmod +x /bin/cloneParallelCase && \
-    chmod +x /bin/restore0Dir
+RUN chmod +x /bin/*
 
 # Switch to user openfoam_user
 USER openfoam_user
 
 # run as openfoam_user
-RUN chmod +x /launch.sh && \
-	cd /OpenFOAM-v2406 && \
+RUN cd /OpenFOAM-v2406 && \
 	source etc/bashrc && \
 	# This second Allwmake is necessary
 	# https://www.cfd-online.com/Forums/openfoam-installation/100347-libscotch-so-missing.html
