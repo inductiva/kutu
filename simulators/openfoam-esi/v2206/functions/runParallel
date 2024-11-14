@@ -8,9 +8,6 @@ then
     export DYLD_LIBRARY_PATH="$FOAM_LD_LIBRARY_PATH"
 fi
 
-
-appName appRun optValue logFile logMode
-mpiopts nProcs
 # Any additional parsed arguments (eg, decomposeParDict)
 appArgs="-parallel"
 mpirun="mpirun"
