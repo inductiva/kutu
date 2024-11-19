@@ -11,12 +11,11 @@ ENV JASPERLIB=$DIR/grib2/lib
 ENV JASPERINC=$DIR/grib2/include
 ENV LDFLAGS=-L$DIR/grib2/lib
 ENV CPPFLAGS=-I$DIR/grib2/include
-ENV PATH=$DIR/netcdf/bin:$PATH
-ENV NETCDF=$DIR/netcdf
+ENV NETCDF=/usr
 ENV LIBS="-lnetcdf -lz"
 
 
-RUN apt-get install csh perl && \
+RUN apt-get install csh perl -y && \
     git clone --recurse-submodules https://github.com/wrf-model/WRF.git && \
     cd WRF/ && \
     git checkout v4.6.1 && \
@@ -33,16 +32,6 @@ RUN apt-get install csh perl && \
     tar -xvf libpng-1.2.50.tar.gz && \
     tar -xvf zlib-1.2.11.tar.gz && \
     rm *.tar.gz && \
-    cd netcdf-c-4.7.2 && \
-    ./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared && \
-    make && \
-    make install && \
-    cd .. && \
-    cd netcdf-fortran-4.5.2 && \
-    ./configure --prefix=$DIR/netcdf --disable-dap --disable-netcdf-4 --disable-shared && \
-    make && \
-    make install && \
-    cd .. && \
     cd zlib-1.2.11 && \
     ./configure --prefix=$DIR/grib2 && \
     make && \
@@ -60,11 +49,9 @@ RUN apt-get install csh perl && \
     cd /WRF/ && \
     cd share/ && \
     cp landread.c.dist landread.c && \
-    cd /WRF/ && \
-    #here we need  32. (serial)  33. (smpar)  34. (dmpar)  35. (dm+sm)   GNU (gfortran/gcc)
-    # 34
-    echo -e "34\n1\n" | ./configure 
-
-    #we can now compile by doing ./compile <case_name>
-
-
+    cd /WRF/
+    #To compile first you need to ./configure like this
+    # echo -e "34\n1\n" | ./configure 
+    #after that you can compile like this
+    # ./compile <case_name>
+    
