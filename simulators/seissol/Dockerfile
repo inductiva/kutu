@@ -41,7 +41,6 @@ RUN apt-get update && apt-get install -y \
 RUN pip3 install numpy scipy matplotlib
 
 
-
 COPY --from=test_env /home /home
 # Set the working directory
 WORKDIR /home/seissol/examples/tpv33
