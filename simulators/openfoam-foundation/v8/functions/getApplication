@@ -1,0 +1,3 @@
+#getApplication
+
+foamDictionary -entry application -value system/controlDict
