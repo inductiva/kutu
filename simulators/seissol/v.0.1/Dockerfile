@@ -51,9 +51,3 @@ RUN chmod +x /home/seissol/examples/tpv33/test_sim.sh
 EXPOSE 53155
 # Default command to execute the test script
 CMD ["/home/seissol/examples/tpv33/test_sim.sh"]
-
-
-
-
-
-
