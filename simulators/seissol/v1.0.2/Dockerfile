@@ -165,10 +165,13 @@ RUN git clone --recursive https://github.com/SeisSol/easi.git /easi && \
 
 
 
-# Clone SeisSol with submodules
-RUN git clone --recursive https://github.com/SeisSol/SeisSol.git /SeisSol
+# Clone SeisSol with submodules and check out 5d88567c8733937b99d47ea00b0f26b8bf467785 commit
+RUN git clone --recursive https://github.com/SeisSol/SeisSol.git /SeisSol && \
+    cd /SeisSol && \
+    git checkout 5d88567c8733937b99d47ea00b0f26b8bf467785 && \
+    git submodule update --init --recursive
 
-# Uncomment and modify the namespace resolution
+# modify the namespace resolution
 RUN sed -i 's/asagiReader = std::make_unique<seissol::asagi::AsagiReader>("SEISSOL_ASAGI");/asagiReader = std::make_unique<easi::AsagiReader>();/g' /SeisSol/src/Initializer/InitialFieldProjection.cpp
 RUN sed -i 's/const auto dimensionNames = \(.*\)/std::set<std::string> dimensionNames = \1/g' /SeisSol/src/Initializer/InitialFieldProjection.cpp
 # Build SeisSol
