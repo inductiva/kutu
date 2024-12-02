@@ -149,6 +149,16 @@ jobs:
           file: ${{ matrix.simulator-dockerfile-path }}
           tags: |
              inductiva/kutu:${{ steps.image-tag.outputs.full_tag }}
+      #print disk size and free space
+      - name: Disk size and free space
+        run: |
+          df -h
+          du -sh /github/workspace
+      #print ram and cpu info
+      - name: RAM and CPU info
+        run: |
+          free -h
+          nproc
       - name: Test docker image
         run: |
           docker run --rm inductiva/kutu:${{ steps.image-tag.outputs.full_tag }} /home/test_sim.sh
