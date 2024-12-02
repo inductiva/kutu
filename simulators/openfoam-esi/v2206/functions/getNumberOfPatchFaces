@@ -1,0 +1,34 @@
+#getNumberOfPatchFaces
+[ -n "$FOAM_TUTORIALS" ] || export FOAM_TUTORIALS="$WM_PROJECT_DIR"/tutorials
+# Basic sanity checks
+[ -d "$FOAM_TUTORIALS" ] || echo "No OpenFOAM tutorials? : $FOAM_TUTORIALS" 1>&2
+# Darwin workaround - SIP clearing DYLD_LIBRARY_PATH variable
+if [ -n "$FOAM_LD_LIBRARY_PATH" ] && [ -z "$DYLD_LIBRARY_PATH" ]
+then
+    export DYLD_LIBRARY_PATH="$FOAM_LD_LIBRARY_PATH"
+fi
+
+
+patch="${1:-}"
+file="${2:-}"
+file="constant/$file${file:+/}polyMesh/boundary"
+[ -n "$patch" ] || {
+    echo "No patch name given" 1>&2
+    return 1
+}
+[ -f "$file" ] || {
+    echo "No such file: $file" 1>&2
+    return 2
+}
+
+nFaces=$(sed -ne \
+    '/^ *'"$patch"' *$/,/}/{s/^ *nFaces  *\([0-9][0-9]*\) *;.*$/\1/p}' \
+    "$file")
+if [ -n "$nFaces" ]
+then
+    echo "$nFaces"
+else
+    echo "No patch entry found for '$patch' in $file" 1>&2
+    echo 0      # Report as 0
+    return 2
+fi
