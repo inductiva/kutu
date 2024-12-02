@@ -21,7 +21,7 @@ on:
 
 jobs:
   generate-simulator-matrix:
-    runs-on: Linux_x64_8cores
+    runs-on: ubuntu-latest
     outputs:
       simulator-dockerfile-paths: ${{ steps.unique-changed-dockerfiles.outputs.all_unique_changed_simulators_json_array }}
 
