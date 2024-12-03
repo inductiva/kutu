@@ -47,9 +47,13 @@ COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1 /usr/lib/x86_64-linux-g
 COPY --from=build /DualSPHysics_v5.2 /DualSPHysics_v5.2
 
 COPY --from=test_env /home /home
+
+RUN cp /DualSPHysics_v5.2/bin/linux/dualsphysics5.2cpu /DualSPHysics_v5.2/bin/linux/dualsphysics 
+
 # Set environment variable with path to DualSPHysics binaries.
 ENV DUALSPHYSICS_BIN_DIR="/DualSPHysics_v5.2/bin/linux"
 ENV PATH="${DUALSPHYSICS_BIN_DIR}:${PATH}"
+
 
 WORKDIR /
 COPY ./setup.sh /setup.sh
