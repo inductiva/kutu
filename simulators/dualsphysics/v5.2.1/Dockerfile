@@ -49,6 +49,7 @@ COPY --from=build /DualSPHysics_v5.2 /DualSPHysics_v5.2
 COPY --from=test_env /home /home
 # Set environment variable with path to DualSPHysics binaries.
 ENV DUALSPHYSICS_BIN_DIR="/DualSPHysics_v5.2/bin/linux"
+ENV PATH="${DUALSPHYSICS_BIN_DIR}:${PATH}"
 
 WORKDIR /
 COPY ./setup.sh /setup.sh
