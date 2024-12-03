@@ -76,9 +76,12 @@ RUN apt update -qq && \
     apt clean
 
 ENV PATH=/opt/delft3dfm/bin:${PATH}
+# ENV PATH=/opt/intel/oneapi/mpi/2021.6.0//bin:${PATH}
 ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:${LD_LIBRARY_PATH}
 
 COPY --from=build /opt/delft3dfm /opt/delft3dfm
+
+#COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//bin/mpirun /opt/intel/oneapi/mpi/2021.6.0//bin/mpirun
 
 COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
 COPY --from=build /usr/local/lib/libhdf5.so.103 /usr/local/lib/libhdf5.so.103
@@ -147,3 +150,5 @@ COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libintlc.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libintlc.so.5
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5
+
+COPY --from=test_env /home /home
