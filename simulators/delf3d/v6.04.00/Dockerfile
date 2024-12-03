@@ -9,7 +9,7 @@ COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
 #Source https://github.com/veethahavya-CU-cz/delft3dfm_dockerized/blob/main/ubuntu-20.04_intel_basic/Dockerfile
-FROM intel/oneapi-hpckit:devel-ubuntu20.04
+FROM intel/oneapi-hpckit:devel-ubuntu20.04 as build
 SHELL ["/bin/bash", "-c"]
 
 COPY --from=test_env /home /home
