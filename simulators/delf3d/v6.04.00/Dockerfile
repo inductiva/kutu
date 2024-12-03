@@ -70,6 +70,11 @@ ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:${LD_LIBRARY_PATH}
 
 FROM ubuntu:22.04
 
+RUN apt update -qq && \
+    apt install --no-install-recommends -y \
+        openmpi-bin=4.1.2-2ubuntu1 && \
+    apt clean
+
 ENV PATH=/opt/delft3dfm/bin:${PATH}
 ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:${LD_LIBRARY_PATH}
 
@@ -142,8 +147,3 @@ COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libintlc.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libintlc.so.5
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5
-
-RUN apt update -qq && \
-    apt install --no-install-recommends -y \
-        openmpi-bin=4.1.2-2ubuntu1 && \
-    apt clean
