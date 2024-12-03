@@ -17,7 +17,7 @@ COPY --from=test_env /home /home
 # update the system
 RUN apt-get -y update && apt list --upgradable && apt-get -y upgrade && \
     apt-get install subversion -y && \
-    svn checkout https://svn.oss.deltares.nl/repos/delft3d/tags/delft3dfm/68819/ delft3dfm_68819
+    svn checkout https://svn.oss.deltares.nl/repos/delft3d/branches/releases/7545/ delft3d
 
 # install dependencies from package manager - apt
 RUN apt-get install -y m4 zlib1g zlib1g-dev ruby uuid uuid-dev curl libcurl4 libcurl4-openssl-dev expat libexpat1-dev autoconf libtool bison flex environment-modules
@@ -54,13 +54,13 @@ RUN rm -rf /home/delft3dfm_compile/dependencies
 
 ## compiling delft3dfm
 # copy the zipped delft3dfm source code into the container
-WORKDIR /delft3dfm_68819/src/
+WORKDIR /delft3d/src/
 
 # copy missing files: fix for known issue
 RUN cp third_party_open/swan/src/*.[fF]* third_party_open/swan/swan_mpi && cp third_party_open/swan/src/*.[fF]* third_party_open/swan/swan_omp
 
 # configure the build
-RUN ./autogen.sh && ./configure CC=icc CXX=icpc FC=ifort MPICXX=mpiicpc F77=ifort MPIF77=mpiifort MPIFC=mpiifort CPPFLAGS="-I/usr/local/include" CFLAGS="-m64 -diag-disable=10441" NETCDF_CFLAGS="-I/usr/local/include" NETCDF_LIBS="-L/usr/local/lib -lnetcdf" --prefix=/opt/delft3dfm
+RUN ./autogen.sh && ./configure --with-netcdf --with-mpi CC=icc CXX=icpc FC=ifort MPICXX=mpiicpc F77=ifort MPIF77=mpiifort MPIFC=mpiifort CPPFLAGS="-I/usr/local/include" CFLAGS="-m64 -diag-disable=10441" NETCDF_CFLAGS="-I/usr/local/include" NETCDF_LIBS="-L/usr/local/lib -lnetcdf" --prefix=/opt/delft3dfm
 
 # build
 RUN source /etc/profile.d/modules.sh && CC=icc CXX=icpc FC=ifort MPICXX=mpiicpc F77=ifort MPIF77=mpiifort MPIFC=mpiifort CPPFLAGS="-I/usr/local/include" CFLAGS="-m64 -diag-disable=10441" make ds-install
