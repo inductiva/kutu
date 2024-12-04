@@ -9,7 +9,10 @@ COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
 #Source https://github.com/veethahavya-CU-cz/delft3dfm_dockerized/blob/main/ubuntu-20.04_intel_basic/Dockerfile
-FROM intel/oneapi-hpckit:devel-ubuntu22.04 as build
+FROM intel/oneapi-hpckit:devel-ubuntu20.04 as build
+
+ENV DEBIAN_FRONTEND=noninteractive
+
 SHELL ["/bin/bash", "-c"]
 
 COPY --from=test_env /home /home
@@ -68,24 +71,40 @@ RUN source /etc/profile.d/modules.sh && CC=icc CXX=icpc FC=ifort MPICXX=mpiicpc 
 ENV PATH=/opt/delft3dfm/bin:${PATH}
 ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:${LD_LIBRARY_PATH}
 
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
-RUN apt update -qq && \
-    apt install --no-install-recommends -y \
-        openmpi-bin=4.1.2-2ubuntu1 && \
-    apt clean
-
+#Copy only needed things from oneapi
 COPY --from=build /opt/delft3dfm /opt/delft3dfm
-# COPY --from=build /opt/intel/oneapi/ /opt/intel/oneapi/
+COPY --from=build /opt/intel/oneapi/etc /opt/intel/oneapi/etc
+COPY --from=build /opt/intel/oneapi/mpi /opt/intel/oneapi/mpi
+COPY --from=build /opt/intel/oneapi/licensing /opt/intel/oneapi/licensing
+COPY --from=build /opt/intel/oneapi/setvars.sh /opt/intel/oneapi/setvars.sh
+COPY --from=build /opt/intel/oneapi/modulefiles-setup.sh /opt/intel/oneapi/modulefiles-setup.sh
+COPY --from=build /opt/intel/oneapi/readme-get-started-linux-hpc-kit.html /opt/intel/oneapi/readme-get-started-linux-hpc-kit.html
+COPY --from=build /opt/intel/oneapi/readme-get-started-linux-base-kit.html /opt/intel/oneapi/readme-get-started-linux-base-kit.html
 
+#Set env vars
 ENV PATH=/opt/delft3dfm/bin:${PATH}
-# ENV PATH=/opt/intel/oneapi/mpi/2021.6.0//bin:${PATH}
-# ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:/usr/local/lib:/opt/intel/oneapi/vpl/2022.1.0/lib:/opt/intel/oneapi/tbb/2021.6.0/env/../lib/intel64/gcc4.8:/opt/intel/oneapi/mpi/2021.6.0//libfabric/lib:/opt/intel/oneapi/mpi/2021.6.0//lib/release:/opt/intel/oneapi/mpi/2021.6.0//lib:/opt/intel/oneapi/mkl/2022.1.0/lib/intel64:/opt/intel/oneapi/itac/2021.6.0/slib:/opt/intel/oneapi/ippcp/2021.6.0/lib/intel64:/opt/intel/oneapi/ipp/2021.6.0/lib/intel64:/opt/intel/oneapi/dnnl/2022.1.0/cpu_dpcpp_gpu_dpcpp/lib:/opt/intel/oneapi/debugger/2021.6.0/gdb/intel64/lib:/opt/intel/oneapi/debugger/2021.6.0/libipt/intel64/lib:/opt/intel/oneapi/debugger/2021.6.0/dep/lib:/opt/intel/oneapi/dal/2021.6.0/lib/intel64:/opt/intel/oneapi/compiler/2022.1.0/linux/lib:/opt/intel/oneapi/compiler/2022.1.0/linux/lib/x64:/opt/intel/oneapi/compiler/2022.1.0/linux/lib/oclfpga/host/linux64/lib:/opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin:/opt/intel/oneapi/ccl/2021.6.0/lib/cpu_gpu_dpcpp
+ENV PATH=/opt/intel/oneapi/mpi/2021.6.0//bin:${PATH}
+ENV VT_MPI=impi4
+ENV IPP_TARGET_ARCH=intel64
+ENV LESSOPEN="| /usr/bin/lesspipe %s"
+ENV ONEAPI_ROOT=/opt/intel/oneapi
+ENV LESSCLOSE="/usr/bin/lesspipe %s %s"
+ENV CPATH=/opt/intel/oneapi/mpi/2021.6.0//include
+ENV I_MPI_ROOT=/opt/intel/oneapi/mpi/2021.6.0
+ENV VT_ADD_LIBS="-ldwarf -lelf -lvtunwind -lm -lpthread"
+ENV CLASSPATH=/opt/intel/oneapi/mpi/2021.6.0//lib/mpi.jar
+ENV PKG_CONFIG_PATH=/opt/intel/oneapi/mpi/2021.6.0/lib/pkgconfig
+ENV ACL_BOARD_VENDOR_PATH=/opt/Intel/OpenCLFPGA/oneAPI/Boards
+ENV FI_PROVIDER_PATH=/opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/prov:/usr/lib64/libfabric
+ENV LIBRARY_PATH=/opt/intel/oneapi/mpi/2021.6.0//libfabric/lib:/opt/intel/oneapi/mpi/2021.6.0//lib/release:/opt/intel/oneapi/mpi/2021.6.0//lib
+ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:/usr/local/lib:/opt/intel/oneapi/vpl/2022.1.0/lib:/opt/intel/oneapi/tbb/2021.6.0/env/../lib/intel64/gcc4.8:/opt/intel/oneapi/mpi/2021.6.0//libfabric/lib:/opt/intel/oneapi/mpi/2021.6.0//lib/release:/opt/intel/oneapi/mpi/2021.6.0//lib:/opt/intel/oneapi/mkl/2022.1.0/lib/intel64:/opt/intel/oneapi/itac/2021.6.0/slib:/opt/intel/oneapi/ippcp/2021.6.0/lib/intel64:/opt/intel/oneapi/ipp/2021.6.0/lib/intel64:/opt/intel/oneapi/dnnl/2022.1.0/cpu_dpcpp_gpu_dpcpp/lib:/opt/intel/oneapi/debugger/2021.6.0/gdb/intel64/lib:/opt/intel/oneapi/debugger/2021.6.0/libipt/intel64/lib:/opt/intel/oneapi/debugger/2021.6.0/dep/lib:/opt/intel/oneapi/dal/2021.6.0/lib/intel64:/opt/intel/oneapi/compiler/2022.1.0/linux/lib:/opt/intel/oneapi/compiler/2022.1.0/linux/lib/x64:/opt/intel/oneapi/compiler/2022.1.0/linux/lib/oclfpga/host/linux64/lib:/opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin:/opt/intel/oneapi/ccl/2021.6.0/lib/cpu_gpu_dpcpp:/opt/delft3dfm/lnx64/flow2d3d/bin/
 
 #Intel MPI dependencies
-# COPY --from=build /lib/x86_64-linux-gnu/libgomp.so.1 /lib/x86_64-linux-gnu/libgomp.so.1
-# COPY --from=build /lib/x86_64-linux-gnu/libze_loader.so.1 /lib/x86_64-linux-gnu/libze_loader.so.1
-# COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/libfabric.so.1 /opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/libfabric.so.1
+COPY --from=build /lib/x86_64-linux-gnu/libgomp.so.1 /lib/x86_64-linux-gnu/libgomp.so.1
+COPY --from=build /lib/x86_64-linux-gnu/libze_loader.so.1 /lib/x86_64-linux-gnu/libze_loader.so.1
+COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/libfabric.so.1 /opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/libfabric.so.1
 
 #Delft3D dependencies
 COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
@@ -156,14 +175,5 @@ COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5
 
-
-#Other oneAPI dependencies
-# COPY --from=build /opt/intel/oneapi/vpl/ /opt/intel/oneapi/vpl/
-# COPY --from=build /opt/intel/oneapi/tbb /opt/intel/oneapi/tbb
-# COPY --from=build /opt/intel/oneapi/mpi /opt/intel/oneapi/mpi
-# COPY --from=build /opt/intel/oneapi/itac/2021.6.0/sli /opt/intel/oneapi/itac/2021.6.0/sli
-# COPY --from=build /opt/intel/oneapi/ippcp /opt/intel/oneapi/ippcp
-# COPY --from=build /opt/intel/oneapi/dnnl/2022.1.0/cpu_dpcpp_gpu_dpcpp/lib /opt/intel/oneapi/dnnl/2022.1.0/cpu_dpcpp_gpu_dpcpp/lib
-# COPY --from=build /opt/intel/oneapi/ccl/2021.6.0/lib/cpu_gpu_dpcpp /opt/intel/oneapi/ccl/2021.6.0/lib/cpu_gpu_dpcpp
 
 COPY --from=test_env /home /home
