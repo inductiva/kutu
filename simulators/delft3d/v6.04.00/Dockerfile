@@ -1,8 +1,8 @@
 FROM inductiva/kutu:base-image_v0.1.0 as test_env
 
-RUN wget https://storage.googleapis.com/inductiva-api-demo-files/amr-wind-input-example.zip -P /home/ && \
-    unzip /home/amr-wind-input-example.zip -d /home/ && \
-    rm /home/amr-wind-input-example.zip 
+RUN wget https://storage.googleapis.com/inductiva-api-demo-files/delft3d-input-example.zip -P /home/ && \
+    unzip /home/delft3d-input-example.zip -d /home/ && \
+    rm /home/delft3d-input-example.zip 
 
 COPY ./test_sim.sh /home/test_sim.sh
 

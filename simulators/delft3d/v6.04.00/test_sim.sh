@@ -1,3 +1,4 @@
 #!/bin/bash
+cd /home/delft3d-input-example
 
-echo "No test yet"
+mpirun -np 4 d_hydro.exe config_d_hydro.xml
