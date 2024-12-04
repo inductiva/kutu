@@ -151,4 +151,14 @@ COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5
 
+
+#Other oneAPI dependencies
+COPY --from=build /opt/intel/oneapi/vpl/ /opt/intel/oneapi/vpl/
+COPY --from=build /opt/intel/oneapi/tbb /opt/intel/oneapi/tbb
+COPY --from=build /opt/intel/oneapi/mpi /opt/intel/oneapi/mpi
+COPY --from=build /opt/intel/oneapi/itac/2021.6.0/sli /opt/intel/oneapi/itac/2021.6.0/sli
+COPY --from=build /opt/intel/oneapi/ippcp /opt/intel/oneapi/ippcp
+COPY --from=build /opt/intel/oneapi/dnnl/2022.1.0/cpu_dpcpp_gpu_dpcpp/lib /opt/intel/oneapi/dnnl/2022.1.0/cpu_dpcpp_gpu_dpcpp/lib
+COPY --from=build /opt/intel/oneapi/ccl/2021.6.0/lib/cpu_gpu_dpcpp /opt/intel/oneapi/ccl/2021.6.0/lib/cpu_gpu_dpcpp
+
 COPY --from=test_env /home /home
