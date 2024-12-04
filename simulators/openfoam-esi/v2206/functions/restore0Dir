@@ -1,0 +1,36 @@
+#restore0Dir
+[ -n "$FOAM_TUTORIALS" ] || export FOAM_TUTORIALS="$WM_PROJECT_DIR"/tutorials
+# Basic sanity checks
+[ -d "$FOAM_TUTORIALS" ] || echo "No OpenFOAM tutorials? : $FOAM_TUTORIALS" 1>&2
+# Darwin workaround - SIP clearing DYLD_LIBRARY_PATH variable
+if [ -n "$FOAM_LD_LIBRARY_PATH" ] && [ -z "$DYLD_LIBRARY_PATH" ]
+then
+    export DYLD_LIBRARY_PATH="$FOAM_LD_LIBRARY_PATH"
+fi
+
+if [ ! -d 0.orig ]
+then
+    echo "No 0.orig/ to restore..." 1>&2
+    exit 0
+fi
+case "$1" in
+(-all | -proc | -processor*)
+    if [ "$1" = "-all" ]
+    then
+        echo "Restore 0/ from 0.orig/  [serial/processor dirs]" 1>&2
+        \rm -rf 0
+        \cp -r 0.orig 0 2>/dev/null
+    else
+        echo "Restore 0/ from 0.orig/  [processor dirs]" 1>&2
+    fi
+    \ls -d processor* | xargs -I {} \rm -rf ./{}/0
+    \ls -d processor* | xargs -I {} \cp -r 0.orig ./{}/0 > /dev/null 2>&1
+    ;;
+(*)
+    echo "Restore 0/ from 0.orig/" 1>&2
+    \rm -rf 0
+    \cp -r 0.orig 0 2>/dev/null
+    ;;
+esac
+exit 0
+
