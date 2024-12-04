@@ -68,10 +68,10 @@ RUN source /etc/profile.d/modules.sh && CC=icc CXX=icpc FC=ifort MPICXX=mpiicpc 
 ENV PATH=/opt/delft3dfm/bin:${PATH}
 ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:${LD_LIBRARY_PATH}
 
-FROM ubuntu:20.04
+FROM intel/oneapi-runtime:2024.2.1-0-devel-ubuntu20.04
 
 COPY --from=build /opt/delft3dfm /opt/delft3dfm
-COPY --from=build /opt/intel/oneapi/ /opt/intel/oneapi/
+# COPY --from=build /opt/intel/oneapi/ /opt/intel/oneapi/
 
 ENV PATH=/opt/delft3dfm/bin:${PATH}
 ENV PATH=/opt/intel/oneapi/mpi/2021.6.0//bin:${PATH}
@@ -80,7 +80,7 @@ ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:/usr/local/lib:/opt/intel/oneapi/vpl/2022
 #Intel MPI dependencies
 COPY --from=build /lib/x86_64-linux-gnu/libgomp.so.1 /lib/x86_64-linux-gnu/libgomp.so.1
 COPY --from=build /lib/x86_64-linux-gnu/libze_loader.so.1 /lib/x86_64-linux-gnu/libze_loader.so.1
-COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/libfabric.so.1 /opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/libfabric.so.1
+# COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/libfabric.so.1 /opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/libfabric.so.1
 
 #Delft3D dependencies
 COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
@@ -139,16 +139,16 @@ COPY --from=build /lib/x86_64-linux-gnu/libgssapi_krb5.so.2 /lib/x86_64-linux-gn
 COPY --from=build /lib/x86_64-linux-gnu/libkrb5support.so.0 /lib/x86_64-linux-gnu/libkrb5support.so.0
 COPY --from=build /lib/x86_64-linux-gnu/libbrotlicommon.so.1 /lib/x86_64-linux-gnu/libbrotlicommon.so.1
 COPY --from=build /opt/delft3dfm/lib/libwaq_plugin_wasteload.so.0 /opt/delft3dfm/lib/libwaq_plugin_wasteload.so.0
-COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//lib/libmpicxx.so.12 /opt/intel/oneapi/mpi/2021.6.0//lib/libmpicxx.so.12
-COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//lib/libmpifort.so.12 /opt/intel/oneapi/mpi/2021.6.0//lib/libmpifort.so.12
-COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//lib/release/libmpi.so.12 /opt/intel/oneapi/mpi/2021.6.0//lib/release/libmpi.so.12
-COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libimf.so /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libimf.so
-COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libirc.so /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libirc.so
-COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libirng.so /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libirng.so
-COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libsvml.so /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libsvml.so
-COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libiomp5.so /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libiomp5.so
-COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libintlc.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libintlc.so.5
-COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5
-COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5
+# COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//lib/libmpicxx.so.12 /opt/intel/oneapi/mpi/2021.6.0//lib/libmpicxx.so.12
+# COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//lib/libmpifort.so.12 /opt/intel/oneapi/mpi/2021.6.0//lib/libmpifort.so.12
+# COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//lib/release/libmpi.so.12 /opt/intel/oneapi/mpi/2021.6.0//lib/release/libmpi.so.12
+# COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libimf.so /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libimf.so
+# COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libirc.so /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libirc.so
+# COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libirng.so /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libirng.so
+# COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libsvml.so /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libsvml.so
+# COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libiomp5.so /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libiomp5.so
+# COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libintlc.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libintlc.so.5
+# COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5
+# COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5
 
 COPY --from=test_env /home /home
