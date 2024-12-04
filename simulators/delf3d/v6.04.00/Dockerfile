@@ -70,19 +70,19 @@ ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:${LD_LIBRARY_PATH}
 
 FROM ubuntu:20.04
 
-RUN apt update -qq && \
-    apt install --no-install-recommends -y \
-        openmpi-bin=4.1.2-2ubuntu1 && \
-    apt clean
-
 COPY --from=build /opt/delft3dfm /opt/delft3dfm
-# COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//bin/mpirun /opt/intel/oneapi/mpi/2021.6.0//bin/mpirun
+COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//bin/* /opt/intel/oneapi/mpi/2021.6.0//bin/
 
 ENV PATH=/opt/delft3dfm/bin:${PATH}
-# ENV PATH=/opt/intel/oneapi/mpi/2021.6.0//bin:${PATH}
+ENV PATH=/opt/intel/oneapi/mpi/2021.6.0//bin:${PATH}
 ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:${LD_LIBRARY_PATH}
 
+#Intel MPI dependencies
+COPY --from=build /lib/x86_64-linux-gnu/libgomp.so.1 /lib/x86_64-linux-gnu/libgomp.so.1
+COPY --from=build /lib/x86_64-linux-gnu/libze_loader.so.1 /lib/x86_64-linux-gnu/libze_loader.so.1
+COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/libfabric.so.1 /opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/libfabric.so.1
 
+#Delft3D dependencies
 COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
 COPY --from=build /usr/local/lib/libhdf5.so.103 /usr/local/lib/libhdf5.so.103
 COPY --from=build /usr/local/lib/libnetcdf.so.13 /usr/local/lib/libnetcdf.so.13
