@@ -70,16 +70,16 @@ ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:${LD_LIBRARY_PATH}
 
 FROM ubuntu:20.04
 
-# RUN apt update -qq && \
-#     apt install --no-install-recommends -y \
-#         openmpi-bin=4.1.2-2ubuntu1 && \
-#     apt clean
+RUN apt update -qq && \
+    apt install --no-install-recommends -y \
+        openmpi-bin=4.1.2-2ubuntu1 && \
+    apt clean
 
 COPY --from=build /opt/delft3dfm /opt/delft3dfm
-COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//bin/mpirun /opt/intel/oneapi/mpi/2021.6.0//bin/mpirun
+# COPY --from=build /opt/intel/oneapi/mpi/2021.6.0//bin/mpirun /opt/intel/oneapi/mpi/2021.6.0//bin/mpirun
 
 ENV PATH=/opt/delft3dfm/bin:${PATH}
-ENV PATH=/opt/intel/oneapi/mpi/2021.6.0//bin:${PATH}
+# ENV PATH=/opt/intel/oneapi/mpi/2021.6.0//bin:${PATH}
 ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:${LD_LIBRARY_PATH}
 
 
