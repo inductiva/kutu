@@ -30,4 +30,4 @@ SHELL ["conda", "run", "-n", "gxenv", "/bin/bash", "-c"]
 
 RUN git clone https://bitbucket.org/gyrokinetics/gx /gx && \
     cd /gx && \
-    make 
+    make
