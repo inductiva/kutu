@@ -1,3 +1,13 @@
+FROM inductiva/kutu:base-image_v0.1.0 as test_env
+
+# RUN wget https://storage.googleapis.com/inductiva-api-demo-files/amr-wind-input-example.zip -P /home/ && \
+#     unzip /home/amr-wind-input-example.zip -d /home/ && \
+#     rm /home/amr-wind-input-example.zip 
+
+COPY ./test_sim.sh /home/test_sim.sh
+
+RUN chmod +x /home/test_sim.sh
+
 FROM nvidia/cuda:12.2.2-devel-ubuntu22.04 as build
 
 ENV OMPI_ALLOW_RUN_AS_ROOT=1
@@ -31,3 +41,5 @@ SHELL ["conda", "run", "-n", "gxenv", "/bin/bash", "-c"]
 RUN git clone https://bitbucket.org/gyrokinetics/gx /gx && \
     cd /gx && \
     make
+
+COPY --from=test_env /home /home
