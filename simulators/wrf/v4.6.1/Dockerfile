@@ -11,9 +11,15 @@ ENV JASPERLIB=$DIR/grib2/lib
 ENV JASPERINC=$DIR/grib2/include
 ENV LDFLAGS=-L$DIR/grib2/lib
 ENV CPPFLAGS=-I$DIR/grib2/include
-ENV NETCDF=/usr
 ENV LIBS="-lnetcdf -lz"
+# ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/WRF/LIBRARIES/grib2/lib/
 
+ENV NETCDF=$DIR/netcdf
+ENV LD_LIBRARY_PATH=$NETCDF/lib:$DIR/grib2/lib
+ENV PATH=$NETCDF/bin:${PATH}
+ENV JASPERLIB=$DIR/grib2/lib
+ENV JASPERINC=$DIR/grib2/include
+ENV WRF_DIR=/WRF/
 
 RUN apt-get install csh perl -y && \
     git clone --recurse-submodules https://github.com/wrf-model/WRF.git && \
@@ -32,11 +38,44 @@ RUN apt-get install csh perl -y && \
     tar -xvf libpng-1.2.50.tar.gz && \
     tar -xvf zlib-1.2.11.tar.gz && \
     rm *.tar.gz && \
+    export CC=gcc && \
+    export CXX=g++ && \
+    export FC=gfortran && \
+    export FCFLAGS="-m64 -fallow-argument-mismatch" && \
+    export F77=gfortran && \
+    export FFLAGS="-m64 -fallow-argument-mismatch" && \
+    export LDFLAGS="-L$NETCDF/lib -L$DIR/grib2/lib" && \
+    export CPPFLAGS="-I$NETCDF/include -I$DIR/grib2/include -fcommon" && \
     cd zlib-1.2.11 && \
     ./configure --prefix=$DIR/grib2 && \
     make && \
     make install && \
     cd .. && \
+    wget https://github.com/HDFGroup/hdf5/archive/hdf5-1_10_5.tar.gz && \
+    tar xzvf hdf5-1_10_5.tar.gz && \
+    cd hdf5-hdf5-1_10_5 && \
+    ./configure --prefix=$DIR/netcdf --with-zlib=$DIR/grib2 --enable-fortran --enable-shared && \
+    make -j 4 && \
+    make install && \
+    cd .. && \
+    rm -rf hdf5* && \
+    wget https://github.com/Unidata/netcdf-c/archive/v4.7.2.tar.gz && \
+    tar xzvf v4.7.2.tar.gz && \
+    cd netcdf-c-4.7.2 && \
+    ./configure --prefix=$DIR/netcdf --disable-dap --enable-netcdf4 --enable-hdf5 --enable-shared && \
+    make -j 4 && \
+    make install && \
+    cd .. && \
+    rm -rf v4.7.2.tar.gz netcdf-c* && \
+    export LIBS="-lnetcdf -lz" && \
+    wget https://github.com/Unidata/netcdf-fortran/archive/v4.5.2.tar.gz && \
+    tar xzvf v4.5.2.tar.gz && \
+    cd netcdf-fortran-4.5.2 && \
+    ./configure --prefix=$DIR/netcdf --disable-hdf5 --enable-shared && \
+    make -j 4 && \
+    make install && \
+    cd .. && \
+    rm -rf netcdf-fortran* v4.5.2.tar.gz && \
     cd libpng-1.2.50 && \
     ./configure --prefix=$DIR/grib2 && \
     make && \
@@ -49,9 +88,12 @@ RUN apt-get install csh perl -y && \
     cd /WRF/ && \
     cd share/ && \
     cp landread.c.dist landread.c && \
-    cd /WRF/
-    #To compile first you need to ./configure like this
-    # echo -e "34\n1\n" | ./configure 
-    #after that you can compile like this
-    # ./compile <case_name>
-    
+    cd /WRF/ && \
+    printf "34\n1" | ./configure && \
+    ./compile em_real && \
+    git clone --recurse-submodules https://github.com/wrf-model/WPS.git && \
+    cd WPS/ && \
+    printf "3\n" |./configure && \
+    ./compile
+
+ENV PATH=/WRF/test/em_real/:/WRF/WPS/util/:$PATH
