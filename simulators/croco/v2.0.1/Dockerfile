@@ -10,7 +10,8 @@ RUN git clone https://gitlab.inria.fr/croco-ocean/croco.git && \
     cd croco_tools && \
     git checkout c9d570900ce69b4fd47d776eb49ebd7d3da50f1b && \
     cd /croco && \
-    sed -i 's/CROCO_DIR=$PWD/CROCO_DIR=\/croco\//g' create_config.bash
+    sed -i 's/CROCO_DIR=$PWD/CROCO_DIR=\/croco\//g' create_config.bash && \
+    sed -i 's/TOOLS_DIR=${PWD}\/..\/croco_tools/TOOLS_DIR=\/croco_tools/g' create_config.bash
 
 COPY ./test_sim.sh /home/test_sim.sh
 
