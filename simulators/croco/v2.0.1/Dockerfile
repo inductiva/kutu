@@ -38,7 +38,7 @@ RUN cd / && \
     sed -i 's/CROCO_DIR=$PWD/CROCO_DIR=\/croco\//g' /croco/create_config.bash && \
     sed -i 's/TOOLS_DIR=${PWD}\/..\/croco_tools/TOOLS_DIR=\/croco_tools/g' /croco/create_config.bash && \
     sed -i "s|\${TOOLS_DIR}/DATASETS_CROCOTOOLS/|\${PWD}/DATASETS_CROCOTOOLS/|g" /croco/create_config.bash && \
-    sed -i "s/netcdf.setDefaultFormat('FORMAT_NETCDF4');/%netcdf.setDefaultFormat('FORMAT_NETCDF4');/" /croco_tools/crocotools_param.m && \
+    sed -i "s/netcdf.setDefaultFormat('FORMAT_NETCDF4');/%netcdf.setDefaultFormat('FORMAT_NETCDF4');/" /croco_tools/crocotools_param.m
 
 
 COPY ./test_sim.sh /home/test_sim.sh
