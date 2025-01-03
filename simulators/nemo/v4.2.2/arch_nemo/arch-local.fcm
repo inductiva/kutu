@@ -1,0 +1,60 @@
+# Arch file for container apptainer
+# romain.caneill@gu.se
+#
+# NCDF_HOME   root directory containing lib and include subdirectories for netcdf4
+# HDF5_HOME   root directory containing lib and include subdirectories for HDF5
+# XIOS_HOME   root directory containing lib for XIOS
+# OASIS_HOME  root directory containing lib for OASIS
+#
+# NCDF_INC    netcdf4 include file
+# NCDF_LIB    netcdf4 library
+# XIOS_INC    xios include file    (taken into accound only if key_iomput is activated)
+# XIOS_LIB    xios library         (taken into accound only if key_iomput is activated)
+# OASIS_INC   oasis include file   (taken into accound only if key_oasis3 is activated)
+# OASIS_LIB   oasis library        (taken into accound only if key_oasis3 is activated)
+#
+# FC          Fortran compiler command
+# FCFLAGS     Fortran compiler flags
+# FFLAGS      Fortran 77 compiler flags
+# LD          linker
+# LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries
+# FPPFLAGS    pre-processing flags
+# AR          assembler
+# ARFLAGS     assembler flags
+# MK          make
+# USER_INC    complete list of include files
+# USER_LIB    complete list of libraries to pass to the linker
+# CC          C compiler used to compile conv for AGRIF
+# CFLAGS      compiler flags used with CC
+#
+# Note that:
+#  - unix variables "$..." are accepted and will be evaluated before calling fcm.
+#  - fcm variables are starting with a % (and not a $)
+#
+%NCDF_HOME           /nemo/installs
+%HDF5_HOME           /nemo/installs
+%XIOS_HOME           /nemo/sources/XIOS/xios
+%OASIS_HOME          
+
+%NCDF_INC            -I%NCDF_HOME/include 
+%NCDF_LIB            -L%NCDF_HOME/lib -lnetcdf -lnetcdff -L%HDF5_HOME/lib -lhdf5_hl -lhdf5 -lcurl
+%XIOS_INC            -I%XIOS_HOME/inc 
+%XIOS_LIB            -L%XIOS_HOME/lib -lxios -lstdc++
+%OASIS_INC           
+%OASIS_LIB           
+
+%CPP	             cpp -Dkey_nosignedzero
+%FC                  mpif90 -c -cpp
+%FCFLAGS             -O3 -fdefault-real-8 -ffree-line-length-none -fno-second-underscore -Dgfortran -funroll-all-loops -fcray-pointer -fallow-argument-mismatch
+%FFLAGS              %FCFLAGS
+%LD                  mpif90
+%LDFLAGS             -Wl,-rpath,$INSTDIR/lib
+%FPPFLAGS            -P -C -traditional
+%AR                  ar
+%ARFLAGS             rs
+%MK                  make
+%USER_INC            %XIOS_INC %OASIS_INC %NCDF_INC
+%USER_LIB            %XIOS_LIB %OASIS_LIB %NCDF_LIB
+
+%CC                  gcc
+%CFLAGS              
