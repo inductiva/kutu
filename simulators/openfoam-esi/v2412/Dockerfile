@@ -18,7 +18,7 @@ SHELL ["/bin/bash", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
 ENV FOAM_EXT_LIBBIN=/OpenFOAM-v2412/platforms/linux64GccDPInt32Opt/lib/
 
-ARG openfoam_num_version=2406
+ARG openfoam_num_version=2412
 ARG openfoam_version="openfoam${openfoam_num_version}"
 
 RUN apt-get update && \
