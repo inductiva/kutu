@@ -199,11 +199,11 @@ cmake .. ${CMAKE_COMMON_FLAGS} \
 WORKDIR /home/seissol/examples/tpv33
 
 # Copy test simulation script
-COPY ./test_sim.sh /home/seissol/examples/tpv33/test_sim.sh
-RUN chmod +x /home/seissol/examples/tpv33/test_sim.sh
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
 
 # Expose Jupyter port
 EXPOSE 53155
 
 # Default command to run the test script
-CMD ["/home/seissol/examples/tpv33/test_sim.sh"]
+CMD ["/home/test_sim.sh"]
