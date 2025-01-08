@@ -199,6 +199,7 @@ cmake .. ${CMAKE_COMMON_FLAGS} \
 WORKDIR /home/seissol/examples/tpv33
 
 # Copy test simulation script
+
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
@@ -206,4 +207,5 @@ RUN chmod +x /home/test_sim.sh
 EXPOSE 53155
 
 # Default command to run the test script
+
 CMD ["/home/test_sim.sh"]
