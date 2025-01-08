@@ -130,7 +130,7 @@ RUN wget https://downloads.unidata.ucar.edu/netcdf-c/4.8.1/netcdf-c-4.8.1.tar.gz
     cd .. && rm -rf netcdf-c-4.8.1*
 
 # Install libxsmm gemm generator
-RUN git clone --depth=1 --branch main https://github.com/hfp/libxsmm && \
+RUN git clone --depth=1 --branch 1.17 https://github.com/libxsmm/libxsmm && \
     cd libxsmm && \
     make generator && \
     cp bin/libxsmm_gemm_generator ${SEISSOL_PREFIX}/bin/ && \
