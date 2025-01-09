@@ -27,6 +27,7 @@ FROM ubuntu:22.04 AS build
 # Consolidated environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
     SEISSOL_COMMTHREAD=0 \
+    OMP_NUM_THREADS=1 \
     SEISSOL_PREFIX=/usr/local \
     PATH="/SeisSol/build:$PATH" \
     BUILD_DEPS="build-essential cmake git wget openmpi-bin libopenmpi-dev gfortran libhdf5-dev \
@@ -41,6 +42,13 @@ ENV DEBIAN_FRONTEND=noninteractive \
     MPI_DIR=/usr/lib/x86_64-linux-gnu/openmpi \
     HDF5_DIR=/usr/local \
     HDF5_INCLUDE_DIR=/usr/include/hdf5/parallel
+
+    RUN echo '#!/bin/bash\n\
+    ulimit -s unlimited\n\
+    . /etc/profile\n\
+    exec /usr/bin/mpirun "$@"' > /usr/local/bin/mpirun && \
+        chmod +x /usr/local/bin/mpirun
+
 
 # Update system and install essential tools
 RUN apt-get update && apt-get install -y ${BUILD_DEPS} && \
@@ -165,7 +173,7 @@ RUN git clone --recursive https://github.com/SeisSol/easi.git /easi && \
 
 
 
-# Clone SeisSol with submodules and check out 5d88567c8733937b99d47ea00b0f26b8bf467785 commit
+# Clone SeisSol with submodules and check out tag commit
 RUN git clone --recursive https://github.com/SeisSol/SeisSol.git /SeisSol && \
     cd /SeisSol && \
     git checkout 5d88567c8733937b99d47ea00b0f26b8bf467785 && \
@@ -199,13 +207,23 @@ cmake .. ${CMAKE_COMMON_FLAGS} \
 WORKDIR /home/seissol/examples/tpv33
 
 # Copy test simulation script
-
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
+# Modify the security limits configuration
+# RUN echo "* soft stack unlimited\n* hard stack unlimited" >> /etc/security/limits.conf
+
+
+RUN echo '#!/bin/bash\n\
+ulimit -s unlimited\n\
+. /etc/profile\n\
+exec "$@"' > /entrypoint.sh && \
+    chmod +x /entrypoint.sh
+
+# Set the custom entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
 # Expose Jupyter port
 EXPOSE 53155
 
 # Default command to run the test script
-
 CMD ["/home/test_sim.sh"]
