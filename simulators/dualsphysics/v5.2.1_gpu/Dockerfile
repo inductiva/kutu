@@ -12,7 +12,7 @@ COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
 # Start from an image provided by NVIDIA with CUDA 11.7.
-FROM nvidia/cuda:11.7.1-devel-ubuntu22.04 as build
+FROM nvidia/cuda:12.2.2-devel-ubuntu22.04 as build
 
 # Set frontend to be noninteractive, to avoid prompts during installation.
 ENV DEBIAN_FRONTEND=noninteractive
@@ -94,7 +94,7 @@ RUN wget -O DualSPHysics_v5.2.zip  https://storage.googleapis.com/inductiva-host
 WORKDIR /DualSPHysics_v5.2/src/source/build
 RUN CC=gcc CXX=g++ cmake .. && make
 
-FROM nvidia/cuda:11.7.1-runtime-ubuntu22.04
+FROM nvidia/cuda:12.2.2-runtime-ubuntu22.04
 
 # COPY libgomp libraries from the build stage.
 COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
