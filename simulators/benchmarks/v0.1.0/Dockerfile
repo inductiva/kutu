@@ -7,3 +7,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Update package list and install dependencies
 RUN pip install plotly inductiva
 
+COPY ./test_sim.sh /home/test_sim.sh
+
+RUN chmod +x /home/test_sim.sh
