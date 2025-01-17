@@ -5,7 +5,7 @@ FROM python:3.12.8
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update package list and install dependencies
-RUN pip install plotly inductiva
+RUN pip install plotly inductiva pandas numpy
 
 COPY ./test_sim.sh /home/test_sim.sh
 
