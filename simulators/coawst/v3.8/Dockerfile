@@ -289,6 +289,10 @@ RUN cd ${COAWST_DIR} && \
 # Rename the executable
 RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Inlet_test_inwave
 
+# Copy test simulation script
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
 WORKDIR ${COAWST_DIR}
 
 
