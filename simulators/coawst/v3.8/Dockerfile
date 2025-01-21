@@ -396,8 +396,6 @@ RUN cd ${COAWST_DIR} && \
     -e 's/TI_ATM2OCN\s*=.*$/TI_ATM_OCN = 600.0d0/' \
     -e 's/TI_WAV2OCN\s*=.*$/TI_WAV_OCN = 600.0d0/' \
     -e "s|ATM_name\s*=.*$|ATM_name = namelist.input|" \
-    -e "s|WAV_name\s*=.*$|WAV_name = Projects/JOE_TCs/INPUT_JOE_TC|" \
-    -e "s|OCN_name\s*=.*$|OCN_name = Projects/JOE_TCs/ocean_joe_tc.in|" \
     Projects/JOE_TC/Coupled/coupling_joe_tc.in && \
     # Update ocean file for tile partitioning
     sed -i \
@@ -659,6 +657,8 @@ RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_joetc_diffgrid
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
+
+ENV PATH="/opt/COAWST:${PATH}"
 
 WORKDIR ${COAWST_DIR}
 
