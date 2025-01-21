@@ -657,6 +657,9 @@ printf '34\n1\n' | ./build_coawst_joetc_diffgrid.sh -j $(nproc)
 # Rename the executable
 RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_joetc_diffgrid
 
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
 WORKDIR ${COAWST_DIR}
 
 
