@@ -484,7 +484,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_sedbed.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_sedbed.sh
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_sedbed
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_trench.sh && \
@@ -512,7 +512,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_trench.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_trench.sh
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_trench
 
 RUN cd ${COAWST_DIR} && \
     cp Projects/wetdry/wetdry_slope_chan.h Projects/wetdry/wetdry.h &&\
@@ -541,7 +541,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_wetdry.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_wetdry.sh
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_wetdry
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_Sed_floc_toy.sh && \
@@ -569,7 +569,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_Sed_floc_toy.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Sed_floc_toy.sh
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Sed_floc_toy
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_vegrowth.sh && \
@@ -597,7 +597,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_vegrowth.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_vegrowth.sh
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_vegrowth
 
 
 RUN cd ${COAWST_DIR} && \
@@ -626,7 +626,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_marsh.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_marsh.sh
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_marsh
 
 # Configure COAWST build environment for JOE_TC DiffGrid
 RUN cd ${COAWST_DIR} && \
