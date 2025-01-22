@@ -1,0 +1,3 @@
+#compileApplication
+echo "Compiling $1 application"
+wmake $1

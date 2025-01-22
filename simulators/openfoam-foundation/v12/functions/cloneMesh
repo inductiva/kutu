@@ -1,0 +1,18 @@
+#cloneMesh
+
+from=$1/constant/polyMesh
+to=$2/constant/polyMesh
+
+if [ ! -d $from ]
+then
+    echo "Mesh $from does not exist"
+    exit 1
+elif [ -d $to ]
+then
+    echo "Mesh already cloned: remove mesh directory $to to clone"
+    exit 1
+else
+    echo "Cloning $to mesh from $from"
+    cp -pr $from $to
+    exit 0
+fi
