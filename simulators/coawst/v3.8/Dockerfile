@@ -642,7 +642,9 @@ RUN cd ${COAWST_DIR} && \
     -e "s|export\\s*ROMS_APPLICATION=.*|export ROMS_APPLICATION=JOE_TC_DIFFGRID|" \
     build_coawst_joetc_diffgrid.sh && \
     echo "export NETCDF4=1" >> build_coawst_joetc_diffgrid.sh
-
+# Compile the application
+RUN cd ${COAWST_DIR} && \
+    ./build_coawst_joetc_diffgrid.sh -j $(nproc)
 
 # Rename the executable
 RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_wrf_diff_grid
