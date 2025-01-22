@@ -24,6 +24,7 @@ RUN apt-get update \
 	git \
 	wget \
 	gmsh \
+	scotch \
 	software-properties-common ;\
 	rm -rf /var/lib/apt/lists/*
 
