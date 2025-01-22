@@ -154,7 +154,7 @@ RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_ducknc.sh && \
     chmod +x build_coawst_ducknc.sh && \
     mkdir -p Build_roms && \
-    sed -i -e 's/\$cmd_wrf/#\$cmd_wrf/g' \
+    sed -i \
            -e "s/-O2 -fPIC/${COMMON_FLAGS}/g" \
            -e "s|export\\s*MY_ROOT_DIR=.*|export MY_ROOT_DIR=${COAWST_DIR}|" \
            -e "s|export\\s*FORT=.*|export FORT=gfortran|" \
@@ -174,13 +174,13 @@ RUN cd ${COAWST_DIR} && \
 RUN cd ${COAWST_DIR} && \
     ./build_coawst_ducknc.sh -j $(nproc)
 
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Ducknc
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_single_grid
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_estuary.sh && \
     chmod +x build_coawst_estuary.sh && \
     mkdir -p Build_roms && \
-    sed -i -e 's/\$cmd_wrf/#\$cmd_wrf/g' \
+    sed -i \
     -e "s/-O2 -fPIC/${COMMON_FLAGS}/g" \
     -e "s|export\\s*MY_ROOT_DIR=.*|export MY_ROOT_DIR=${COAWST_DIR}|" \
     -e "s|export\\s*FORT=.*|export FORT=gfortran|" \
@@ -196,7 +196,7 @@ RUN cd ${COAWST_DIR} && \
     echo "export NETCDF4=1" >> build_coawst_estuary.sh 
 RUN cd ${COAWST_DIR} && \
     ./build_coawst_estuary.sh -j $(nproc)
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Estuary_test2
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_estuary
 
 # Configure COAWST build environment for INLET_TEST
 RUN cd ${COAWST_DIR} && \
@@ -204,7 +204,6 @@ RUN cd ${COAWST_DIR} && \
     chmod +x build_coawst_inlet.sh && \
     mkdir -p Build_roms && \
     sed -i \
-    -e 's/\$cmd_wrf/#\$cmd_wrf/g' \
     -e "s/-O2 -fPIC/${COMMON_FLAGS}/g" \
     -e "s|export\\s*MY_ROOT_DIR=.*|export MY_ROOT_DIR=${COAWST_DIR}|" \
     -e "s|export\\s*FORT=.*|export FORT=gfortran|" \
@@ -224,7 +223,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_inlet.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Inlet_test
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_same_grid
 
 # Configure COAWST build environment for INLET_TEST DiffGrid
 RUN cd ${COAWST_DIR} && \
@@ -232,7 +231,6 @@ RUN cd ${COAWST_DIR} && \
     chmod +x build_coawst_inlet_diffgrid.sh && \
     mkdir -p Build_roms && \
     sed -i \
-    -e 's/\$cmd_wrf/#\$cmd_wrf/g' \
     -e "s/-O2 -fPIC/${COMMON_FLAGS}/g" \
     -e "s|export\\s*MY_ROOT_DIR=.*|export MY_ROOT_DIR=${COAWST_DIR}|" \
     -e "s|export\\s*FORT=.*|export FORT=gfortran|" \
@@ -254,7 +252,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_inlet_diffgrid.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Inlet_test_diffgrid
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_diff_grid
 
 # Configure COAWST build environment for INLET_TEST InWave
 RUN cd ${COAWST_DIR} && \
@@ -283,7 +281,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_inlet_inwave.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Inlet_test_inwave
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_inwave_same_grid
 
 # Configure COAWST build environment for INLET_TEST Refined
 RUN cd ${COAWST_DIR} && \
@@ -312,7 +310,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_inlet_refined.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Inlet_test_refined
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_redefined_grid
 
 # Configure COAWST build environment for INLET_TEST Swanonly
 RUN cd ${COAWST_DIR} && \
@@ -341,7 +339,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_inlet_swanonly.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Inlet_test_swanonly
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_swanonly
 
 # Configure COAWST build environment for InWave_shoreface
 RUN cd ${COAWST_DIR} && \
@@ -370,7 +368,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_inwave_shoreface.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_inwave_shoreface
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_inwave_sloping_beach
 
 
 
@@ -426,7 +424,7 @@ RUN cd ${COAWST_DIR} && \
 RUN cd ${COAWST_DIR} && \
     printf '34\n1\n'| ./build_coawst_joe_tc.sh -j $(nproc)
 
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_joe_tc
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_wrf_same_grid
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_ripcurrent.sh && \
@@ -454,7 +452,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_ripcurrent.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_ripcurrent
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_rip_current
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_sedbed.sh && \
@@ -482,7 +480,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_sedbed.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_sedbed
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_sediments
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_trench.sh && \
@@ -510,7 +508,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_trench.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_trench
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_sediments_morphology
 
 RUN cd ${COAWST_DIR} && \
     cp Projects/wetdry/wetdry_slope_chan.h Projects/wetdry/wetdry.h &&\
@@ -539,7 +537,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_wetdry.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_wetdry
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_wetdry
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_Sed_floc_toy.sh && \
@@ -567,14 +565,13 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_Sed_floc_toy.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Sed_floc_toy
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_sediments_flocculation
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_vegrowth.sh && \
     chmod +x build_coawst_vegrowth.sh && \
     mkdir -p Build_roms && \
     sed -i \
-    -e 's/\$cmd_wrf/#\$cmd_wrf/g' \
     -e "s/-O2 -fPIC/${COMMON_FLAGS}/g" \
     -e "s|export\\s*MY_ROOT_DIR=.*|export MY_ROOT_DIR=${COAWST_DIR}|" \
     -e "s|export\\s*FORT=.*|export FORT=gfortran|" \
@@ -595,7 +592,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_vegrowth.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_vegrowth
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_vegetation_sediments_water
 
 
 RUN cd ${COAWST_DIR} && \
@@ -603,7 +600,6 @@ RUN cd ${COAWST_DIR} && \
     chmod +x build_coawst_marsh.sh && \
     mkdir -p Build_roms && \
     sed -i \
-    -e 's/\$cmd_wrf/#\$cmd_wrf/g' \
     -e "s/-O2 -fPIC/${COMMON_FLAGS}/g" \
     -e "s|export\\s*MY_ROOT_DIR=.*|export MY_ROOT_DIR=${COAWST_DIR}|" \
     -e "s|export\\s*FORT=.*|export FORT=gfortran|" \
@@ -624,7 +620,7 @@ RUN cd ${COAWST_DIR} && \
     ./build_coawst_marsh.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_marsh
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_marsh
 
 # Configure COAWST build environment for JOE_TC DiffGrid
 RUN cd ${COAWST_DIR} && \
@@ -633,7 +629,6 @@ RUN cd ${COAWST_DIR} && \
     chmod +x build_coawst_joetc_diffgrid.sh && \
     mkdir -p Build_roms && \
     sed -i \
-    -e 's/\$cmd_wrf/#\$cmd_wrf/g' \
     -e "s/-O2 -fPIC/${COMMON_FLAGS}/g" \
     -e "s|export\\s*MY_ROOT_DIR=.*|export MY_ROOT_DIR=${COAWST_DIR}|" \
     -e "s|export\\s*FORT=.*|export FORT=gfortran|" \
@@ -648,17 +643,21 @@ RUN cd ${COAWST_DIR} && \
     build_coawst_joetc_diffgrid.sh && \
     echo "export NETCDF4=1" >> build_coawst_joetc_diffgrid.sh
 
-# Compile the application
-RUN cd ${COAWST_DIR} && \
-printf '34\n1\n' | ./build_coawst_joetc_diffgrid.sh -j $(nproc)
 
 # Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_joetc_diffgrid
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_wrf_diff_grid
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-ENV PATH="/opt/COAWST:${PATH}"
+
+COPY /functions/create_all_sim_links /usr/bin/create_all_sim_links
+
+RUN chmod +x /usr/bin/create_all_sim_links
+
+
+
+
 
 WORKDIR ${COAWST_DIR}
 
