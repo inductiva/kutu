@@ -171,10 +171,10 @@ RUN cd ${COAWST_DIR} && \
     echo "export NETCDF4=1" >> build_coawst_ducknc.sh && \
     echo "export WRFIO_NCD_LARGE_FILE_SUPPORT=1" >> build_coawst_ducknc.sh 
 
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_ducknc.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_ducknc.sh -j $(nproc)
 
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_single_grid
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_single_grid
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_estuary.sh && \
@@ -194,9 +194,9 @@ RUN cd ${COAWST_DIR} && \
     -e "s|export\\s*ROMS_APPLICATION=.*|export ROMS_APPLICATION=ESTUARY_TEST2|" \
     build_coawst_estuary.sh && \
     echo "export NETCDF4=1" >> build_coawst_estuary.sh 
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_estuary.sh -j $(nproc)
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_estuary
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_estuary.sh -j $(nproc)
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_estuary
 
 # Configure COAWST build environment for INLET_TEST
 RUN cd ${COAWST_DIR} && \
@@ -219,11 +219,11 @@ RUN cd ${COAWST_DIR} && \
     echo "export NETCDF4=1" >> build_coawst_inlet.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_inlet.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_inlet.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_same_grid
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_same_grid
 
 # Configure COAWST build environment for INLET_TEST DiffGrid
 RUN cd ${COAWST_DIR} && \
@@ -248,11 +248,11 @@ RUN cd ${COAWST_DIR} && \
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DMCT_INTERP_OC2WV\"" >> build_coawst_inlet_diffgrid.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_inlet_diffgrid.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_inlet_diffgrid.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_diff_grid
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_diff_grid
 
 # Configure COAWST build environment for INLET_TEST InWave
 RUN cd ${COAWST_DIR} && \
@@ -277,11 +277,11 @@ RUN cd ${COAWST_DIR} && \
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DINWAVE_MODEL\"" >> build_coawst_inlet_inwave.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_inlet_inwave.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_inlet_inwave.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_inwave_same_grid
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_inwave_same_grid
 
 # Configure COAWST build environment for INLET_TEST Refined
 RUN cd ${COAWST_DIR} && \
@@ -305,12 +305,12 @@ RUN cd ${COAWST_DIR} && \
     # Add refinement specific flags
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DREFINEMENT\"" >> build_coawst_inlet_refined.sh
 
-# Compile the application with parallel processing
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_inlet_refined.sh -j $(nproc)
+# # Compile the application with parallel processing
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_inlet_refined.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_redefined_grid
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_redefined_grid
 
 # Configure COAWST build environment for INLET_TEST Swanonly
 RUN cd ${COAWST_DIR} && \
@@ -335,11 +335,11 @@ RUN cd ${COAWST_DIR} && \
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DSWAN_MODEL\"" >> build_coawst_inlet_swanonly.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_inlet_swanonly.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_inlet_swanonly.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_swanonly
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_swanonly
 
 # Configure COAWST build environment for InWave_shoreface
 RUN cd ${COAWST_DIR} && \
@@ -364,11 +364,11 @@ RUN cd ${COAWST_DIR} && \
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DINWAVE_MODEL\"" >> build_coawst_inwave_shoreface.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_inwave_shoreface.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_inwave_shoreface.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_inwave_sloping_beach
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_inwave_sloping_beach
 
 
 
@@ -421,10 +421,10 @@ RUN cd ${COAWST_DIR} && \
 
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    printf '34\n1\n'| ./build_coawst_joe_tc.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     printf '34\n1\n'| ./build_coawst_joe_tc.sh -j $(nproc)
 
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_wrf_same_grid
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_wrf_same_grid
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_ripcurrent.sh && \
@@ -448,11 +448,11 @@ RUN cd ${COAWST_DIR} && \
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DROMS_MODEL -DSWAN_MODEL\"" >> build_coawst_ripcurrent.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_ripcurrent.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_ripcurrent.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_rip_current
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_rip_current
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_sedbed.sh && \
@@ -476,11 +476,11 @@ RUN cd ${COAWST_DIR} && \
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DROMS_MODEL -DSEDIMENT\"" >> build_coawst_sedbed.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_sedbed.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_sedbed.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_sediments
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_sediments
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_trench.sh && \
@@ -504,11 +504,11 @@ RUN cd ${COAWST_DIR} && \
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DROMS_MODEL -DSEDIMENT -DMORPHOLOGY\"" >> build_coawst_trench.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_trench.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_trench.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_sediments_morphology
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_sediments_morphology
 
 RUN cd ${COAWST_DIR} && \
     cp Projects/wetdry/wetdry_slope_chan.h Projects/wetdry/wetdry.h &&\
@@ -533,11 +533,11 @@ RUN cd ${COAWST_DIR} && \
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DROMS_MODEL -DWETDRY\"" >> build_coawst_wetdry.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_wetdry.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_wetdry.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_wetdry
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_wetdry
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_Sed_floc_toy.sh && \
@@ -561,11 +561,11 @@ RUN cd ${COAWST_DIR} && \
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DROMS_MODEL -DSEDIMENT -DBIO_SEDIMENT\"" >> build_coawst_Sed_floc_toy.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_Sed_floc_toy.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_Sed_floc_toy.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_sediments_flocculation
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_sediments_flocculation
 
 RUN cd ${COAWST_DIR} && \
     cp build_coawst.sh build_coawst_vegrowth.sh && \
@@ -588,11 +588,11 @@ RUN cd ${COAWST_DIR} && \
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DROMS_MODEL -DSEDIMENT -DBIO_FENNEL -DESTUARYBGC -DVEGETATION -DSPECTRAL_LIGHT\"" >> build_coawst_vegrowth.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_vegrowth.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_vegrowth.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_vegetation_sediments_water
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_vegetation_sediments_water
 
 
 RUN cd ${COAWST_DIR} && \
@@ -616,15 +616,16 @@ RUN cd ${COAWST_DIR} && \
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DROMS_MODEL -DSEDIMENT -DVEGETATION -DMARSH_DYNAMICS -DWAVE_THRUST_MARSH -DMARSH_BIOMASS\"" >> build_coawst_marsh.sh
 
 # Compile the application
-RUN cd ${COAWST_DIR} && \
-    ./build_coawst_marsh.sh -j $(nproc)
+# RUN cd ${COAWST_DIR} && \
+#     ./build_coawst_marsh.sh -j $(nproc)
 
-# Rename the executable
-RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_marsh
+# # Rename the executable
+# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_marsh
 
 # Configure COAWST build environment for JOE_TC DiffGrid
+COPY /header/new_joe_tc.h /opt/COAWST/Projects/JOE_TC/DiffGrid/joe_tc_diffgrid.h
+
 RUN cd ${COAWST_DIR} && \
-    cp /opt/COAWST/Projects/JOE_TC/DiffGrid/joe_tc.h /opt/COAWST/Projects/JOE_TC/DiffGrid/joe_tc_diffgrid.h &&\
     cp build_coawst.sh build_coawst_joetc_diffgrid.sh && \
     chmod +x build_coawst_joetc_diffgrid.sh && \
     mkdir -p Build_roms && \
@@ -642,15 +643,49 @@ RUN cd ${COAWST_DIR} && \
     -e "s|export\\s*ROMS_APPLICATION=.*|export ROMS_APPLICATION=JOE_TC_DIFFGRID|" \
     build_coawst_joetc_diffgrid.sh && \
     echo "export NETCDF4=1" >> build_coawst_joetc_diffgrid.sh
+
+
 # Compile the application
 RUN cd ${COAWST_DIR} && \
-    ./build_coawst_joetc_diffgrid.sh -j $(nproc)
+printf '34\n1\n' | ./build_coawst_joetc_diffgrid.sh -j $(nproc)
+
 
 # Rename the executable
 RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_wrf_diff_grid
 
+COPY /header/test.h /opt/COAWST/Projects/JOE_TC/DiffGrid/joe_tc_diffgrid.h
+
+RUN cd ${COAWST_DIR} && \
+    cp build_coawst.sh build_coawst_joetc.sh && \
+    chmod +x build_coawst_joetc.sh && \
+    mkdir -p Build_roms && \
+    sed -i \
+    -e "s/-O2 -fPIC/${COMMON_FLAGS}/g" \
+    -e "s|export\\s*MY_ROOT_DIR=.*|export MY_ROOT_DIR=${COAWST_DIR}|" \
+    -e "s|export\\s*FORT=.*|export FORT=gfortran|" \
+    -e "s|export\\s*USE_MPI=.*|export USE_MPI=on|" \
+    -e "s|export\\s*USE_MPIF90=.*|export USE_MPIF90=on|" \
+    -e "s|export\\s*MY_ROOT_DIR=.*|export MY_ROOT_DIR=/opt/COAWST|" \
+    -e "s|export\\s*MY_PROJECT_DIR=.*|export MY_PROJECT_DIR=\${MY_ROOT_DIR}|" \
+    -e "s|export\\s*MY_HEADER_DIR=.*|export MY_HEADER_DIR=\${MY_PROJECT_DIR}/Projects/JOE_TC/DiffGrid|" \
+    -e "s|export\\s*MY_ANALYTICAL_DIR=.*|export MY_ANALYTICAL_DIR=\${MY_PROJECT_DIR}/Projects/JOE_TC/DiffGrid|" \
+    -e "s|export\\s*COAWST_APPLICATION=.*|export COAWST_APPLICATION=JOE_TC_DIFFGRID|" \
+    -e "s|export\\s*ROMS_APPLICATION=.*|export ROMS_APPLICATION=JOE_TC_DIFFGRID|" \
+    build_coawst_joetc.sh && \
+    echo "export NETCDF4=1" >> build_coawst_joetc.sh
+
+
+# Compile the application
+RUN cd ${COAWST_DIR} && \
+printf '34\n1\n' | ./build_coawst_joetc.sh -j $(nproc)
+
+
+# Rename the executable
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_Eurosea
+
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
+
 
 COPY /functions/create_all_sim_links /usr/bin/create_all_sim_links
 
