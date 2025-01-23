@@ -652,7 +652,6 @@ RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_wrf_diff_grid
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-
 COPY /functions/create_all_sim_links /usr/bin/create_all_sim_links
 
 RUN chmod +x /usr/bin/create_all_sim_links
