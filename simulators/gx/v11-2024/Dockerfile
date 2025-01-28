@@ -61,7 +61,8 @@ COPY --from=build /usr/lib/x86_64-linux-gnu/libaec.so.0 /usr/lib/x86_64-linux-gn
 COPY --from=build /usr/lib/x86_64-linux-gnu/libffi.so.8 /usr/lib/x86_64-linux-gnu/libffi.so.8
 COPY --from=build /usr/lib/x86_64-linux-gnu/libmpi.so.40 /usr/lib/x86_64-linux-gnu/libmpi.so.40
 COPY --from=build /usr/lib/x86_64-linux-gnu/libgsl.so.27 /usr/lib/x86_64-linux-gnu/libgsl.so.27
-COPY --from=build /usr/lib/x86_64-linux-gnu/libcuda.so.1 /usr/lib/x86_64-linux-gnu/libcuda.so.1
+# COPY --from=build /usr/lib/x86_64-linux-gnu/libcuda.so.1 /usr/lib/x86_64-linux-gnu/libcuda.so.1
+COPY --from=build /usr/lib/x86_64-linux-gnu/libcuda.so.535.183.01 /usr/lib/x86_64-linux-gnu/libcuda.so.535.183.01
 COPY --from=build /usr/lib/x86_64-linux-gnu/libcurl.so.4 /usr/lib/x86_64-linux-gnu/libcurl.so.4
 COPY --from=build /usr/lib/x86_64-linux-gnu/libudev.so.1 /usr/lib/x86_64-linux-gnu/libudev.so.1
 COPY --from=build /usr/lib/x86_64-linux-gnu/libidn2.so.0 /usr/lib/x86_64-linux-gnu/libidn2.so.0
@@ -110,4 +111,5 @@ COPY --from=build /opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64/libcubla
 COPY --from=build /opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64/libcusparse.so.12 /opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64/libcusparse.so.12
 
 RUN apt-get update -y && \
-    apt-get install -y openmpi-bin
+    apt-get install -y openmpi-bin && \
+    ln -s /usr/lib/x86_64-linux-gnu/libcuda.so.535.183.01 /usr/lib/x86_64-linux-gnu/libcuda.so.1
