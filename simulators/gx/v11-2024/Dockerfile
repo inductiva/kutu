@@ -10,9 +10,6 @@ RUN chmod +x /home/test_sim.sh
 
 FROM nvidia/cuda:12.2.2-devel-ubuntu22.04 as build
 
-ENV OMPI_ALLOW_RUN_AS_ROOT=1
-ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
-
 #For GX and NVIDIA HPC SDK
 ENV LD_LIBRARY_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/nccl/lib
@@ -60,3 +57,9 @@ COPY --from=build /opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64/libcuspa
 
 RUN apt-get update -y && \
     apt-get install -y openmpi-bin
+
+#For GX and NVIDIA HPC SDK
+ENV LD_LIBRARY_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/nccl/lib
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/2023/cuda/lib64
+ENV PATH="$PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/mpi/bin"
