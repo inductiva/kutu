@@ -74,32 +74,13 @@ ENV PATH=${SWAN_HOME}:$PATH
 
 
 
-# COPY macros.inc /${SWAN_TMP}/src/
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
 
 
 
 
-# Rename the output binary
-# RUN mv swan.exe snl-swan-mpi.exe
 
-
-# # Runtime stage
-# FROM debian:bullseye-slim
-
-# # Install runtime dependencies
-# RUN apt-get update && apt-get install -y \
-#     libgomp1 \
-#     && rm -rf /var/lib/apt/lists/*
-
-# # Create directory for binaries
-# WORKDIR /app
-
-# # Copy compiled binaries from builder stage
-# # COPY --from=builder /build/src/swan.ser /app/
-# # COPY --from=builder /build/src/swan.omp /app/
-
-# # Create directory for input/output files
-# RUN mkdir /data
 WORKDIR /swan/tutorial
 
 
