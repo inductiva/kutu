@@ -64,6 +64,12 @@ ENV PATH="$PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/mpi/bin"
 
 COPY --from=test_env /home /home
 
+#install openmpi (gx needs mpi to work)
+#This will not allow mpirun -np X gx
+#To try to run gx with mpi and maybe multiple GPUS we might need to use the mpi
+#provided by the NVIDIA HPC SDK instead of installing it like this
+#the issue is that to use the mpi provided by the NVIDIA HPC SDK we need to copy a lot
+#of files to the last stage and the image would be huge
 RUN apt update -qq && \
     apt install --no-install-recommends -y \
         openmpi-bin=4.1.2-2ubuntu1 && \
