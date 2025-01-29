@@ -63,3 +63,8 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/2023/cuda/
 ENV PATH="$PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/mpi/bin"
 
 COPY --from=test_env /home /home
+
+RUN apt update -qq && \
+    apt install --no-install-recommends -y \
+        openmpi-bin=4.1.2-2ubuntu1 && \
+    apt clean
