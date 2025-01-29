@@ -55,9 +55,7 @@ COPY --from=build /opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64/libcusol
 COPY --from=build /opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64/libcublasLt.so.12 /opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64/libcublasLt.so.12
 COPY --from=build /opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64/libcusparse.so.12 /opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64/libcusparse.so.12
 
-RUN apt-get update -y && \
-    apt-get install -y openmpi-bin
-
+COPY --from=build /opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/mpi/bin /opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/mpi/bin
 #For GX and NVIDIA HPC SDK
 ENV LD_LIBRARY_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/nccl/lib
