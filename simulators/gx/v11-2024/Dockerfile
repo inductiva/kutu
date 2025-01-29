@@ -37,6 +37,7 @@ SHELL ["conda", "run", "-n", "gxenv", "/bin/bash", "-c"]
 
 RUN git clone https://bitbucket.org/gyrokinetics/gx /gx && \
     cd /gx && \
+    git checkout 5ea4f957b1249c2dcd777165ec5412412cc9e189 && \
     make
 
 FROM nvidia/cuda:12.2.2-runtime-ubuntu22.04
