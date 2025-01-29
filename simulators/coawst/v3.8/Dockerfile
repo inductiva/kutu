@@ -305,12 +305,12 @@ RUN cd ${COAWST_DIR} && \
     # Add refinement specific flags
     echo "export MY_CPP_FLAGS=\"\${MY_CPP_FLAGS} -DREFINEMENT\"" >> build_coawst_inlet_refined.sh
 
-# # Compile the application with parallel processing
-# RUN cd ${COAWST_DIR} && \
-#     ./build_coawst_inlet_refined.sh -j $(nproc)
+# Compile the application with parallel processing
+RUN cd ${COAWST_DIR} && \
+    ./build_coawst_inlet_refined.sh -j $(nproc)
 
-# # Rename the executable
-# RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_redefined_grid
+# Rename the executable
+RUN mv ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_redefined_grid
 
 # Configure COAWST build environment for INLET_TEST Swanonly
 RUN cd ${COAWST_DIR} && \
