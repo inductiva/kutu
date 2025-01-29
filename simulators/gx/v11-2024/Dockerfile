@@ -1,8 +1,8 @@
 FROM inductiva/kutu:base-image_v0.1.0 as test_env
 
-# RUN wget https://storage.googleapis.com/inductiva-api-demo-files/amr-wind-input-example.zip -P /home/ && \
-#     unzip /home/amr-wind-input-example.zip -d /home/ && \
-#     rm /home/amr-wind-input-example.zip 
+RUN wget https://storage.googleapis.com/inductiva-api-demo-files/gx-input-example.zip -P /home/ && \
+    unzip /home/gx-input-example.zip -d /home/ && \
+    rm /home/gx-input-example.zip 
 
 COPY ./test_sim.sh /home/test_sim.sh
 
@@ -42,7 +42,7 @@ RUN git clone https://bitbucket.org/gyrokinetics/gx /gx && \
 FROM nvidia/cuda:12.2.2-runtime-ubuntu22.04
 
 COPY --from=test_env /home /home
-COPY --from=build /gx/gx /gx/gx
+COPY --from=build /gx/gx /bin/gx
 
 COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
 COPY --from=build /usr/lib/x86_64-linux-gnu/ /usr/lib/x86_64-linux-gnu/
@@ -63,3 +63,5 @@ ENV LD_LIBRARY_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/2023/math_libs/lib64
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/nccl/lib
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/2023/cuda/lib64
 ENV PATH="$PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/2023/comm_libs/mpi/bin"
+
+COPY --from=test_env /home /home
