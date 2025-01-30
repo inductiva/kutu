@@ -42,13 +42,15 @@ ENV PATH ${OPENMPI_HOME}/bin:$PATH
 ENV LD_LIBRARY_PATH ${OPENMPI_HOME}/lib:$LD_LIBRARY_PATH
 
 # Environment variables and arguments for SWAN
-ENV SWAN_HOME=/swan
+ENV SWAN_HOME=/home
 ARG SWAN_VERSION=2.2
 ARG SWAN_TMP=/tmp/swan
+ARG SWAN_EXAMPLES=/home/snl-input-example
+
 ENV SWAN_BIN=swan.exe
 
 # Instal SWAN from source code
-RUN mkdir ${SWAN_TMP}
+RUN mkdir -p ${SWAN_TMP} ${SWAN_EXAMPLES}
 WORKDIR ${SWAN_TMP}
 
 ENV FLAGS_MSC ="-W0 -assume byterecl -traceback -diag-disable 8290 -diag-disable 8291 -diag-disable 8293"
@@ -61,16 +63,14 @@ RUN wget https://github.com/sandialabs/SNL-SWAN/archive/refs/tags/v${SWAN_VERSIO
     cd src &&\
     perl platform.pl && \
     make mpi FLAGS_OPT="-g -fallow-argument-mismatch" > build.log |tee build.log && \
-    mkdir ${SWAN_HOME} && \
+    mkdir -p ${SWAN_HOME} && \
     mv ../tutorial ${SWAN_HOME} &&\
-    mv swan.exe hcat.exe swanrun build.log ${SWAN_HOME}/tutorial && \
-    chmod +rx ${SWAN_HOME}/tutorial/swanrun 
+    mv swan.exe hcat.exe swanrun /bin && \
+    chmod +rx /bin/swanrun 
 
-RUN sed -i 's/DEALLOCATE(TMP)/IF (ALLOCATED(TMP)) DEALLOCATE(TMP)/g' /${SWAN_TMP}/src/swanpre1.f 
 
-COPY /INPUT /swan/tutorial
-# cat swanpre1.f |grep DEALLOCATE 
-ENV PATH=${SWAN_HOME}:$PATH
+COPY /INPUT ${SWAN_HOME}/tutorial
+
 
 
 
@@ -81,8 +81,8 @@ RUN chmod +x /home/test_sim.sh
 
 
 
-WORKDIR /swan/tutorial
+WORKDIR ${SWAN_HOME}/tutorial
 
 
 # Default command (can be overridden)
-CMD ["snl-swan-mpi.exe"]
+CMD ["swan.exe"]
