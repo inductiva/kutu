@@ -45,7 +45,7 @@ ENV LD_LIBRARY_PATH ${OPENMPI_HOME}/lib:$LD_LIBRARY_PATH
 ENV SWAN_HOME=/home
 ARG SWAN_VERSION=2.2
 ARG SWAN_TMP=/tmp/swan
-ARG SWAN_EXAMPLES=/home/snl-input-example
+ARG SWAN_EXAMPLES=/home
 
 ENV SWAN_BIN=swan.exe
 
@@ -63,13 +63,12 @@ RUN wget https://github.com/sandialabs/SNL-SWAN/archive/refs/tags/v${SWAN_VERSIO
     cd src &&\
     perl platform.pl && \
     make mpi FLAGS_OPT="-g -fallow-argument-mismatch" > build.log |tee build.log && \
-    mkdir -p ${SWAN_HOME} && \
-    mv ../tutorial ${SWAN_HOME} &&\
+    mv ../tutorial ${SWAN_EXAMPLES} &&\
     mv swan.exe hcat.exe swanrun /bin && \
     chmod +rx /bin/swanrun 
 
 
-COPY /INPUT ${SWAN_HOME}/tutorial
+COPY /INPUT ${SWAN_EXAMPLES}/tutorial
 
 
 
@@ -81,7 +80,7 @@ RUN chmod +x /home/test_sim.sh
 
 
 
-WORKDIR ${SWAN_HOME}/tutorial
+WORKDIR ${SWAN_EXAMPLES}/tutorial
 
 
 # Default command (can be overridden)
