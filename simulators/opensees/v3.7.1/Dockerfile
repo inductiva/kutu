@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     liblapack-dev \
     libopenmpi-dev \
     libmkl-rt \
+    openmpi-common=4.1.2-2ubuntu1 \
     libmkl-blacs-openmpi-lp64 \
     libscalapack-openmpi-dev \
     wget \
@@ -33,20 +34,25 @@ RUN wget https://github.com/OpenSees/OpenSees/archive/refs/tags/${OPENSEES_VERSI
     && mv OpenSees-* opensees
 
 WORKDIR /src/opensees
+RUN apt-get update && apt-get install -y \
+    libmumps-dev 
+
+ENV CXXFLAGS="-fpermissive"
 
 # Build OpenSees
 RUN mkdir build \
     && cd build \
     && conan install .. --build missing > build.log \
     && cmake .. \
-        -DUSE_MUMPS=ON \
-        -DMUMPS_DIR=/src/opensees/OTHER/MUMPS \
-        -DMUMPS_INCLUDE_DIR=/src/opensees/OTHER/MUMPS/include \
-        -DSCALAPACK_LIBRARIES=/usr/lib/x86_64-linux-gnu/libscalapack-openmpi.so \
-    && cmake --build . --target OpenSees -j4 \
+        -DMUMPS_DIR=/usr/lib/x86_64-linux-gnu \
+        -DMUMPS_INCLUDE_DIR=/usr/include \
+        -Darith=d -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded" \
+        -DOPENMPI=TRUE\
+        -DSCALAPACK_LIBRARIES="/usr/lib/x86_64-linux-gnu/libscalapack-openmpi.so;/usr/lib/x86_64-linux-gnu/libmkl_blacs_openmpi_lp64.so" \
+    && cmake --build . --target OpenSeesMP -j4 \
     && cmake --build . --target OpenSeesPy -j4 \
     && mv ./lib/OpenSeesPy.so ./opensees.so \
-    && mv ./bin/OpenSees /bin
+    && mv ./bin/OpenSeesMP /bin
 
 
 RUN mkdir -p /usr/lib/tcl8.6/ && \
@@ -54,8 +60,6 @@ RUN mkdir -p /usr/lib/tcl8.6/ && \
 
 COPY /example/Example2.tcl /src/examples/
 
-ENV MUMPS_DIR=/src/opensees/OTHER/MUMPS
-ENV MUMPS_INCLUDE_DIR=/src/opensees/OTHER/MUMPS/include
 
 
 COPY ./test_sim.sh /home/test_sim.sh

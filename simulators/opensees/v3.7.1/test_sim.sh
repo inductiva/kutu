@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /src/examples
-OpenSees Example2.tcl
+mpirun -np 4 --allow-run-as-root OpenSeesMP Example2.tcl
