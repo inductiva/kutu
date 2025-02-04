@@ -50,12 +50,13 @@ RUN mkdir build \
         -DOPENMPI=TRUE\
         -DSCALAPACK_LIBRARIES="/usr/lib/x86_64-linux-gnu/libscalapack-openmpi.so;/usr/lib/x86_64-linux-gnu/libmkl_blacs_openmpi_lp64.so" \
     && cmake --build . --target OpenSeesMP -j4 \
+    && cmake --build . --target OpenSees -j4 \
     && cmake --build . --target OpenSeesPy -j4 \
     && mv ./lib/OpenSeesPy.so ./opensees.so \
     && mv ./bin/OpenSeesMP /bin
 
 
-RUN mkdir -p /usr/lib/tcl8.6/ && \
+RUN mkdir -p /usr/lib/tcl8.6/* && \
     cp -r /src/opensees/build/lib/tcl8.6/* /usr/lib/tcl8.6/
 
 COPY /example/Example2.tcl /src/examples/
