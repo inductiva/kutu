@@ -12,9 +12,15 @@ jobs:
 
       - name: Fetch Docker Tags and Sizes
         run: |
-            URL="https://hub.docker.com/v2/repositories/inductiva/kutu/tags/?page_size=100"
-            RESPONSE=$(curl -s "$URL")
-            echo "| Tag | Size (MB) |" > tags_table.md
-            echo "|---|---|" >> tags_table.md
-            echo "$RESPONSE" | jq -r '.results[] | select(.images[0].size != null) | select(.name | endswith("_dev") | not) | {name, size: (.images[0].size / 1048576)}' | jq -s 'sort_by(.size) | .[] | "| " + .name + " | " + (.size | tostring) + " MB |"'
+          URL="https://hub.docker.com/v2/repositories/inductiva/kutu/tags/?page_size=100"
+          RESPONSE=$(curl -s "$URL")
+          echo "| Tag | Size (MB) |" > README.md
+          echo "|---|---|" >> README.md
+          echo "$RESPONSE" | jq -r '.results[] | select(.images[0].size != null) | select(.name | endswith("_dev") | not) | {name, size: (.images[0].size / 1048576)}' | jq -s 'sort_by(.size) | .[] | "| " + .name + " | " + (.size | tostring) + " MB |"' >> README.md
 
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add README.md
+          git diff --cached --quiet || (git commit -m "Update Docker tags table" && git push)
