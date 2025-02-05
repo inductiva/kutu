@@ -16,4 +16,5 @@ jobs:
             RESPONSE=$(curl -s "$URL")
             echo "| Tag | Size (MB) |" > tags_table.md
             echo "|---|---|" >> tags_table.md
-            echo "$RESPONSE" | jq -r '.results[] | select(.images[0].size != null) | "| " + .name + " | " + (.images[0].size / 1048576 | tostring) + " MB |"'
+            echo "$RESPONSE" | jq -r '.results[] | select(.images[0].size != null) | select(.name | endswith("_dev") | not) | {name, size: (.images[0].size / 1048576)}' | jq -s 'sort_by(.size) | .[] | "| " + .name + " | " + (.size | tostring) + " MB |"'
+
