@@ -30,7 +30,10 @@ RUN apt-get update && apt-get install -y \
     g++ perl wget make git \
     ca-certificates gcc curl libxml2-dev libcurl4-openssl-dev cmake \
     tcsh ksh csh binutils file zlib1g-dev \
-    && rm -rf /var/lib/apt/lists/*
+    libopenmpi-dev=4.1.2-2ubuntu1 \
+    openmpi-common=4.1.2-2ubuntu1 \
+    openmpi-bin=4.1.2-2ubuntu1 && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR ${BASE_DIR}
 
@@ -76,16 +79,6 @@ RUN wget https://github.com/Unidata/netcdf-fortran/archive/v${NETCDF_FORTRAN_VER
     cd .. && \
     rm -rf netcdf-fortran* v${NETCDF_FORTRAN_VERSION}.tar.gz
 
-# Install MPICH
-RUN wget https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/mpich-3.0.4.tar.gz && \
-    tar xzvf mpich-3.0.4.tar.gz && \
-    cd mpich-3.0.4 && \
-    ./configure --prefix=$DIR/mpich && \
-    make -j 4 && \
-    make install && \
-    cd .. && \
-    rm -rf mpich*
-
 
 # COAWST environment setup
 ENV MCT_INCDIR=/opt/COAWST/Lib/MCT/include \
@@ -100,8 +93,6 @@ ENV MCT_INCDIR=/opt/COAWST/Lib/MCT/include \
     MY_PROJECT_DIR=/opt/COAWST \
     USE_MPI=ON \
     USE_MPIF90=ON \
-    MPICH_F90=gfortran \
-    MPICH_FC=gfortran \
     FORT=gfortran \
     CC=gcc \
     CXX=g++ \
@@ -109,14 +100,11 @@ ENV MCT_INCDIR=/opt/COAWST/Lib/MCT/include \
     WWATCH3_NETCDF=NC4 \
     NETCDF4=1 \
     WRFIO_NCD_LARGE_FILE_SUPPORT=1 \
-    LD_LIBRARY_PATH=$DIR/netcdf/lib:$DIR/grib2/lib:$DIR/mpich/lib \
-    PATH=$DIR/netcdf/bin:$DIR/mpich/bin:${COAWST_DIR}:${PATH} \
+    LD_LIBRARY_PATH=$DIR/netcdf/lib:$DIR/grib2/lib:${LD_LIBRARY_PATH} \
+    PATH=$DIR/netcdf/bin:${COAWST_DIR}:${PATH} \
     JASPERLIB=$DIR/grib2/lib \
     JASPERINC=$DIR/grib2/include \
-    MPI_ROOT=$DIR/mpich \
-    MPI_INCLUDE=$DIR/mpich/include \
     HDF5=$DIR/netcdf \
-    MPI_LIB=$DIR/mpich/lib\
     COMMON_FLAGS="-O2 -fPIC -fno-strict-aliasing -fno-lto -w"\
     MY_CPP_FLAGS="-DDUCKNC"
 
@@ -141,13 +129,13 @@ RUN cd ${COAWST_DIR}/Lib/SCRIP_COAWST && \
            -e 's/USE_MPI=.*/USE_MPI=on/' \
            -e 's/USE_MPIF90=.*/USE_MPIF90=on/' \
            makefile && \
-    make -j1
+    make -j1 >coawst_make.txt 2>&1
 
 RUN cd $MCT_DIR && \
-    ./configure FC=mpif90  FCFLAGS="-O2 -fPIC -frecord-marker=4 -fconvert=big-endian" \
+    ./configure FC=mpif90  FCFLAGS="-O2 -fPIC -frecord-marker=4 -fconvert=big-endian -fallow-argument-mismatch" \
     -prefix=${MCT_DIR} &&\
-    make && \
-    make install 
+    make >mct_make.txt 2>&1 && \
+    make install >mct_make_install.txt 2>&1
 
 # Configure COAWST build environment
 RUN cd ${COAWST_DIR} && \
