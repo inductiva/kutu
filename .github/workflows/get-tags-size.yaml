@@ -1,0 +1,19 @@
+name: Update Docker Tags Table
+
+on:
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Fetch Docker Tags and Sizes
+        run: |
+          URL="https://hub.docker.com/v2/repositories/inductiva/kutu/tags/?page_size=100"
+          RESPONSE=$(curl -s "$URL")
+          echo "| Tag | Size (MB) |" > tags_table.md
+          echo "|---|---|" >> tags_table.md
+          echo "$RESPONSE" | jq -r '.results[] | "| " + .name + " | " + ( .images[0].size / 1048576 | tostring ) + " MB |"'
