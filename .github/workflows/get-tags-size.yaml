@@ -16,7 +16,7 @@ jobs:
           RESPONSE=$(curl -s "$URL")
           echo "| Tag | Size (MB) |" > README.md
           echo "|---|---|" >> README.md
-          echo "$RESPONSE" | jq -r '.results[] | select(.images[0].size != null) | select(.name | endswith("_dev") | not) | {name, size: (.images[0].size / 1048576)}' | jq -s 'sort_by(.size) | .[] | "| " + .name + " | " + (.size | tostring) + " MB |"' >> README.md
+          echo "$RESPONSE | jq -r '.results[] | select(.images[0].size != null) | select(.name | endswith("_dev") | not) | {name, size: (.images[0].size / 1048576)}' | jq -s 'sort_by(.size) | .[] | "| " + .name + " | " + (.size | tostring) + " MB |' >> README.md
 
       - name: Commit and Push Changes
         run: |
