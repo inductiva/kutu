@@ -20,17 +20,26 @@ jobs:
           NEW_TABLE+="|---|---|\n"
           NEW_TABLE+=$(echo "$RESPONSE" | jq -r '.results[] | select(.images[0].size != null) | select(.name | endswith("_dev") | not) | {name, size: (.images[0].size / 1048576)}' | jq -s 'sort_by(.size) | .[] | "| " + .name + " | " + (.size | tostring) + " MB |"' | sed 's/"//g')
 
-          # Save new table to a temporary file
-          echo "<!-- DOCKER-TAGS-TABLE -->" > temp_table.md
-          echo -e "$NEW_TABLE" >> temp_table.md
-          echo "<!-- END-DOCKER-TAGS-TABLE -->" >> temp_table.md
+          # Create a temporary file with new content
+          TEMP_FILE=$(mktemp)
+          {
+              echo "<!-- DOCKER-TAGS-TABLE -->"
+              echo -e "$NEW_TABLE"
+              echo "<!-- END-DOCKER-TAGS-TABLE -->"
+          } > "$TEMP_FILE"
 
-          # Remove the old table and insert the new table
-          sed -i '/<!-- DOCKER-TAGS-TABLE -->/,/<!-- END-DOCKER-TAGS-TABLE -->/d' README.md
-          sed -i '/<!-- DOCKER-TAGS-TABLE -->/r temp_table.md' README.md
+          # Debug: Print the generated table
+          cat "$TEMP_FILE"
+
+          # Replace the old table while keeping the placeholders
+          sed -i -e '/<!-- DOCKER-TAGS-TABLE -->/,/<!-- END-DOCKER-TAGS-TABLE -->/ {
+              /<!-- DOCKER-TAGS-TABLE -->/!d
+              r '"$TEMP_FILE"'
+              d
+          }' README.md
 
           # Cleanup
-          rm temp_table.md
+          rm "$TEMP_FILE"
 
 
       - name: Commit and Push Changes
