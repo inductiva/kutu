@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+    
+      - name: Set up Git config
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
 
       - name: Fetch Docker Tags and Sizes
         run: |
@@ -59,7 +64,7 @@ jobs:
 
       - name: Commit and Push Changes
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add README.md
-          git diff --cached --quiet || (git commit -m "Update Docker tags table" && git push)
+            # Checkout the target branch of the PR to commit changes to
+            git checkout $GITHUB_REF
+            git add README.md
+            git diff --cached --quiet || (git commit -m "Update Docker tags table" && git push)
