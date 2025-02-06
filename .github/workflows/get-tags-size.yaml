@@ -2,7 +2,7 @@ name: Update Docker Tags Table
 
 on:
   workflow_dispatch:  # Allows manual triggering
-  push:
+  pull_request:
     branches:
       - main
       - development
@@ -11,8 +11,16 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout the branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}  # Checkout the branch that triggered the PR
+    
+      - name: Set up Git
+        run: |
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@github.com"
+
 
       - name: Fetch Docker Tags and Sizes
         run: |
@@ -57,9 +65,14 @@ jobs:
           # Cleanup
           rm "$TEMP_FILE"
 
-      - name: Commit and Push Changes
+      - name: Check if there are changes
+        id: check_changes
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add README.md
-          git diff --cached --quiet || (git commit -m "Update Docker tags table" && git push)
+            git diff --exit-code README.md || echo "Changes detected"
+        
+      - name: Commit changes if any
+        if: steps.check_changes.outputs.exitcode != 0
+        run: |
+            git add README.md
+            git commit -m "Update README for PR #${{ github.event.pull_request.number }}"
+            git push
