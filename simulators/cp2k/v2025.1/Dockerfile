@@ -4,7 +4,7 @@
 FROM ubuntu:22.04 AS build
 
 # Build-specific arguments
-ARG CP2K_VERSION=2023.2
+ARG CP2K_VERSION=2025.1
 ARG CP2K_BRANCH=support/v${CP2K_VERSION}
 ARG BUILD_JOBS=8
 ARG TARGET_CPU=generic
@@ -59,9 +59,7 @@ FROM ubuntu:22.04 AS install
 ARG CP2K_ROOT=/opt/cp2k
 
 
-ENV OMPI_ALLOW_RUN_AS_ROOT=1\
-    OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1\
-    OMPI_MCA_btl_vader_single_copy_mechanism=none\
+ENV OMPI_MCA_btl_vader_single_copy_mechanism=none\
     OMP_STACKSIZE=16M\
     PATH=/opt/cp2k/exe/local:${PATH}
 
@@ -87,15 +85,23 @@ RUN /bin/bash -c -o pipefail \
     ln -sf ${CP2K_ROOT}/exe/local/cp2k.psmp /usr/local/bin/cp2k.popt"
 
 
-# Source setup script in .bashrc for interactive sessions
-RUN echo "source /opt/cp2k/tools/toolchain/install/setup" >> /etc/bash.bashrc
+# Create entrypoint script file
+RUN printf "#!/bin/bash\n\
+ulimit -c 0 -s unlimited\n\
+\
+export OMPI_MCA_btl_vader_single_copy_mechanism=none\n\
+export OMP_STACKSIZE=16M\n\
+export PATH=/opt/cp2k/exe/local:\${PATH}\n\
+source /opt/cp2k/tools/toolchain/install/setup\n\
+\"\$@\"" \
+>/usr/local/bin/entrypoint.sh && chmod +rx /usr/local/bin/entrypoint.sh
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
 # Configure container
 WORKDIR /home
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-RUN bash -c 'ulimit -c 0 -s unlimited'
 
-CMD ["cp2k", "--help"]
+CMD ["cp2k.psmp"]
