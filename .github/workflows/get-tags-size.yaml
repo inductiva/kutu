@@ -11,13 +11,16 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout the branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}  # Checkout the branch that triggered the PR
     
-      - name: Set up Git config
+      - name: Set up Git
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@github.com"
+
 
       - name: Fetch Docker Tags and Sizes
         run: |
@@ -62,17 +65,8 @@ jobs:
           # Cleanup
           rm "$TEMP_FILE"
 
-      - name: Commit and Push Changes
+      - name: Commit changes
         run: |
-            # Set up Git config
-            git config --global user.name "github-actions"
-            git config --global user.email "github-actions@github.com"
-  
-            # Stage changes
             git add README.md
-            
-            # Commit changes if necessary
-            git diff --cached --quiet || (git commit -m "Update Docker tags table")
-            
-            # Push changes to the current branch (detached HEAD issue workaround)
-            git push origin HEAD:$(git rev-parse --abbrev-ref HEAD)
+            git commit -m "Update README for PR #${{ github.event.pull_request.number }}"
+            git push
