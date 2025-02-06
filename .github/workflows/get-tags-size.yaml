@@ -71,5 +71,8 @@ jobs:
             # Stage changes
             git add README.md
             
-            # Check if there are any changes and commit if necessary
-            git diff --cached --quiet || (git commit -m "Update Docker tags table" && git push)
+            # Commit changes if necessary
+            git diff --cached --quiet || (git commit -m "Update Docker tags table")
+            
+            # Push changes to the current branch (detached HEAD issue workaround)
+            git push origin HEAD:$(git rev-parse --abbrev-ref HEAD)
