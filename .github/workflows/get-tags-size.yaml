@@ -23,7 +23,7 @@ jobs:
           BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
           # Apply filtering based on branch
-          if [[ "$BRANCH" == "dev" ]]; then
+          if [[ "$BRANCH" == "development" ]]; then
             FILTER='.results[] | select(.images[0].size != null) | select(.name | endswith("_dev"))'
           else
             FILTER='.results[] | select(.images[0].size != null) | select(.name | endswith("_dev") | not)'
