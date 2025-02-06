@@ -49,11 +49,12 @@ docker pull inductiva/kutu:gromacs_v2022.2
 <!-- DOCKER-TAGS-TABLE -->
 | Tag | Size (MB) |
 |---|---|
-| xbeach_v1.24_dev | 0.001312255859375 MB |
+| nwchem_v7.2.2_dev | 0.1544809341430664 MB |
 | echo_v0.1_dev | 28.16631507873535 MB |
 | splishsplash_v2.13.0_dev | 41.682379722595215 MB |
 | openfast_v3.5.2_dev | 73.00076580047607 MB |
 | cans_v2.3.4_dev | 90.67843914031982 MB |
+| xbeach_v1.24_dev | 94.5681209564209 MB |
 | swash_v9.01A_dev | 97.0221700668335 MB |
 | fvcom_v5.1.0_dev | 100.73816299438477 MB |
 | gromacs_v2022.2_dev | 101.88790035247803 MB |
