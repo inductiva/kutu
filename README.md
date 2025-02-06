@@ -47,5 +47,4 @@ docker pull inductiva/kutu:gromacs_v2022.2
 ### Docker Images
 
 <!-- DOCKER-TAGS-TABLE -->
-
 <!-- END-DOCKER-TAGS-TABLE -->
