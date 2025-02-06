@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     libhdf5-openmpi-dev \
     libnetcdf-dev \
+    libomp-dev \
     libnetcdff-dev \
     && rm -rf /var/lib/apt/lists/*
 
@@ -45,10 +46,19 @@ RUN cd src && \
     OUTPUTLIB="-L/usr/lib/x86_64-linux-gnu" \
     FC=mpif90 \
     OPTS="-ffree-form -ffree-line-length-none -O2 -finline-functions" \
-    DM="-DMPI" \
-    CPP="cpp -C -P -traditional -Wno-invalid-pp-token -ffreestanding" \
     make \
-    && cp ../run/cm1.exe /bin/
+    && mv ../run/cm1.exe /bin/
+
+
+
+RUN cd src && \
+    OUTPUTINC="-I/usr/include" \
+    OUTPUTLIB="-L/usr/lib/x86_64-linux-gnu" \
+    OMP="-DOPENMP" \
+    FC=gfortran \
+    OPTS="-ffree-form -ffree-line-length-none -O2 -finline-functions -fopenmp" \
+    make \
+    && mv ../run/cm1.exe /bin/cm1_openmp.exe
     
 
     COPY ./test_sim.sh /home/test_sim.sh
