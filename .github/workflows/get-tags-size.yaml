@@ -64,7 +64,12 @@ jobs:
 
       - name: Commit and Push Changes
         run: |
-            # Checkout the target branch of the PR to commit changes to
-            git checkout $GITHUB_REF
+            # Set up Git config
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@github.com"
+  
+            # Stage changes
             git add README.md
+            
+            # Check if there are any changes and commit if necessary
             git diff --cached --quiet || (git commit -m "Update Docker tags table" && git push)
