@@ -65,7 +65,13 @@ jobs:
           # Cleanup
           rm "$TEMP_FILE"
 
-      - name: Commit changes
+      - name: Check if there are changes
+        id: check_changes
+        run: |
+            git diff --exit-code README.md || echo "Changes detected"
+        
+      - name: Commit changes if any
+        if: steps.check_changes.outputs.exitcode != 0
         run: |
             git add README.md
             git commit -m "Update README for PR #${{ github.event.pull_request.number }}"
