@@ -21,7 +21,7 @@ jobs:
           NEW_TABLE+=$(echo "$RESPONSE" | jq -r '.results[] | select(.images[0].size != null) | select(.name | endswith("_dev") | not) | {name, size: (.images[0].size / 1048576)}' | jq -s 'sort_by(.size) | .[] | "| " + .name + " | " + (.size | tostring) + " MB |"' | sed 's/"//g')
 
           # Insert/Replace the table in README.md
-          NEW_TABLE=$(printf "<!-- DOCKER-TAGS-TABLE -->\n%s\n<!-- END-DOCKER-TAGS-TABLE -->\n" "$NEW_TABLE")
+          NEW_TABLE=$(printf "<\!-- DOCKER-TAGS-TABLE -->\n%s\n<\!-- END-DOCKER-TAGS-TABLE -->\n" "$NEW_TABLE")
           sed -i '/<!-- DOCKER-TAGS-TABLE -->/,/<!-- END-DOCKER-TAGS-TABLE -->/c\<!-- DOCKER-TAGS-TABLE -->\n'"$NEW_TABLE"'\n<!-- END-DOCKER-TAGS-TABLE -->' README.md
 
       - name: Commit and Push Changes
