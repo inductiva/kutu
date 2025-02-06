@@ -30,12 +30,7 @@ jobs:
           # Determine branch
           BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-          # Apply filtering based on branch
-          if [[ "$BRANCH" == "development" ]]; then
-            FILTER='.results[] | select(.full_size != null) | select(.name | endswith("_dev"))'
-          else
-            FILTER='.results[] | select(.full_size != null) | select(.name | endswith("_dev") | not)'
-          fi
+          FILTER='.results[] | select(.full_size != null) | select(.name | endswith("_dev") | not)'
 
           # Generate the new table
           NEW_TABLE="| Tag | Size (MB) |\n"
