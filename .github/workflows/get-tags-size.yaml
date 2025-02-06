@@ -24,15 +24,15 @@ jobs:
 
           # Apply filtering based on branch
           if [[ "$BRANCH" == "development" ]]; then
-            FILTER='.results[] | select(.images[0].size != null) | select(.name | endswith("_dev"))'
+            FILTER='.results[] | select(.full_size != null) | select(.name | endswith("_dev"))'
           else
-            FILTER='.results[] | select(.images[0].size != null) | select(.name | endswith("_dev") | not)'
+            FILTER='.results[] | select(.full_size != null) | select(.name | endswith("_dev") | not)'
           fi
 
           # Generate the new table
           NEW_TABLE="| Tag | Size (MB) |\n"
           NEW_TABLE+="|---|---|\n"
-          NEW_TABLE+=$(echo "$RESPONSE" | jq -r "$FILTER | {name, size: (.images[0].size / 1048576)}" \
+          NEW_TABLE+=$(echo "$RESPONSE" | jq -r "$FILTER | {name, size: (.full_size / 1048576)}" \
             | jq -s 'sort_by(.size) | .[] | "| " + .name + " | " + (.size | tostring) + " MB |"' \
             | sed 's/"//g')
 
