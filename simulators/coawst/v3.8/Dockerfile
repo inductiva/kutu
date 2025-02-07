@@ -87,7 +87,7 @@ ENV MCT_INCDIR=/opt/COAWST/Lib/MCT/include \
     COAWST_DIR=/opt/COAWST \
     NETCDF=/usr/local/netcdf \
     NETCDF_CONFIG=/usr/local/netcdf/bin/nc-config \
-    FCFLAGS="${FCFLAGS} -ffree-form -ffree-line-length-none -fconvert=big-endian -frecord-marker=4 -fallow-argument-mismatch -fallow-invalid-boz" \
+    FCFLAGS="${FCFLAGS}-ffree-form -ffree-line-length-none -fconvert=big-endian -frecord-marker=4 -fallow-argument-mismatch -fallow-invalid-boz" \
     FFLAGS="$FCFLAGS" \
     MY_ROOT_DIR=/opt/COAWST \
     MY_PROJECT_DIR=/opt/COAWST \
@@ -116,8 +116,6 @@ RUN cd ${BASE_DIR} && \
     git clone https://github.com/DOI-USGS/COAWST.git && \
     cd COAWST && \
     git checkout ${COAWST_COMMIT}
-
-    
 
 
 # Build SCRIP_COAWST
@@ -678,9 +676,6 @@ RUN chmod +x /home/test_sim.sh
 COPY /functions/create_all_sim_links /usr/bin/create_all_sim_links
 
 RUN chmod +x /usr/bin/create_all_sim_links
-
-
-
 
 
 WORKDIR ${COAWST_DIR}
