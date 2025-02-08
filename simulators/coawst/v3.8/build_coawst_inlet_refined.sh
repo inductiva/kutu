@@ -130,7 +130,7 @@ done
 # Set the CPP option defining the particular application. This will
 # determine the name of the ".h" header file with the application
 # CPP definitions. Also this will activate the switch file for WW3.
-export COAWST_APPLICATION=TEST
+export COAWST_APPLICATION=INLET_TEST
 
 # Set the ROMS_APPLICATION to be the same as the COAWST_APP.
 # Do not change this. We use the COAWST APP for other checks.
@@ -302,8 +302,8 @@ fi
 # customized biology model header file (like fennel.h, nemuro.h, ecosim.h,
 # etc).
 
-   export MY_HEADER_DIR=/workdir/output/artifacts
-   export MY_ANALYTICAL_DIR=/workdir/output/artifacts
+   export MY_HEADER_DIR=${MY_PROJECT_DIR}/Projects/Inlet_test/Refined
+   export MY_ANALYTICAL_DIR=${MY_PROJECT_DIR}/Projects/Inlet_test/Refined
 
 # Put the binary to execute in the following directory.
 
