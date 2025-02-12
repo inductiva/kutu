@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 as test_env
+FROM ubuntu:22.04 as test_env
 
 RUN apt-get update && apt-get install -y \
     wget \
@@ -10,13 +10,18 @@ RUN apt-get update && apt-get install -y \
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-FROM ubuntu:24.04 as build
+FROM ubuntu:22.04 as build
 
 ENV OMPI_ALLOW_RUN_AS_ROOT=1
 ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
-RUN apt-get update \
-    && apt-get install -y \
+RUN apt-get update && \
+    apt-get install -y ca-certificates gpg wget && \
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null && \
+    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null && \
+    apt-get update && \
+    apt-get install -y kitware-archive-keyring && \
+    apt-get install -y cmake && \
     fftw3-dev pkg-config \
     build-essential \
     openmpi-common \
@@ -27,7 +32,6 @@ RUN apt-get update \
     libgomp1 \
     python3 \
     fftw3 \
-    cmake \
     unzip \
     wget && \
     wget https://github.com/gromacs/gromacs/archive/refs/tags/v2025.0.zip -P / && \
@@ -45,7 +49,7 @@ RUN apt-get update \
     mv /usr/local/gromacs/bin/gmx_mpi /usr/local/gromacs/bin/gmx && \
     rm -r /gromacs-2025.0
 
-FROM ubuntu:24.04 
+FROM ubuntu:22.04 
 
 COPY --from=build /usr/local/gromacs /usr/local/gromacs
 
