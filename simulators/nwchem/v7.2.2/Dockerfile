@@ -33,8 +33,8 @@ ENV NWCHEM_TOP=/nwchem-7.2.2 \
     #source: https://nwchemgit.github.io/FAQ.html#nb_wait_for_handle-error
     COMEX_MAX_NB_OUTSTANDING=16
 
-RUN wget https://github.com/nwchemgit/nwchem/releases/download/v7.2.2-release/nwchem-7.2.2-release.revision-74936fb9-srconly.2023-11-03.tar.bz2 && \
-    tar -xvjf nwchem-7.2.2-release.revision-74936fb9-srconly.2023-11-03.tar.bz2 && \
+RUN wget https://github.com/nwchemgit/nwchem/releases/download/v7.2.3-release/nwchem-7.2.3-release.revision-d690e065-srconly.2024-08-27.tar.bz2 && \
+    tar -xvjf nwchem-7.2.3-release.revision-d690e065-srconly.2024-08-27.tar.bz2 && \
     cd $NWCHEM_TOP/src && \
     make nwchem_config && \
     make 64_to_32 && \
