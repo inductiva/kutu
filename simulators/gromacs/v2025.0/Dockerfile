@@ -30,9 +30,10 @@ RUN apt-get update \
     unzip \
     wget && \
     # Install cmake
-    wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/latest/download/cmake-3.29.1.tar.gz && \
-    tar -xzf cmake.tar.gz && cd cmake-3.29.1 && \
+    wget -O cmake.tar.gz https://github.com/Kitware/CMake/archive/refs/tags/v3.31.5.tar.gz && \
+    tar -xzf CMake-3.31.5.tar.gz && cd CMake-3.31.5 && \
     ./bootstrap && make -j$(nproc) && make install && \
+    cd / && \
     wget https://github.com/gromacs/gromacs/archive/refs/tags/v2025.0.zip -P / && \
     unzip /v2025.0.zip -d / && \
     rm /v2025.0.zip && \
