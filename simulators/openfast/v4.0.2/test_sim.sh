@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# cd /home/openfast-input-example
+cd /home/openfastv4.0.2-input-example
 
-# openfast ./IEA-15-240-RWT-Monopile.fst
-
-echo "No test yet!"
+openfast 5MW_OC4Semi_WSt_WavesWN/5MW_OC4Semi_WSt_WavesWN.fst
