@@ -15,13 +15,8 @@ FROM ubuntu:22.04 as build
 ENV OMPI_ALLOW_RUN_AS_ROOT=1
 ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
-RUN apt-get update && \
-    apt-get install -y ca-certificates gpg wget && \
-    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null && \
-    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null && \
-    apt-get update && \
-    apt-get install -y kitware-archive-keyring && \
-    apt-get install -y cmake && \
+RUN apt-get update \
+    && apt-get install -y \
     fftw3-dev pkg-config \
     build-essential \
     openmpi-common \
@@ -34,6 +29,10 @@ RUN apt-get update && \
     fftw3 \
     unzip \
     wget && \
+    # Install cmake
+    wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/latest/download/cmake-3.29.1.tar.gz && \
+    tar -xzf cmake.tar.gz && cd cmake-3.29.1 && \
+    ./bootstrap && make -j$(nproc) && make install && \
     wget https://github.com/gromacs/gromacs/archive/refs/tags/v2025.0.zip -P / && \
     unzip /v2025.0.zip -d / && \
     rm /v2025.0.zip && \
