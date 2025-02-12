@@ -28,7 +28,8 @@ RUN apt-get update \
     python3 \
     fftw3 \
     unzip \
-    wget && \
+    wget \
+    libssl-dev && \
     # Install cmake
     wget -O cmake.tar.gz https://github.com/Kitware/CMake/archive/refs/tags/v3.31.5.tar.gz && \
     tar -xzf cmake.tar.gz && ls && cd CMake-3.31.5 && \

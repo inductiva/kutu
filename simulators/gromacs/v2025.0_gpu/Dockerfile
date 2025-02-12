@@ -28,9 +28,14 @@ RUN apt-get update \
     libgomp1 \
     python3 \
     fftw3 \
-    cmake \
     unzip \
-    wget && \
+    wget \
+    libssl-dev && \
+    # Install cmake
+    wget -O cmake.tar.gz https://github.com/Kitware/CMake/archive/refs/tags/v3.31.5.tar.gz && \
+    tar -xzf cmake.tar.gz && ls && cd CMake-3.31.5 && \
+    ./bootstrap && make -j$(nproc) && make install && \
+    cd / && \
     wget https://github.com/gromacs/gromacs/archive/refs/tags/v2025.0.zip -P / && \
     unzip /v2025.0.zip -d / && \
     rm /v2025.0.zip && \
