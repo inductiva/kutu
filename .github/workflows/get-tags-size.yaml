@@ -2,10 +2,8 @@ name: Update Docker Tags Table
 
 on:
   workflow_dispatch:  # Allows manual triggering
-  pull_request:
-    branches:
-      - main
-      - development
+  schedule:
+    - cron: '0 9 * * *'
 
 jobs:
   update-readme:
@@ -14,7 +12,7 @@ jobs:
       - name: Checkout the branch
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}  # Checkout the branch that triggered the PR
+          ref: development
     
       - name: Set up Git
         run: |
