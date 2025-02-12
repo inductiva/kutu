@@ -57,7 +57,7 @@ RUN apt-get update \
 
 # ENV PATH="${PATH}:/usr/local/gromacs/bin/"
     
-# COPY --from=test_env /home /home
+COPY --from=test_env /home /home
 
 # RUN apt-get update -y && \
 #     apt-get install -y openmpi-bin
