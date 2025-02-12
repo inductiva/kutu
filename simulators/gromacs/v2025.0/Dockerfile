@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as test_env
+FROM ubuntu:24.04 as test_env
 
 RUN apt-get update && apt-get install -y \
     wget \
@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-FROM ubuntu:22.04 as build
+FROM ubuntu:24.04 as build
 
 ENV OMPI_ALLOW_RUN_AS_ROOT=1
 ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
@@ -45,7 +45,7 @@ RUN apt-get update \
     mv /usr/local/gromacs/bin/gmx_mpi /usr/local/gromacs/bin/gmx && \
     rm -r /gromacs-2025.0
 
-FROM ubuntu:22.04 
+FROM ubuntu:24.04 
 
 COPY --from=build /usr/local/gromacs /usr/local/gromacs
 
