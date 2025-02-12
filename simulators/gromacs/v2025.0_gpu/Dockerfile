@@ -55,7 +55,7 @@ RUN apt-get update \
 
 # COPY --from=build /usr/local/gromacs /usr/local/gromacs
 
-# ENV PATH="${PATH}:/usr/local/gromacs/bin/"
+ENV PATH="${PATH}:/usr/local/gromacs/bin/"
     
 COPY --from=test_env /home /home
 
