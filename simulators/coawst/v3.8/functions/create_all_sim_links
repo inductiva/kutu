@@ -1,0 +1,17 @@
+#!/bin/bash
+ln -s /opt/COAWST/Build_roms Build_roms
+ln -s /opt/COAWST/Compilers Compilers
+ln -s /opt/COAWST/Data Data
+ln -s /opt/COAWST/ESM ESM
+ln -s /opt/COAWST/InWave InWave
+ln -s /opt/COAWST/Lib Lib
+ln -s /opt/COAWST/Master Master
+ln -s /opt/COAWST/Projects Projects
+ln -s /opt/COAWST/ROMS ROMS
+ln -s /opt/COAWST/SWAN SWAN
+ln -s /opt/COAWST/Tools Tools
+ln -s /opt/COAWST/User User
+ln -s /opt/COAWST/WPS WPS
+ln -s /opt/COAWST/WRF WRF
+ln -s /opt/COAWST/WW3 WW3
+echo "All symbolic links have been created successfully!"
