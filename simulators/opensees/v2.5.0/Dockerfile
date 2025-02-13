@@ -2,13 +2,14 @@
 FROM ubuntu:14.04 AS base
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HOME=/src
+ENV CXXFLAGS="-fpermissive"
+
 # Build arguments and versions
 ARG OPENSEES_VERSION=v2.5.0
-ARG BASE_IMAGE=ubuntu:22.04
-ARG PYTHON_VERSION=3.8
 # System dependencies
 RUN apt-get update && apt-get install -y \
     tcl8.5-dev \
+    tcl8.5 \
     tk8.5-dev \
     cmake \
     gcc \
@@ -18,8 +19,11 @@ RUN apt-get update && apt-get install -y \
     liblapack-dev \
     libopenmpi-dev \
     openmpi-common \
+    libmumps-dev \
     wget \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* && \
+    mkdir /src/lib && \
+    mkdir /src/bin
 
 
 # Download and extract OpenSees source
@@ -29,12 +33,7 @@ RUN wget https://github.com/OpenSees/OpenSees/archive/refs/tags/${OPENSEES_VERSI
     && rm ${OPENSEES_VERSION}.tar.gz \
     && mv OpenSees-* OpenSees
 
-RUN apt-get update && apt-get install -y \
-    libmumps-dev
-
 COPY Makefile.def /src/OpenSees/Makefile.def
 
 RUN cd /src/OpenSees && \
     make
-
-ENV CXXFLAGS="-fpermissive"
