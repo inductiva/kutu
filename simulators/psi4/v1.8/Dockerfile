@@ -1,28 +1,17 @@
 # Use Ubuntu as base image
-FROM ubuntu:22.04
+FROM inductiva/kutu:base-image_v0.1.1
 
 # Prevent interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install basic build tools and pre-made Ubuntu dependencies
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    cmake \
-    git \
-    python3-dev \
-    python3-pip \
-    libopenmpi-dev \
-    openmpi-bin \
-    gfortran \
     libhdf5-dev \
     zlib1g-dev \
     libboost-all-dev \
-    liblapack-dev \
-    libblas-dev \
     libeigen3-dev \
     libxml2-dev \
     perl \
-    wget \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
@@ -42,6 +31,10 @@ RUN pip3 install --no-cache-dir \
     psutil \
     jupyter
 
+# Set environment variables
+ENV PATH="/opt/psi4/bin:${PATH}"
+
+
 # Create working directory
 WORKDIR /opt/psi4build
 
@@ -51,8 +44,7 @@ RUN git clone https://github.com/psi4/psi4.git
 # Build directory
 WORKDIR /opt/psi4build/psi4
 
-# Set environment variables
-ENV PATH="/opt/psi4/bin:${PATH}"
+
 
 # Configure PSI4 with CMake
 RUN cmake -S. -Bobjdir \
@@ -63,21 +55,15 @@ RUN cmake -S. -Bobjdir \
     -DCMAKE_C_COMPILER=mpicc \
     -DCMAKE_CXX_COMPILER=mpicxx \
     -DCMAKE_Fortran_COMPILER=mpifort \
-    -DBUILD_SHARED_LIBS=ON
-
-
-# Compile PSI4
-WORKDIR /opt/psi4build/psi4/objdir
-RUN make -j$(nproc) && \
-    make install
+    -DBUILD_SHARED_LIBS=ON \
+    && cd /opt/psi4build/psi4/objdir\
+    && make -j$(nproc) \
+    &&make install
 
 RUN pip install numpy scipy msgpack-python networkx pint pydantic py-cpuinfo psutil
 
-COPY ./test_sim.sh /home/test_sim.sh
-RUN chmod +x /home/test_sim.sh
-
-COPY ./example.in /home/example.in
-RUN chmod +x /home/example.in
+COPY ./test_sim.sh ./example.in /home/
+RUN chmod +x /home/test_sim.sh /home/example.in
 # Default command
 WORKDIR /home
 CMD ["psi4"]
