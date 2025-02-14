@@ -15,13 +15,20 @@ RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     gfortran \
-    python3-pip \
+    libblas-dev \
     liblapack-dev \
+    libopenblas-dev \
+    libarpack2-dev \
+    libparpack2-dev \
+    libarpack++2-dev \
+    libsuitesparse-dev \
+    python3-pip \
     libopenmpi-dev \
     openmpi-common \
     libmumps-dev \
     wget \
     && rm -rf /var/lib/apt/lists/* && \
+    mkdir /src && \
     mkdir /src/lib && \
     mkdir /src/bin
 
@@ -31,9 +38,16 @@ WORKDIR /src
 RUN wget https://github.com/OpenSees/OpenSees/archive/refs/tags/${OPENSEES_VERSION}.tar.gz \
     && tar xzf ${OPENSEES_VERSION}.tar.gz \
     && rm ${OPENSEES_VERSION}.tar.gz \
-    && mv OpenSees-* OpenSees
-
-COPY Makefile.def /src/OpenSees/Makefile.def
+    && mv OpenSees-* OpenSees && \
+    cd OpenSees && \
+    cp MAKES/Makefile.def.EC2-UBUNTU . && \
+    mv Makefile.def.EC2-UBUNTU Makefile.def && \
+    sed -i 's|HOME\s*=\s*/home/ubuntu|HOME = /src|' Makefile.def && \
+    sed -i 's|SUPERLUdir\s*=\s*\$(HOME)/OpenSees/OTHER/SuperLU_4.1/SRC|SUPERLUdir = \$(HOME)/OpenSees/OTHER/SuperLU_5.0/SRC|' Makefile.def && \
+    sed -i 's|TCL_LIBRARY = /usr/lib/libtcl8.5.so|TCL_LIBRARY = /usr/lib/x86_64-linux-gnu/libtcl8.5.so|' Makefile.def && \
+    sed -i 's|TCL_INCLUDES = -I/usr/include/tcl8.5|TCL_INCLUDES = -I/usr/include/tcl8.5/tcl-private/generic|' Makefile.def
 
 RUN cd /src/OpenSees && \
     make
+
+ENV PATH="/src/bin:${PATH}"
