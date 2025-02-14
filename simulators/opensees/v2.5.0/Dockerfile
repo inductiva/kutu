@@ -48,7 +48,11 @@ RUN wget https://github.com/OpenSees/OpenSees/archive/refs/tags/${OPENSEES_VERSI
     sed -i 's|TCL_INCLUDES = -I/usr/include/tcl8.5|TCL_INCLUDES = -I/usr/include/tcl8.5/tcl-private/generic|' Makefile.def
 
 RUN cd /src/OpenSees && \
-    make
+    make && \
+    cp /src/bin/OpenSees /src/bin/OpenSeesMP && \
+    mkdir /home/opensees-input-example && \
+    cp /src/OpenSees/EXAMPLES/verification/PlanarTruss.tcl /home/opensees-input-example/PlanarTruss.tcl
+
 
 ENV PATH="/src/bin:${PATH}"
 
