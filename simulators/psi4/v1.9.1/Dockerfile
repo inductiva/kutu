@@ -54,9 +54,6 @@ RUN git clone --branch v${PSI4_VERSION} https://github.com/psi4/psi4.git \
     && make install \
     && cd /opt/psi4build 
 
-
-RUN pip install numpy scipy msgpack-python networkx pint pydantic py-cpuinfo psutil
-
 COPY ./test_sim.sh ./example.in /home/
 RUN chmod +x /home/test_sim.sh /home/example.in
 # Default command
