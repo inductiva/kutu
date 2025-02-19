@@ -9,7 +9,7 @@ RUN chmod +x /home/test_sim.sh
 
 FROM inductiva/kutu:base-image_v0.1.1 AS build
 
-ARG QE_VERSION=7.3.1
+ARG QE_VERSION=7.4.1
 
 RUN wget https://gitlab.com/QEF/q-e/-/archive/qe-${QE_VERSION}/q-e-qe-${QE_VERSION}.zip && \
     unzip q-e-qe-${QE_VERSION}.zip && \
