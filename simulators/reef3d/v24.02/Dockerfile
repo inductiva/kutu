@@ -14,7 +14,8 @@ RUN chmod +x /home/test_sim.sh
 # ubuntu base image
 FROM ubuntu:22.04
 
-
+ARG REEF3D_VERSION=24.02
+ARG DIVEMesh_VERSION=24.02
 # install required dependencies
 RUN apt-get update --fix-missing
 RUN apt-get -y install git cmake build-essential gfortran wget
@@ -38,9 +39,9 @@ RUN cd hypre/src && ./configure --prefix=/usr/local/hypre && make all -j 8 && ma
 RUN export PATH=/usr/local/hypre/include:/usr/local/hypre/lib:$PATH
 
 # clone DIVEMesh and REEF3D from Github and make files
-RUN git clone https://github.com/REEF3D/DIVEMesh.git
+RUN git clone --branch ${DIVEMesh_VERSION} https://github.com/REEF3D/DIVEMesh.git
 RUN cd DIVEMesh && make -j 8 && cd ..
-RUN git clone https://github.com/REEF3D/REEF3D.git
+RUN git clone --branch ${REEF3D_VERSION} https://github.com/REEF3D/REEF3D.git
 RUN cd REEF3D && make -j 8
 
 ENV REEF3D_BIN=/REEF3D/bin/REEF3D
