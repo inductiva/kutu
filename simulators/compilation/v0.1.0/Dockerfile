@@ -4,6 +4,8 @@ FROM ubuntu:20.04
 # Set the non-interactive mode to avoid prompts during installation
 ARG DEBIAN_FRONTEND=noninteractive
 
+COPY test_sim.sh /home/test_sim.sh
+
 # Update package list and install dependencies
 RUN apt-get update && \
     apt-get install -y \
@@ -14,7 +16,8 @@ RUN apt-get update && \
     sudo \
     python3 \
     python3-pip && \
-    pip install docker
+    pip install docker && \
+    chmod +x /home/test_sim.sh
 
 # Install Docker
 RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
@@ -29,6 +32,7 @@ USER dockeruser
 
 # Set the working directory
 WORKDIR /home/dockeruser
+
 
 # Command to run Docker (to ensure Docker runs when the container starts)
 CMD ["docker", "--version"]
