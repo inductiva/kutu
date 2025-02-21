@@ -12,7 +12,8 @@ RUN apt-get update && \
     gnupg \
     lsb-release \
     sudo \
-    python && \
+    python3 \
+    python3-pip && \
     pip install docker
 
 # Install Docker
