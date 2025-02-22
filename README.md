@@ -57,7 +57,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | swash_v9.01A | 97.02248287200928 MB |
 | cans_v2.4.0 | 97.27389526367188 MB |
 | fvcom_v5.1.0 | 100.73739910125732 MB |
-| gromacs_v2022.2 | 102.72926712036133 MB |
 | gromacs_v2025.0 | 109.83393669128418 MB |
 | amr-wind_v1.4.0 | 113.89888286590576 MB |
 | amr-wind_v3.4.0 | 127.6489782333374 MB |
@@ -81,7 +80,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | opensees_v3.7.1 | 719.4835586547852 MB |
 | reef3d_v24.02 | 778.3759803771973 MB |
 | schism_v5.11.0 | 823.4116621017456 MB |
-| fds_v6.8 | 906.7195148468018 MB |
 | fds_v6.9.1 | 944.8491230010986 MB |
 | reef3d_v24.12 | 1075.5085287094116 MB |
 | openfoam-esi_v2206 | 1148.198037147522 MB |
@@ -92,6 +90,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | gromacs_v2022.2_gpu | 1385.8429822921753 MB |
 | gromacs_v2025.0_gpu | 1410.7519044876099 MB |
 | dualsphysics_v5.2.1_gpu | 1433.2349166870117 MB |
+| pbarbosa_image | 1689.1103401184082 MB |
 | cp2k_v2025.1 | 1709.5997743606567 MB |
 | gx_v11-2024_gpu | 2695.2003326416016 MB |
 <!-- END-DOCKER-TAGS-TABLE -->
