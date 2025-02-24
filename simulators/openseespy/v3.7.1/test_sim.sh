@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /home/openseespy-input-example
+
 python Example1.1.py
 python Example2.1.py
 python Example3.1.py
