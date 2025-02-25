@@ -57,6 +57,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | swash_v9.01A | 97.02248287200928 MB |
 | cans_v2.4.0 | 97.27389526367188 MB |
 | fvcom_v5.1.0 | 100.73739910125732 MB |
+| gromacs_v2022.2 | 102.72926712036133 MB |
 | gromacs_v2025.0 | 109.83393669128418 MB |
 | amr-wind_v1.4.0 | 113.89888286590576 MB |
 | amr-wind_v3.4.0 | 127.6489782333374 MB |
@@ -90,7 +91,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | gromacs_v2022.2_gpu | 1385.8429822921753 MB |
 | gromacs_v2025.0_gpu | 1410.7519044876099 MB |
 | dualsphysics_v5.2.1_gpu | 1433.2349166870117 MB |
-| pbarbosa_image | 1689.1103401184082 MB |
 | cp2k_v2025.1 | 1709.5997743606567 MB |
 | gx_v11-2024_gpu | 2695.2003326416016 MB |
 <!-- END-DOCKER-TAGS-TABLE -->
