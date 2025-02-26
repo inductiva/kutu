@@ -13,6 +13,9 @@ ARG TOOLCHAIN_ROOT=/toolchain
 # Common packages needed for both build and runtime
 ARG COMMON_PACKAGES="g++ gcc gfortran openssh-client python3"
 
+ENV CFLAGS="-mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl"
+ENV FCFLAGS="-mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl"
+
 # Install build dependencies
 RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
     ${COMMON_PACKAGES} \
