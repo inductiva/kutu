@@ -58,7 +58,7 @@ FROM ubuntu:22.04 AS install
 # Installation-specific arguments
 ARG CP2K_ROOT=/opt/cp2k
 
-
+ENV OMP_NUM_THREADS=1
 ENV OMPI_MCA_btl_vader_single_copy_mechanism=none\
     OMP_STACKSIZE=16M\
     PATH=/opt/cp2k/exe/local:${PATH}
