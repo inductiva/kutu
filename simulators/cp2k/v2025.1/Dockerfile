@@ -7,7 +7,7 @@ FROM ubuntu:22.04 AS build
 ARG CP2K_VERSION=2025.1
 ARG CP2K_BRANCH=support/v${CP2K_VERSION}
 ARG BUILD_JOBS=8
-ARG TARGET_CPU=native
+ARG TARGET_CPU=x86_avx2
 ARG CP2K_ROOT=/opt/cp2k
 ARG TOOLCHAIN_ROOT=/toolchain
 # Common packages needed for both build and runtime
