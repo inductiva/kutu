@@ -7,14 +7,11 @@ FROM ubuntu:22.04 AS build
 ARG CP2K_VERSION=2025.1
 ARG CP2K_BRANCH=support/v${CP2K_VERSION}
 ARG BUILD_JOBS=8
-ARG TARGET_CPU=generic
+ARG TARGET_CPU=native
 ARG CP2K_ROOT=/opt/cp2k
 ARG TOOLCHAIN_ROOT=/toolchain
 # Common packages needed for both build and runtime
 ARG COMMON_PACKAGES="g++ gcc gfortran openssh-client python3"
-
-ENV CFLAGS="-mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl"
-ENV FCFLAGS="-mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl"
 
 # Install build dependencies
 RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
