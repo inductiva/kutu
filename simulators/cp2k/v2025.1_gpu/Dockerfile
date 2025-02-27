@@ -37,7 +37,7 @@ WORKDIR ${CP2K_ROOT}/tools/toolchain
 RUN ./install_cp2k_toolchain.sh -j ${BUILD_JOBS} \
     --install-all \
     --enable-cuda=yes \
-    --gpu-ver=H100 \
+    --gpu-ver=A40 \
     --with-deepmd=no \
     --with-libtorch=no \
     --target-cpu=${TARGET_CPU} \
