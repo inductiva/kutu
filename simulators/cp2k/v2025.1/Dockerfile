@@ -8,7 +8,7 @@ ARG CP2K_VERSION=2025.1
 ARG CP2K_BRANCH=support/v${CP2K_VERSION}
 ARG BUILD_JOBS=8
 # ARG TARGET_CPU=haswell
-ARG TARGET_CPU=skylake-avx512
+ARG TARGET_CPU=skylake
 ARG CP2K_ROOT=/opt/cp2k
 ARG TOOLCHAIN_ROOT=/toolchain
 # Common packages needed for both build and runtime
@@ -16,8 +16,8 @@ ARG COMMON_PACKAGES="g++ gcc gfortran openssh-client python3"
 
 # ENV FCFLAGS="-march=haswell -O3 -funroll-loops"
 # ENV CFLAGS="-march=haswell -O3 -funroll-loops"
-ENV FCFLAGS="-march=skylake-avx512 -O3 -funroll-loops"
-ENV CFLAGS="-march=skylake-avx512 -O3 -funroll-loops"
+ENV FCFLAGS="-march=skylake -O3 -funroll-loops"
+ENV CFLAGS="-march=skylake -O3 -funroll-loops"
 
 # Install build dependencies
 RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
