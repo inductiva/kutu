@@ -15,8 +15,8 @@ ENV FCFLAGS="-march=haswell -O3 -funroll-loops"
 ENV CFLAGS="-march=haswell -O3 -funroll-loops"
 
 # Setup CUDA environment
-ENV CUDA_PATH /usr/local_cuda/cuda
-ENV LD_LIBRARY_PATH /usr/local_cuda/cuda/lib64
+ENV CUDA_PATH /usr/local/cuda
+ENV LD_LIBRARY_PATH /usr/local/cuda/lib64
 
 
 # Disable JIT cache as there seems to be an issue with file locking on overlayfs
@@ -76,6 +76,13 @@ ENV OMPI_MCA_btl_vader_single_copy_mechanism=none\
     OMP_STACKSIZE=16M\
     PATH=/opt/cp2k/exe/local_cuda:${PATH}
 
+ENV FCFLAGS="-march=haswell -O3 -funroll-loops"
+ENV CFLAGS="-march=haswell -O3 -funroll-loops"
+
+# Setup CUDA environment
+ENV CUDA_PATH /usr/local/cuda
+ENV LD_LIBRARY_PATH /usr/local/cuda/lib64
+
 
 # Install required packages
 RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
@@ -92,10 +99,10 @@ COPY --from=build /toolchain/ ${CP2K_ROOT}/tools/toolchain/
 # Create symbolic links for binaries
 RUN /bin/bash -c -o pipefail \
     "for binary in cp2k dumpdcd graph xyz2dcd; do \
-        ln -sf ${CP2K_ROOT}/exe/local_cuda/${binary}.psmp /usr/local_cuda/bin/${binary}; \
+        ln -sf ${CP2K_ROOT}/exe/local_cuda/${binary}.psmp /usr/local/bin/${binary}; \
     done && \
-    ln -sf ${CP2K_ROOT}/exe/local_cuda/cp2k.psmp /usr/local_cuda/bin/cp2k_shell && \
-    ln -sf ${CP2K_ROOT}/exe/local_cuda/cp2k.psmp /usr/local_cuda/bin/cp2k.popt"
+    ln -sf ${CP2K_ROOT}/exe/local_cuda/cp2k.psmp /usr/local/bin/cp2k_shell && \
+    ln -sf ${CP2K_ROOT}/exe/local_cuda/cp2k.psmp /usr/local/bin/cp2k.popt"
 
 
 # Create entrypoint script file
@@ -114,7 +121,7 @@ RUN chmod +x /home/test_sim.sh
 
 # Configure container
 WORKDIR /home
-ENTRYPOINT ["/usr/local_cuda/bin/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 
 CMD ["cp2k.psmp"]
