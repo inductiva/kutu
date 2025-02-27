@@ -1,17 +1,47 @@
 #!/bin/bash
-ln -s /opt/COAWST/Build_roms Build_roms
-ln -s /opt/COAWST/Compilers Compilers
-ln -s /opt/COAWST/Data Data
-ln -s /opt/COAWST/ESM ESM
-ln -s /opt/COAWST/InWave InWave
-ln -s /opt/COAWST/Lib Lib
-ln -s /opt/COAWST/Master Master
-ln -s /opt/COAWST/Projects Projects
-ln -s /opt/COAWST/ROMS ROMS
-ln -s /opt/COAWST/SWAN SWAN
-ln -s /opt/COAWST/Tools Tools
-ln -s /opt/COAWST/User User
-ln -s /opt/COAWST/WPS WPS
-ln -s /opt/COAWST/WRF WRF
-ln -s /opt/COAWST/WW3 WW3
-echo "All symbolic links have been created successfully!"
+
+files=(
+  "__COAWST/CAMtr_volume_mixing_ratio"
+  "__COAWST/CMakeLists.txt"
+  "__COAWST/COAWST_User_Manual.doc"
+  "__COAWST/CODE_OF_CONDUCT.md"
+  "__COAWST/CONTRIBUTING.md"
+  "__COAWST/Compilers"
+  "__COAWST/DISCLAIMER.md"
+  "__COAWST/Data"
+  "__COAWST/ESM"
+  "__COAWST/GENPARM.TBL"
+  "__COAWST/InWave"
+  "__COAWST/LANDUSE.TBL"
+  "__COAWST/LICENSE.md"
+  "__COAWST/Lib"
+  "__COAWST/MPTABLE.TBL"
+  "__COAWST/Master"
+  "__COAWST/Projects"
+  "__COAWST/README.md"
+  "__COAWST/ROMS"
+  "__COAWST/RRTM_DATA"
+  "__COAWST/RRTM_DATA_DBL"
+  "__COAWST/SOILPARM.TBL"
+  "__COAWST/SWAN"
+  "__COAWST/Tools"
+  "__COAWST/URBPARM.TBL"
+  "__COAWST/User"
+  "__COAWST/VEGPARM.TBL"
+  "__COAWST/WPS"
+  "__COAWST/WRF"
+  "__COAWST/WW3"
+  "__COAWST/code.json"
+  "__COAWST/docs"
+  "__COAWST/makefile"
+  "__COAWST/run_coawst"
+)
+
+for file in "${files[@]}"; do
+  if [ ! -e "$file" ]; then
+    ln -snf "$file" .
+    echo "Created symlink for $file"
+  else
+    echo "File $file already exists, skipping."
+  fi
+done
