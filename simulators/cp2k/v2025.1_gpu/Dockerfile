@@ -114,7 +114,7 @@ export OMP_STACKSIZE=16M\n\
 export PATH=/opt/cp2k/exe/local:\${PATH}\n\
 source /opt/cp2k/tools/toolchain/install/setup\n\
 \"\$@\"" \
->/usr/local_cuda/bin/entrypoint.sh && chmod +rx /usr/local_cuda/bin/entrypoint.sh
+>/usr/local/bin/entrypoint.sh && chmod +rx /usr/local/bin/entrypoint.sh
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
