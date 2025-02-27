@@ -117,7 +117,8 @@ RUN cd ${BASE_DIR} && \
     cd COAWST && \
     git checkout ${COAWST_COMMIT}
 
-    
+RUN cd /opt/COAWST/Compilers && \
+    sed -i '41a\      FFLAGS += -frecord-marker=4 -fconvert=big-endian' Linux-gfortran.mk
 
 
 # Build SCRIP_COAWST
