@@ -57,7 +57,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | swash_v9.01A | 97.02248287200928 MB |
 | cans_v2.4.0 | 97.27389526367188 MB |
 | fvcom_v5.1.0 | 100.73739910125732 MB |
-| gromacs_v2022.2 | 102.72926712036133 MB |
 | gromacs_v2025.0 | 109.83393669128418 MB |
 | amr-wind_v1.4.0 | 113.89888286590576 MB |
 | amr-wind_v3.4.0 | 127.6489782333374 MB |
