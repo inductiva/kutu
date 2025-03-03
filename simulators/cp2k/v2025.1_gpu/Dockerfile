@@ -66,7 +66,7 @@ RUN /bin/bash -c -o pipefail \
      unlink ./exe/local_cuda/cp2k_shell.psmp"
 
 # Stage 2: Installation
-FROM nvidia/cuda:12.2.0-devel-ubuntu22.04 AS install
+FROM nvidia/cuda:12.2.0-runtime-ubuntu22.04 AS install
 
 # Installation-specific arguments
 ARG CP2K_ROOT=/opt/cp2k
