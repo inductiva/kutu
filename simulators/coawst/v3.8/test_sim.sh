@@ -8,6 +8,8 @@ cd /workdir/output/artifacts
 
 cp -r /opt/COAWST /workdir/output/artifacts/__COAWST
 
+cp /home/coawst-input-example/* .
+
 create_all_sim_links
 
 bash build_coawst.sh
