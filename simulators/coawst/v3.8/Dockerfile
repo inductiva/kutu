@@ -163,3 +163,9 @@ RUN cd ${COAWST_DIR} && \
 RUN cp ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_redefined_grid
 
 COPY --from=test_env /home /home
+
+COPY /functions/create_all_sim_links /usr/bin/create_all_sim_links
+COPY /functions/clean_all_sim_links /usr/bin/clean_all_sim_links
+
+RUN chmod +x /usr/bin/create_all_sim_links
+RUN chmod +x /usr/bin/clean_all_sim_links
