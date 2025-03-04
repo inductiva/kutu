@@ -1,0 +1,47 @@
+#!/bin/bash
+
+files=(
+  "CAMtr_volume_mixing_ratio"
+  "CMakeLists.txt"
+  "COAWST_User_Manual.doc"
+  "CODE_OF_CONDUCT.md"
+  "CONTRIBUTING.md"
+  "Compilers"
+  "DISCLAIMER.md"
+  "Data"
+  "ESM"
+  "GENPARM.TBL"
+  "InWave"
+  "LANDUSE.TBL"
+  "LICENSE.md"
+  "Lib"
+  "MPTABLE.TBL"
+  "Master"
+  "Projects"
+  "README.md"
+  "ROMS"
+  "RRTM_DATA"
+  "RRTM_DATA_DBL"
+  "SOILPARM.TBL"
+  "SWAN"
+  "Tools"
+  "URBPARM.TBL"
+  "User"
+  "VEGPARM.TBL"
+  "WPS"
+  "WRF"
+  "WW3"
+  "code.json"
+  "docs"
+  "makefile"
+  "run_coawst"
+)
+
+for file in "${files[@]}"; do
+  if [ ! -e "$file" ]; then
+    ln -snf "__COAWST/$file" .
+    echo "Created symlink for $file"
+  else
+    echo "File $file already exists, skipping."
+  fi
+done
