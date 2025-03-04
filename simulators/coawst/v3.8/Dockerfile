@@ -157,5 +157,7 @@ RUN chmod +x /home/test_sim.sh
 
 
 COPY /functions/create_all_sim_links /usr/bin/create_all_sim_links
+COPY /functions/clean_all_sim_links /usr/bin/clean_all_sim_links
 
 RUN chmod +x /usr/bin/create_all_sim_links
+RUN chmod +x /usr/bin/clean_all_sim_links
