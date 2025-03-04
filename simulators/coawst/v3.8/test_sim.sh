@@ -1,6 +1,6 @@
 #!/bin/bash
 
-makedir /workdir/output/artifacts
+mkdir /workdir/output/artifacts
 
 cd /workdir/output/artifacts
 
