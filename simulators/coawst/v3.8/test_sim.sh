@@ -1,5 +1,17 @@
 #!/bin/bash
 
-cd /opt/COAWST
+makedir /workdir/output/artifacts
 
-mpirun --allow-run-as-root --use-hwthread-cpus -np 2 coawstM Projects/Inlet_test/Refined/coupling_inlet_test_ref3.in
+cd /workdir/output/artifacts
+
+cp -r /opt/COAWST /workdir/output/artifacts/__COAWST
+
+create_all_sim_links
+
+bash build_coawst.sh
+
+mpirun --allow-run-as-root --use-hwthread-cpus -np 4 coawstM ocean_ducknc
+
+rm -r  __COAWST
+
+clean_all_sim_links

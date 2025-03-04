@@ -1,3 +1,13 @@
+FROM inductiva/kutu:base-image_v0.1.0 as test_env
+
+RUN wget https://storage.googleapis.com/inductiva-api-demo-files/coawst-input-example.zip -P /home/ && \
+    unzip /home/coawst-input-example.zip -d /home/ && \
+    rm /home/coawst-input-example.zip 
+
+COPY ./test_sim.sh /home/test_sim.sh
+
+RUN chmod +x /home/test_sim.sh
+
 # Base image
 FROM ubuntu:22.04
 
@@ -152,12 +162,4 @@ RUN cd ${COAWST_DIR} && \
 # Rename the executable
 RUN cp ${COAWST_DIR}/coawstM ${COAWST_DIR}/coawstM_roms_swan_redefined_grid
 
-COPY ./test_sim.sh /home/test_sim.sh
-RUN chmod +x /home/test_sim.sh
-
-
-COPY /functions/create_all_sim_links /usr/bin/create_all_sim_links
-COPY /functions/clean_all_sim_links /usr/bin/clean_all_sim_links
-
-RUN chmod +x /usr/bin/create_all_sim_links
-RUN chmod +x /usr/bin/clean_all_sim_links
+COPY --from=test_env /home /home
