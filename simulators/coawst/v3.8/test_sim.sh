@@ -14,7 +14,7 @@ create_all_sim_links
 
 bash build_coawst.sh
 
-mpirun --allow-run-as-root --use-hwthread-cpus -np 4 coawstM ocean_ducknc
+mpirun --allow-run-as-root --use-hwthread-cpus -np 4 coawstM ocean_ducknc.in
 
 rm -r  __COAWST
 
