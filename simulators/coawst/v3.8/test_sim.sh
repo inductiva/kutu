@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir /workdir
+mkdir /workdir/output
 mkdir /workdir/output/artifacts
 
 cd /workdir/output/artifacts
