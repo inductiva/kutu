@@ -80,6 +80,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | opensees_v3.7.1 | 719.4835586547852 MB |
 | reef3d_v24.02 | 778.3759803771973 MB |
 | schism_v5.11.0 | 823.4116621017456 MB |
+| openseespy_v3.7.1 | 885.0956945419312 MB |
 | fds_v6.9.1 | 944.8491230010986 MB |
 | reef3d_v24.12 | 1075.5085287094116 MB |
 | openfoam-esi_v2206 | 1148.198037147522 MB |
@@ -90,6 +91,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | gromacs_v2022.2_gpu | 1385.8429822921753 MB |
 | gromacs_v2025.0_gpu | 1410.7519044876099 MB |
 | dualsphysics_v5.2.1_gpu | 1433.2349166870117 MB |
+| coawst_v3.8 | 1674.9419555664062 MB |
 | cp2k_v2025.1 | 1709.5997743606567 MB |
 | gx_v11-2024_gpu | 2695.2003326416016 MB |
 <!-- END-DOCKER-TAGS-TABLE -->
