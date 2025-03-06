@@ -92,6 +92,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | gromacs_v2025.0_gpu | 1410.7519044876099 MB |
 | dualsphysics_v5.2.1_gpu | 1433.2349166870117 MB |
 | coawst_v3.8 | 1674.9419555664062 MB |
-| cp2k_v2025.1 | 1709.5997743606567 MB |
+| cp2k_v2025.1 | 1710.383994102478 MB |
+| cp2k_v2025.1_gpu | 2147.861210823059 MB |
 | gx_v11-2024_gpu | 2695.2003326416016 MB |
 <!-- END-DOCKER-TAGS-TABLE -->
