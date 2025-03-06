@@ -15,8 +15,8 @@ RUN rm -rf /etc/apt/sources.list.d/* && \
     apt update && \
     apt install m4 autoconf automake gcc git -y && \
     git clone --branch v24.10 https://github.com/Mohid-Water-Modelling-System/Mohid.git && \
-    cp Mohid/Solutions/dockers/externalSoftware/ /externalSoftware && \
-    cp Mohid/Software/ /src
+    cp /Mohid/Solutions/dockers/externalSoftware/ /externalSoftware && \
+    cp /Mohid/Software/ /src
 
 # Define o shell padrão como Bash (pode ser necessário para scripts)
 RUN ln -sf /bin/bash /bin/sh
