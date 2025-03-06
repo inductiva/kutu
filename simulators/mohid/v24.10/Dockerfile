@@ -13,7 +13,10 @@ FROM intel/oneapi-hpckit:2023.2.1-devel-ubuntu22.04 AS build
 # Atualiza a lista de pacotes e instala ferramentas essenciais para compilação
 RUN rm -rf /etc/apt/sources.list.d/* && \
     apt update && \
-    apt install m4 autoconf automake gcc -y
+    apt install m4 autoconf automake gcc git -y && \
+    git clone --branch v24.10 https://github.com/Mohid-Water-Modelling-System/Mohid.git && \
+    ls 
+
 	
 # Copia scripts externos e código-fonte do host para o container
 COPY Solutions/dockers/externalSoftware/ /externalSoftware
