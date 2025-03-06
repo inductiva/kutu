@@ -14,7 +14,9 @@ FROM intel/oneapi-hpckit:2023.2.1-devel-ubuntu22.04 AS build
 RUN rm -rf /etc/apt/sources.list.d/* && \
     apt update && \
     apt install m4 autoconf automake gcc git -y && \
-    git clone --branch v24.10 https://github.com/Mohid-Water-Modelling-System/Mohid.git && \
+    git clone https://github.com/Mohid-Water-Modelling-System/Mohid.git && \
+    cd Mohid && \
+    git checkout b06e6f0288774aaf27aadb1fb87769ced72c5353 && \
     cp /Mohid/Solutions/dockers/externalSoftware/ /externalSoftware && \
     cp /Mohid/Software/ /src
 
