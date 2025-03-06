@@ -45,7 +45,8 @@ RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWA
     make install && \
     cp bin/swan.exe bin/hcat.exe ../bin/swanrun ${SWAN_HOME} && \
     chmod +rx ${SWAN_HOME}/swanrun && \
-    rm -rf ${SWAN_TMP}
+    rm -rf ${SWAN_TMP} && \
+    sed -i '2i set -e' ${SWAN_HOME}/swanrun
 
 ENV PATH ${SWAN_HOME}:$PATH
 
