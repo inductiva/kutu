@@ -17,8 +17,8 @@ RUN rm -rf /etc/apt/sources.list.d/* && \
     git clone https://github.com/Mohid-Water-Modelling-System/Mohid.git && \
     cd Mohid && \
     git checkout b06e6f0288774aaf27aadb1fb87769ced72c5353 && \
-    cp /Mohid/Solutions/dockers/externalSoftware/ /externalSoftware && \
-    cp /Mohid/Software/ /src
+    cp -r /Mohid/Solutions/dockers/externalSoftware/ /externalSoftware && \
+    cp -r /Mohid/Software/ /src
 
 # Define o shell padrão como Bash (pode ser necessário para scripts)
 RUN ln -sf /bin/bash /bin/sh
