@@ -60,8 +60,8 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | gromacs_v2025.0 | 109.83393669128418 MB |
 | amr-wind_v1.4.0 | 113.89888286590576 MB |
 | amr-wind_v3.4.0 | 127.6489782333374 MB |
-| swan_v41.45 | 267.445255279541 MB |
-| swan_v41.31 | 271.03638648986816 MB |
+| swan_v41.45 | 282.0641851425171 MB |
+| swan_v41.31 | 282.0675048828125 MB |
 | opensees_v2.5.0 | 290.51967906951904 MB |
 | snl-swan_v2.2 | 295.79521083831787 MB |
 | dualsphysics_v5.2.1 | 317.7801342010498 MB |
@@ -70,10 +70,9 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | swash_v10.05 | 383.98499584198 MB |
 | nwchem_v7.2.2 | 396.5039577484131 MB |
 | nwchem_v7.2.3 | 401.409161567688 MB |
-| base-image_v0.1.0 | 523.5651979446411 MB |
 | openfoam-foundation_v8 | 527.9802980422974 MB |
 | base-image_v0.1.1 | 553.7915143966675 MB |
-| swan_v41.51 | 558.3809089660645 MB |
+| swan_v41.51 | 558.3809003829956 MB |
 | cm1_v21.1 | 578.4484205245972 MB |
 | openfoam-foundation_v12 | 628.443922996521 MB |
 | xbeach_v1.23 | 662.712236404419 MB |
