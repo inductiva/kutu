@@ -51,6 +51,10 @@ ENV DIRINSTALL=/root/apps_intel
 ENV zlib='zlib-1.2.11'
 ENV hdf5='hdf5-1.8.17'
 
+ENV CPPFLAGS="-I/root/apps_intel/hdf5-1.8.17/include -I/root/apps_intel/zlib/include"
+ENV LDFLAGS="-L/root/apps_intel/hdf5-1.8.17/lib -L/root/apps_intel/zlib/lib"
+ENV CFLAGS="$CFLAGS -fPIC"
+
 
 # Configura o ambiente para Zlib
 ENV ZLIB=$DIRINSTALL/$zlib
