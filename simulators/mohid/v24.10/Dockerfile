@@ -88,5 +88,8 @@ RUN echo "/mohid_libs/netcdf-4.4.1.1/lib" >> /etc/ld.so.conf
 RUN echo "/mohid_libs/hdf5-1.8.17/lib" >> /etc/ld.so.conf
 RUN echo "/mohid_libs/zlib-1.2.11/lib" >> /etc/ld.so.conf
 
+COPY test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
 # Atualiza o cache de bibliotecas compartilhadas para incluir os novos caminhos
 RUN ldconfig
