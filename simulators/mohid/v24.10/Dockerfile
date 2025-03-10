@@ -1,3 +1,12 @@
+# Base image
+FROM ubuntu:22.04 AS base
+
+# Metadata about the image
+LABEL maintainer="Joao Rodrigues <joao.rodrigues@hidromod.com>"
+LABEL version="1.0"
+LABEL created="2024-11-18"
+LABEL revised="2024-11-18"
+
 # Compiler stage
 FROM intel/oneapi-hpckit:2023.2.1-devel-ubuntu22.04 AS build
 
