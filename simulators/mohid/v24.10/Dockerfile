@@ -11,6 +11,11 @@ LABEL revised="2024-11-18"
 FROM intel/oneapi-hpckit:2023.2.1-devel-ubuntu22.04 AS build
 
 ENV MPI=/opt/intel/oneapi/mpi/2021.10.0/
+ENV MohidBase1=/Mohid/Software/MOHIDBase1
+ENV MohidBase2=/Mohid/Software/MOHIDBase2
+ENV MohidWater=/Mohid/Software/MOHIDWater
+ENV MOHIDPATH=/Mohid
+ENV SRCPATH=/Mohid/Software
 
 # Atualiza a lista de pacotes e instala ferramentas essenciais para compilação
 RUN rm -rf /etc/apt/sources.list.d/* && \
