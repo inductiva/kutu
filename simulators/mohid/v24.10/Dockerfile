@@ -1,18 +1,18 @@
-# Base image
-FROM ubuntu:22.04 AS base
-
-# Metadata about the image
-LABEL maintainer="Joao Rodrigues <joao.rodrigues@hidromod.com>"
-LABEL version="1.0"
-LABEL created="2024-11-18"
-LABEL revised="2024-11-18"
-
 # Compiler stage
 FROM intel/oneapi-hpckit:2023.2.1-devel-ubuntu22.04 AS build
 
 ENV MPI=/opt/intel/oneapi/mpi/2021.10.0/
 ENV MOHIDPATH=/Mohid
 ENV SRCPATH=/Mohid/Software
+
+## intel flags compiler
+ENV CXXFLAGS='-O3 -xHost -ip'
+ENV FCFLAGS='-O3 -xHost -ip'
+ENV FFLAGS='-O3 -xHost -ip'
+
+ENV CXX=icpc
+ENV FC=ifort
+ENV F77=ifort
 
 # Atualiza a lista de pacotes e instala ferramentas essenciais para compilação
 RUN rm -rf /etc/apt/sources.list.d/* && \
