@@ -42,6 +42,7 @@ ENV DIRINSTALL=/root/apps_intel
 ENV zlib='zlib-1.2.11'
 ENV hdf5='hdf5-1.8.17'
 
+
 # Configura o ambiente para Zlib
 ENV ZLIB=$DIRINSTALL/$zlib
 ENV PATH=$PATH:$ZLIB/lib:$ZLIB/include
@@ -51,6 +52,16 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ZLIB/lib
 ENV HDF5=$DIRINSTALL/$hdf5
 ENV PATH=$PATH:$HDF5/bin:$HDF5/lib:$HDF5/include
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HDF5/lib
+
+# Install Netcdf
+
+RUN cd / && \
+    wget https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.4.1.tar.gz && \
+    tar -xvf v4.4.1.tar.gz && \
+    cd netcdf-fortran-4.4.1 && \
+    ./configure --prefix=$DIRINSTALL/netcdf --with-hdf5=$HDF5 --with-zlib=$ZLIB && \
+    make -j && \
+    make install
 
 # Define o caminho do código-fonte no container
 ENV SRCPATH=/src
