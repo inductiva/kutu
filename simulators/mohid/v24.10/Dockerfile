@@ -14,15 +14,6 @@ ENV MPI=/opt/intel/oneapi/mpi/2021.10.0/
 ENV MOHIDPATH=/Mohid
 ENV SRCPATH=/Mohid/Software
 
-## intel flags compiler
-ENV CXXFLAGS='-O3 -xHost -ip'
-ENV FCFLAGS='-O3 -xHost -ip'
-ENV FFLAGS='-O3 -xHost -ip'
-
-ENV CXX=icpc
-ENV FC=ifort
-ENV F77=ifort
-
 # Atualiza a lista de pacotes e instala ferramentas essenciais para compilação
 RUN rm -rf /etc/apt/sources.list.d/* && \
     apt update && \
@@ -46,14 +37,16 @@ RUN chmod +x /externalSoftware/install_zlib.sh && \
 RUN chmod +x /externalSoftware/install_hdf5.sh && \
     ./externalSoftware/install_hdf5.sh
 
+# Instala a biblioteca NetCDF usando o script fornecido
+RUN chmod +x /externalSoftware/install_nc.sh && \
+    ./externalSoftware/install_nc.sh
+
 # Define variáveis de ambiente para diretórios de instalação
 ENV DIRINSTALL=/root/apps_intel
 ENV zlib='zlib-1.2.11'
 ENV hdf5='hdf5-1.8.17'
-
-ENV CPPFLAGS="-I/root/apps_intel/hdf5-1.8.17/include -I/root/apps_intel/zlib/include"
-ENV LDFLAGS="-L/root/apps_intel/hdf5-1.8.17/lib -L/root/apps_intel/zlib/lib"
-ENV CFLAGS="$CFLAGS -fPIC"
+ENV netcdf='netcdf-4.4.1.1'
+ENV netcdff='netcdf-fortran-4.4.4'
 
 
 # Configura o ambiente para Zlib
@@ -66,15 +59,10 @@ ENV HDF5=$DIRINSTALL/$hdf5
 ENV PATH=$PATH:$HDF5/bin:$HDF5/lib:$HDF5/include
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HDF5/lib
 
-# Install Netcdf
-
-RUN cd / && \
-    wget https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.4.1.tar.gz && \
-    tar -xvf v4.4.1.tar.gz && \
-    cd netcdf-fortran-4.4.1 && \
-    ./configure --prefix=$DIRINSTALL/netcdf --with-hdf5=$HDF5 --with-zlib=$ZLIB && \
-    make -j && \
-    make install
+# Configura o ambiente para NetCDF
+ENV NETCDF=$DIRINSTALL/$netcdf
+ENV PATH=$PATH:$NETCDF/bin:$NETCDF/lib:$NETCDF/include
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$NETCDF/lib
 
 # Define o caminho do código-fonte no container
 ENV SRCPATH=/src
