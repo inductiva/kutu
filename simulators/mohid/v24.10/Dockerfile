@@ -89,51 +89,42 @@ RUN cd /src && \
 RUN cd /src && \
     ifort -O3 -w -cpp -real-size 64 -convert little_endian -fPIC -heap-arrays 64 -fp-model source -xHost -ip -fpe3 -fpp -D_NO_NETCDF /Mohid/Software/MOHIDBase1/ModuleGlobalData.F90 /Mohid/Software/MOHIDBase1/ModuleTime.F90 /Mohid/Software/MOHIDBase1/ModuleEnterData.F90 /Mohid/Software/MOHIDBase1/ModuleStopWatch.F90 /Mohid/Software/MOHIDBase1/ModuleFunctions.F90 /Mohid/Software/MOHIDBase1/ModuleHDF5.F90 /Mohid/Software/MOHIDBase1/ModuleDrawing.F90 /Mohid/Software/HDF5Extractor/ModuleHDF5Extractor.F90 /Mohid/Software/HDF5Extractor/HDF5Extractor.F90 -I$HDF5/include -L$HDF5/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5 -ldl -I$ZLIB/include -L$ZLIB/lib -lz -lm -o HDF5Extractor.exe
 
-# ## Final Stage: Prepare the MOHID application environment
+## Final Stage: Prepare the MOHID application environment
 # FROM base AS final
 
-# # Cria o diretório principal para os binários e bibliotecas do MOHID
-# RUN mkdir /mohid
-# ENV PATH="$PATH:/opt/intel/oneapi/mpi/2021.10.0/bin/"
+# COPY --from=build /opt/intel/oneapi/mpi/2021.10.0/ /opt/intel/oneapi/mpi/2021.10.0/
 
-# COPY --from=build /opt/intel/oneapi/mpi/2021.10.0/bin/mpirun /opt/intel/oneapi/mpi/2021.10.0/bin/mpirun
-# # Copia o executável compilado do MOHID da etapa de build
-# COPY --from=build /src/MohidWater.exe /mohid/MohidWater.exe
-# COPY --from=build /src/MohidLand.exe /mohid/MohidLand.exe
+# COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
+# COPY --from=build /lib/x86_64-linux-gnu/libm.so.6 /lib/x86_64-linux-gnu/libm.so.6
+# COPY --from=build /lib/x86_64-linux-gnu/libc.so.6 /lib/x86_64-linux-gnu/libc.so.6
+# COPY --from=build /lib/x86_64-linux-gnu/librt.so.1 /lib/x86_64-linux-gnu/librt.so.1
+# COPY --from=build /lib/x86_64-linux-gnu/libdl.so.2 /lib/x86_64-linux-gnu/libdl.so.2
+# COPY --from=build /lib/x86_64-linux-gnu/libgcc_s.so.1 /lib/x86_64-linux-gnu/libgcc_s.so.1
+# COPY --from=build /lib/x86_64-linux-gnu/libpthread.so.0 /lib/x86_64-linux-gnu/libpthread.so.0
+# COPY --from=build /root/apps_intel/zlib-1.2.11/lib/libz.so.1 /root/apps_intel/zlib-1.2.11/lib/libz.so.1
+# COPY --from=build /root/apps_intel/hdf5-1.8.17/lib/libhdf5.so.10 /root/apps_intel/hdf5-1.8.17/lib/libhdf5.so.10
+# COPY --from=build /root/apps_intel/hdf5-1.8.17/lib/libhdf5_hl.so.10 /root/apps_intel/hdf5-1.8.17/lib/libhdf5_hl.so.10
+# COPY --from=build /root/apps_intel/netcdf-4.4.1.1/lib/libnetcdf.so.11 /root/apps_intel/netcdf-4.4.1.1/lib/libnetcdf.so.11
+# COPY --from=build /root/apps_intel/netcdf-4.4.1.1/lib/libnetcdff.so.6 /root/apps_intel/netcdf-4.4.1.1/lib/libnetcdff.so.6
+# COPY --from=build /opt/intel/oneapi/mpi/2021.10.0//lib/libmpifort.so.12 /opt/intel/oneapi/mpi/2021.10.0//lib/libmpifort.so.12
+# COPY --from=build /root/apps_intel/hdf5-1.8.17/lib/libhdf5_fortran.so.10 /root/apps_intel/hdf5-1.8.17/lib/libhdf5_fortran.so.10
+# COPY --from=build /root/apps_intel/hdf5-1.8.17/lib/libhdf5hl_fortran.so.10 /root/apps_intel/hdf5-1.8.17/lib/libhdf5hl_fortran.so.10
+# COPY --from=build /opt/intel/oneapi/mpi/2021.10.0//lib/release/libmpi.so.12 /opt/intel/oneapi/mpi/2021.10.0//lib/release/libmpi.so.12
+# COPY --from=build /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libimf.so /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libimf.so
+# COPY --from=build /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libsvml.so /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libsvml.so
+# COPY --from=build /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libiomp5.so /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libiomp5.so
+# COPY --from=build /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libintlc.so.5 /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libintlc.so.5
+# COPY --from=build /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libifport.so.5 /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libifport.so.5
+# COPY --from=build /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libifcoremt.so.5 /opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/libifcoremt.so.5
 
-# COPY --from=build /src/MohidDDC.exe /mohid/MohidDDC.exe
-# COPY --from=build /src/Convert2netcdf.exe /mohid/Convert2netcdf.exe
-# COPY --from=build /src/ConvertToHDF5.exe /mohid/ConvertToHDF5.exe
-# COPY --from=build /src/HDF5Exporter.exe /mohid/HDF5Exporter.exe
-# COPY --from=build /src/HDF5Extractor.exe /mohid/HDF5Extractor.exe
 
+# COPY --from=build /src/MohidWater.exe /usr/local/bin/MohidWater.exe
+# COPY --from=build /src/MohidLand.exe /usr/local/bin/MohidLand.exe
+# COPY --from=build /src/MohidDDC.exe /usr/local/bin/MohidDDC.exe
+# COPY --from=build /src/Convert2netcdf.exe /usr/local/bin/Convert2netcdf.exe
+# COPY --from=build /src/ConvertToHDF5.exe /usr/local/bin/ConvertToHDF5.exe
+# COPY --from=build /src/HDF5Exporter.exe /usr/local/bin/HDF5Exporter.exe
+# COPY --from=build /src/HDF5Extractor.exe /usr/local/bin/HDF5Extractor.exe
 
-# COPY --from=build /root/apps_intel /mohid_libs 
-
-# # Copia as bibliotecas compiladas (zlib, hdf5, etc.) da etapa de build para o diretório do container
-# COPY --from=build /root/apps_intel /mohid_libs 
-
-# # Cria um subdiretório para as bibliotecas Intel necessárias
-# RUN mkdir /mohid_libs/intel
-
-# # Copia as bibliotecas Intel necessárias do ambiente de build para o container
-# COPY --from=build /opt/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin/libimf.so /mohid_libs/intel/libimf.so
-# COPY --from=build /opt/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin/libsvml.so /mohid_libs/intel/libsvml.so
-# COPY --from=build /opt/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin/libirng.so /mohid_libs/intel/libirng.so
-# COPY --from=build /opt/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin/libintlc.so.5 /mohid_libs/intel/libintlc.so.5
-# COPY --from=build /opt/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin/libifport.so.5 /mohid_libs/intel/libifport.so.5
-# COPY --from=build /opt/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin/libifcoremt.so.5 /mohid_libs/intel/libifcoremt.so.5
-
-# # Adiciona os caminhos das bibliotecas ao sistema de bibliotecas compartilhadas
-# RUN echo "/mohid_libs/intel" >> /etc/ld.so.conf
-# RUN echo "/mohid_libs/mpich-3.2/lib" >> /etc/ld.so.conf
-# RUN echo "/mohid_libs/proj-4.9.3/lib" >> /etc/ld.so.conf
-# RUN echo "/mohid_libs/netcdf-4.4.1.1/lib" >> /etc/ld.so.conf
-# RUN echo "/mohid_libs/hdf5-1.8.17/lib" >> /etc/ld.so.conf
-# RUN echo "/mohid_libs/zlib-1.2.11/lib" >> /etc/ld.so.conf
-
-# COPY test_sim.sh /home/test_sim.sh
-# RUN chmod +x /home/test_sim.sh
-
-# # Atualiza o cache de bibliotecas compartilhadas para incluir os novos caminhos
-# RUN ldconfig
+# ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/lib64:/lib/x86_64-linux-gnu:/root/apps_intel/zlib-1.2.11/lib:/root/apps_intel/hdf5-1.8.17/lib:/root/apps_intel/netcdf-4.4.1.1/lib:/opt/intel/oneapi/mpi/2021.10.0//lib:/opt/intel/oneapi/mpi/2021.10.0//lib/release:/opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin
+# ENV PATH=$PATH:/opt/intel/oneapi/mpi/2021.10.0/bin
