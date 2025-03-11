@@ -89,9 +89,11 @@ RUN cd /src && \
 RUN cd /src && \
     ifort -O3 -w -cpp -real-size 64 -convert little_endian -fPIC -heap-arrays 64 -fp-model source -xHost -ip -fpe3 -fpp -D_NO_NETCDF /Mohid/Software/MOHIDBase1/ModuleGlobalData.F90 /Mohid/Software/MOHIDBase1/ModuleTime.F90 /Mohid/Software/MOHIDBase1/ModuleEnterData.F90 /Mohid/Software/MOHIDBase1/ModuleStopWatch.F90 /Mohid/Software/MOHIDBase1/ModuleFunctions.F90 /Mohid/Software/MOHIDBase1/ModuleHDF5.F90 /Mohid/Software/MOHIDBase1/ModuleDrawing.F90 /Mohid/Software/HDF5Extractor/ModuleHDF5Extractor.F90 /Mohid/Software/HDF5Extractor/HDF5Extractor.F90 -I$HDF5/include -L$HDF5/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5 -ldl -I$ZLIB/include -L$ZLIB/lib -lz -lm -o HDF5Extractor.exe
 
+
+
 ## Final Stage: Prepare the MOHID application environment
 # FROM base AS final
-
+COPY test_sim.sh /home/test_sim.sh
 # COPY --from=build /opt/intel/oneapi/mpi/2021.10.0/ /opt/intel/oneapi/mpi/2021.10.0/
 
 # COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
