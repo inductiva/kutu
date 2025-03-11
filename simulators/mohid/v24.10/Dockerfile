@@ -94,6 +94,7 @@ RUN cd /src && \
 ## Final Stage: Prepare the MOHID application environment
 # FROM base AS final
 COPY test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
 # COPY --from=build /opt/intel/oneapi/mpi/2021.10.0/ /opt/intel/oneapi/mpi/2021.10.0/
 
 # COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
