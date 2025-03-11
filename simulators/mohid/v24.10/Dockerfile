@@ -74,7 +74,7 @@ RUN cd /src && \
 RUN cd /src && \
     ifort -O3 -qopenmp -w -cpp -real-size 64 -convert little_endian -fPIC -heap-arrays 64 -mcmodel=large -xHost -ip -fpe3 -fpp -D_NO_NETCDF -D_INCREASE_MAXINSTANCES -D_BIG_LINE_LENGTH /Mohid/Software/MOHIDBase1/ModuleGlobalData.F90  /Mohid/Software/MOHIDBase1/ModuleLUD.F90  /Mohid/Software/MOHIDBase1/ModuleTriangulation.F90 /Mohid/Software/MOHIDBase1/ModuleTime.F90 /Mohid/Software/MOHIDBase1/ModuleEnterData.F90 /Mohid/Software/MOHIDBase1/ModuleWWTPQ.F90 /Mohid/Software/MOHIDBase1/ModuleStopWatch.F90 /Mohid/Software/MOHIDBase1/ModuleFunctions.F90 /Mohid/Software/MOHIDBase1/ModuleMacroAlgae.F90  /Mohid/Software/MOHIDBase1/ModuleWaterQuality.F90 /Mohid/Software/MOHIDBase1/ModuleSedimentQuality.F90 /Mohid/Software/MOHIDBase1/ModuleSeagrassWaterInteraction.F90 /Mohid/Software/MOHIDBase1/ModuleHDF5.F90 /Mohid/Software/MOHIDBase1/ModuleSeagrassSedimInteraction.F90 /Mohid/Software/MOHIDBase1/ModuleLife.F90 /Mohid/Software/MOHIDBase1/ModuleCEQUALW2.F90 /Mohid/Software/MOHIDBase1/ModuleBenthos.F90 /Mohid/Software/MOHIDBase1/ModuleDrawing.F90 /Mohid/Software/MOHIDBase1/ModuleProfile.F90 /Mohid/Software/MOHIDBase1/ModuleBivalve.F90 /Mohid/Software/MOHIDBase1/ModuleBenthicEcology.F90 /Mohid/Software/MOHIDBase1/ModuleInterface.F90 /Mohid/Software/MOHIDBase1/ModuleTimeSerie.F90  /Mohid/Software/MOHIDBase1/ModuleDischarges.F90 /Mohid/Software/MOHIDBase1/ModuleLightExtinction.F90 /Mohid/Software/MOHIDBase1/ModuleDrainageNetwork.F90 /Mohid/Software/MOHIDBase1/ModuleTask2000.F /Mohid/Software/MOHIDBase2/ModuleHorizontalGrid.F90 /Mohid/Software/MOHIDBase2/ModuleStatistic.F90  /Mohid/Software/MOHIDBase2/ModuleGridData.F90  /Mohid/Software/MOHIDBase2/ModuleBasinGeometry.F90 /Mohid/Software/MOHIDBase2/ModuleHorizontalMap.F90  /Mohid/Software/MOHIDBase2/ModuleBoxDif.F90 /Mohid/Software/MOHIDBase2/ModuleGeometry.F90 /Mohid/Software/MOHIDBase2/ModuleMap.F90 /Mohid/Software/MOHIDBase2/ModuleAdvectionDiffusion.F90 /Mohid/Software/MOHIDBase2/ModuleTwoWay.F90 /Mohid/Software/MOHIDBase2/ModuleField4D.F90   /Mohid/Software/MOHIDBase2/ModuleFillMatrix.F90 /Mohid/Software/MOHIDBase2/ModuleAtmosphere.F90 /Mohid/Software/MOHIDBase2/ModuleChainReactions.F90 /Mohid/Software/MOHIDLand/ModuleRunOff.F90 /Mohid/Software/MOHIDLand/ModuleRunoffProperties.F90 /Mohid/Software/MOHIDLand/ModulePorousMedia.F90 /Mohid/Software/MOHIDLand/ModulePorousMediaProperties.F90 /Mohid/Software/MOHIDLand/ModuleVegetation.F90 /Mohid/Software/MOHIDLand/ModuleSnow.F90 /Mohid/Software/MOHIDLand/ModuleIrrigation.F90 /Mohid/Software/MOHIDLand/ModuleReservoirs.F90 /Mohid/Software/MOHIDLand/ModuleBasin.F90 /Mohid/Software/MOHIDLand/MohidLand.F90 -I$HDF5/include -L$HDF5/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5 -ldl -I$ZLIB/include -L$ZLIB/lib -lz -lm -o MohidLand.exe
 
-    RUN cd /src && \
+RUN cd /src && \
     ifort -O3 -w -cpp -real-size 64 -convert little_endian -fPIC -fp-model source -xHost -ip -fpe3 -fpp -D_INCREASE_MAXINSTANCES -D_NO_NETCDF  /Mohid/Software/MOHIDBase1/ModuleGlobalData.F90 /Mohid/Software/MOHIDBase1/ModuleTime.F90 /Mohid/Software/MOHIDBase1/ModuleEnterData.F90  /Mohid/Software/MOHIDBase1/ModuleStopWatch.F90 /Mohid/Software/MOHIDBase1/ModuleFunctions.F90 /Mohid/Software/MOHIDBase1/ModuleHDF5.F90 /Mohid/Software/DomainDecompositionConsolidation/ModuleHashTable.F90 /Mohid/Software/DomainDecompositionConsolidation/ModuleDDC.F90 /Mohid/Software/DomainDecompositionConsolidation/MohidDDC.F90 -I$HDF5/include -L$HDF5/lib -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5 -ldl -I$ZLIB/include -L$ZLIB/lib -lz -lm -o MohidDDC.exe
 
 RUN cd /src && \
@@ -94,10 +94,19 @@ FROM base AS final
 
 # Cria o diretório principal para os binários e bibliotecas do MOHID
 RUN mkdir /mohid
+ENV PATH="$PATH:/opt/intel/oneapi/mpi/2021.10.0/bin/mpirun"
 
+COPY --from=build /opt/intel/oneapi/mpi/2021.10.0/bin/mpirun /opt/intel/oneapi/mpi/2021.10.0/bin/mpirun
 # Copia o executável compilado do MOHID da etapa de build
 COPY --from=build /src/MohidWater.exe /mohid/MohidWater.exe
 COPY --from=build /src/MohidLand.exe /mohid/MohidLand.exe
+
+COPY --from=build /src/MohidDDC.exe /mohid/MohidDDC.exe
+COPY --from=build /src/Convert2netcdf.exe /mohid/Convert2netcdf.exe
+COPY --from=build /src/ConvertToHDF5.exe /mohid/ConvertToHDF5.exe
+COPY --from=build /src/HDF5Exporter.exe /mohid/HDF5Exporter.exe
+COPY --from=build /src/HDF5Extractor.exe /mohid/HDF5Extractor.exe
+
 
 COPY --from=build /root/apps_intel /mohid_libs 
 
