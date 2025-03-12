@@ -59,5 +59,5 @@ RUN cd src && \
 # Set working directory to run directory
 WORKDIR /cm1/run
 
-# Set default command to print version info
-CMD ["./cm1.exe", "-v"]
+RUN sed 's/nodex\s*=\s*1,/nodex        =       2,/' amelist.input && \
+    sed 's/nodey\s*=\s*1,/nodex        =       2,/' amelist.input
