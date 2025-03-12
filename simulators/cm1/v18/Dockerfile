@@ -60,4 +60,4 @@ RUN cd src && \
 WORKDIR /cm1/run
 
 RUN sed -i 's/nodex\s*=\s*1,/nodex        =       2,/' namelist.input && \
-    sed -i 's/nodey\s*=\s*1,/nodex        =       2,/' namelist.input
+    sed -i 's/nodey\s*=\s*1,/nodey        =       2,/' namelist.input
