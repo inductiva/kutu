@@ -115,8 +115,8 @@ LINKOPTS  = -lnetcdf -lnetcdff
 #-----------------------------------------------------------------------------
 #  multiple processors, distributed memory (MPI), gnu compiler
 FC = mpif90
-OPTS = -ffree-form -ffree-line-length-none -ffixed-form -I../include -O2
-CPP  = cpp -C -P -traditional -Wno-invalid-pp-token
+OPTS = -ffree-form -ffree-line-length-none -I../include -O2
+CPP  = cpp -P -Wno-invalid-pp-token
 DM = -DMPI
 #-----------------------------------------------------------------------------
 #  single processor, g95 compiler
@@ -253,3 +253,12 @@ turb.o: sfclay.o sfclayrev.o slab.o oml.o ysu.o
 init_surface.o: oml.o
 init3d.o:  module_mp_nssl_2mom.o
 writeout_nc.o: restart.o
+
+
+domaindiag.o: domaindiag.F
+	$(CPP) $(DM) $(DP) $(ADV) $(OUTPUTOPT) $*.F > $*.f90
+	$(FC) $(FFLAGS) $(OUTPUTINC) -O2 -Ovector0 -c $*.f90
+
+hifrq.o: hifrq.F
+	$(CPP) $(DM) $(DP) $(ADV) $(OUTPUTOPT) $*.F > $*.f90
+	$(FC) $(FFLAGS) $(OUTPUTINC) -O1 -c $*.f90
