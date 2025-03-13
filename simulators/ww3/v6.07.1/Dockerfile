@@ -72,3 +72,6 @@ RUN cd /WW3 && \
       -DNetCDF_F90_LIBRARY=/WW3_LIBRARIES/lib/libnetcdff.so && \
     make -j && \
     make install
+
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
