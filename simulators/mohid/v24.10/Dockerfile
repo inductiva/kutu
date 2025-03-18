@@ -93,6 +93,10 @@ RUN cd /src && \
 
 ## Final Stage: Prepare the MOHID application environment
 FROM base AS final
+
+ENV MPIR_CVAR_CH4_OFI_TAG_BITS=31
+ENV MPIR_CVAR_CH4_OFI_RANK_BITS=8
+
 COPY test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 COPY --from=build /opt/intel/oneapi/mpi/2021.10.0/ /opt/intel/oneapi/mpi/2021.10.0/
