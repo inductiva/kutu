@@ -52,7 +52,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | echo_v0.1 | 28.168192863464355 MB |
 | openfast_v3.5.2 | 73.00116920471191 MB |
 | openfast_v4.0.2 | 83.28230571746826 MB |
-| cans_v2.3.4 | 90.74795055389404 MB |
 | xbeach_v1.24 | 94.56818866729736 MB |
 | swash_v9.01A | 97.02248287200928 MB |
 | cans_v2.4.0 | 97.27389526367188 MB |
@@ -82,6 +81,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | openseespy_v3.7.1 | 899.0399379730225 MB |
 | fds_v6.9.1 | 944.8491230010986 MB |
 | reef3d_v24.12 | 1075.5085287094116 MB |
+| reef3d_v25.02 | 1102.0069732666016 MB |
 | openfoam-esi_v2206 | 1148.198037147522 MB |
 | openfoam-esi_v2406 | 1170.1125230789185 MB |
 | openfoam-esi_v2412 | 1177.428095817566 MB |
