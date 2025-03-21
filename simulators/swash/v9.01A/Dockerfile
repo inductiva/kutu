@@ -32,7 +32,8 @@ RUN git clone https://gitlab.tudelft.nl/citg/wavemodels/swash.git && \
     cmake --build . && \
     cmake --install . && \
     cd / && \
-    rm -rf ${SWASH_TMP}
+    rm -rf ${SWASH_TMP} && \
+    sed -i '2i set -e' /swash/bin/swashrun
 
 
 FROM ubuntu:22.04

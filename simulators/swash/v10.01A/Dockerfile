@@ -71,6 +71,7 @@ RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swash/v${SW
     mkdir ${SWASH_HOME} && \
     mv swash.exe swashrun ${SWASH_HOME} && \
     chmod +rx ${SWASH_HOME}/swashrun && \
+    sed -i '2i set -e' ${SWASH_HOME}/swashrun && \
     rm -rf ${SWASH_TMP}
 ENV PATH ${SWASH_HOME}:$PATH
 
