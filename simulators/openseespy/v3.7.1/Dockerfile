@@ -63,6 +63,14 @@ RUN cd / && \
     bash -c 'echo "/opt/occt781/lib" >> /etc/ld.so.conf.d/occt.conf' && \
     ldconfig
 
+RUN pip install openseespy==3.7.1.2 && \
+    pip install sees==0.0.25 && \
+    pip install numpy && \
+    pip install mpi4py && \
+    pip install ifcopenshell && \
+    pip install gmsh && \
+    cp /usr/bin/python3 /usr/bin/python
+
 # Build pythonOCC
 RUN cd / && \
     git clone https://github.com/tpaviot/pythonocc-core.git && \
@@ -76,13 +84,6 @@ RUN cd / && \
     make install
 
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/occt781/lib
-
-RUN pip install openseespy==3.7.1.2 && \
-    pip install sees==0.0.25 && \
-    pip install mpi4py && \
-    pip install ifcopenshell && \
-    pip install gmsh && \
-    cp /usr/bin/python3 /usr/bin/python
 
 COPY --from=test_env /home /home
 
