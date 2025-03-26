@@ -55,7 +55,8 @@ RUN  cd / && \
     mkdir cmake-build && \
     cd cmake-build && \
     cmake -DINSTALL_DIR=/opt/occt781 \
-      -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF && \
+      -DBUILD_RELEASE_DISABLE_EXCEPTIONS=OFF \
+      .. && \
     make -j$(nproc) && \
     make install && \
     bash -c 'echo "/opt/occt781/lib" >> /etc/ld.so.conf.d/occt.conf' && \
@@ -68,9 +69,10 @@ RUN cd / && \
     cmake \
         -DOCCT_INCLUDE_DIR=/opt/occt781/include/opencascade \
         -DOCCT_LIBRARY_DIR=/opt/occt781/lib \
-        -DCMAKE_BUILD_TYPE=Release && \
+        -DCMAKE_BUILD_TYPE=Release \
+        .. && \
     make -j$(nproc) && \
-    make install && \
+    make install
 
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/occt781/lib
 
