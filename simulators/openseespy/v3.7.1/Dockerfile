@@ -71,6 +71,10 @@ RUN pip install openseespy==3.7.1.2 && \
     pip install gmsh && \
     cp /usr/bin/python3 /usr/bin/python
 
+RUN python3 -c "import numpy; print(numpy.get_include())" && \
+    apt-get update && apt-get install -y python3-numpy
+
+
 # Build pythonOCC
 RUN cd / && \
     git clone https://github.com/tpaviot/pythonocc-core.git && \
