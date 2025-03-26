@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     liblapack-dev \
     libopenmpi-dev \
+    openmpi-bin \
     libmkl-rt \
     openmpi-common=4.1.2-2ubuntu1 \
     libmkl-blacs-openmpi-lp64 \
@@ -50,6 +51,8 @@ RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2023.07-0-Linux-x86
 
 # Install packages in the base environment
 RUN conda install -c conda-forge pythonocc-core=7.8.1.1
+
+RUN mpicc --version
 
 RUN pip install openseespy==3.7.1.2 && \
     pip install sees==0.0.25 && \
