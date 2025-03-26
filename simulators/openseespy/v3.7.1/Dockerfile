@@ -51,7 +51,7 @@ RUN cd / && \
 RUN  cd / && \
     wget https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_8_1.tar.gz && \
     tar -xvzf V7_8_1.tar.gz && \
-    cd OCCT-7.8.1.1 && \
+    cd OCCT-7_8_1 && \
     mkdir cmake-build && \
     cd cmake-build && \
     cmake -DINSTALL_DIR=/opt/occt781 \
