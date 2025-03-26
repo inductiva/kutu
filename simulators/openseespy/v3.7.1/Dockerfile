@@ -28,6 +28,8 @@ RUN apt-get update && apt-get install -y \
 RUN pip install openseespy==3.7.1.2 && \
     pip install sees==0.0.25 && \
     pip install mpi4py && \
+    pip install ifcopenshell && \
+    pip install gmsh && \
     cp /usr/bin/python3 /usr/bin/python
 
 COPY --from=test_env /home /home
