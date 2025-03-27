@@ -48,6 +48,7 @@ RUN pip install openseespy==3.7.1.2 && \
     pip install mpi4py && \
     pip install ifcopenshell && \
     pip install gmsh && \
+    pip install pandas==2.1.1 && \
     cp /usr/bin/python3 /usr/bin/python
 
 RUN cd / && \
