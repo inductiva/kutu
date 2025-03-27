@@ -34,7 +34,7 @@ RUN git clone https://gitlab.tudelft.nl/citg/wavemodels/swash.git && \
     cd / && \
     rm -rf ${SWASH_TMP} && \
     sed -i '2i set -e' /swash/bin/swashrun && \
-    sed 's/mpirun -np \$npmpi swash.exe/mpirun -np \$npmpi -machinefile machinefile swash.exe/' /swash/bin/swashrun
+    sed -i 's/mpirun -np \$npmpi swash.exe/mpirun -np \$npmpi -machinefile machinefile swash.exe/' /swash/bin/swashrun
 
 
 
