@@ -33,7 +33,9 @@ RUN git clone https://gitlab.tudelft.nl/citg/wavemodels/swash.git && \
     cmake --install . && \
     cd / && \
     rm -rf ${SWASH_TMP} && \
-    sed -i '2i set -e' /swash/bin/swashrun
+    sed -i '2i set -e' /swash/bin/swashrun && \
+    sed -i 's/mpirun -np \$npmpi swash.exe/mpirun -np \$npmpi -machinefile machinefile swash.exe/' /swash/bin/swashrun
+
 
 
 FROM ubuntu:22.04
