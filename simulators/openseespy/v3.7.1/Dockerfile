@@ -13,33 +13,32 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # System dependencies
 RUN apt-get update && apt-get install -y \
-    gcc \
     g++ \
-    gfortran \
-    python3-pip \
-    liblapack-dev \
-    libopenmpi-dev \
-    openmpi-bin \
-    libmkl-rt \
-    openmpi-common=4.1.2-2ubuntu1 \
-    libmkl-blacs-openmpi-lp64 \
-    libscalapack-openmpi-dev \
-    wget \
-    libglu1-mesa-dev \
-    libgl1-mesa-dev \
-    libxmu-dev \
-    libxi-dev \
-    build-essential \
-    cmake \
-    libfreetype6-dev \
-    libxcursor1 \
-    tk-dev \
-    python3-dev \
-    rapidjson-dev \
-    python3 \
+    gcc \
     git \
+    wget \
+    cmake \
+    tk-dev \
+    python3 \
+    gfortran \
+    libmkl-rt \
+    libxi-dev \
+    libxmu-dev \
+    libxcursor1 \
+    openmpi-bin \
+    python3-dev \
     python3-pip \
     libpcre2-dev \
+    liblapack-dev \
+    rapidjson-dev \
+    libopenmpi-dev \
+    build-essential \
+    libgl1-mesa-dev \
+    libfreetype6-dev \
+    libglu1-mesa-dev \
+    libscalapack-openmpi-dev \
+    libmkl-blacs-openmpi-lp64 \
+    openmpi-common=4.1.2-2ubuntu1 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install openseespy==3.7.1.2 && \
