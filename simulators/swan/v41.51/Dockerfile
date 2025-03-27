@@ -46,7 +46,8 @@ RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWA
     cp bin/swan.exe bin/hcat.exe ../bin/swanrun ${SWAN_HOME} && \
     chmod +rx ${SWAN_HOME}/swanrun && \
     rm -rf ${SWAN_TMP} && \
-    sed -i '2i set -e' ${SWAN_HOME}/swanrun
+    sed -i '2i set -e' ${SWAN_HOME}/swanrun && \
+    sed 's/mpirun -np \$npmpi swan.exe/mpirun -np \$npmpi -machinefile machinefile swan.exe/' ${SWAN_HOME}/swanrun
 
 ENV PATH ${SWAN_HOME}:$PATH
 
