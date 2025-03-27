@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     libfreetype6-dev \
+    libxcursor1 \
     tk-dev \
     python3-dev \
     rapidjson-dev \
