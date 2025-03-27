@@ -62,7 +62,7 @@ RUN cd / && \
     cp /root/miniconda3/lib/* /lib/ -r && \
     rm -r /root/miniconda3/
 
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/occt781/lib
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/occt781/lib:/usr/lib/x86_64-linux-gnu/
 
 COPY --from=test_env /home /home
 
