@@ -44,11 +44,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN pip install openseespy==3.7.1.2 && \
     pip install sees==0.0.25 && \
-    pip install numpy && \
-    pip install mpi4py && \
-    pip install ifcopenshell && \
-    pip install gmsh && \
-    pip install pandas==2.1.1 && \
+    pip install numpy pandas mpi4py ifcopenshell gmsh && \
     cp /usr/bin/python3 /usr/bin/python
 
 RUN cd / && \
