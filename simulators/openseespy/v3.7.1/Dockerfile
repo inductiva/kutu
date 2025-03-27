@@ -57,6 +57,7 @@ RUN cd / && \
     #cant install pythonocc-core with pip
     #cant install mpi4py with conda
     cp -r /root/miniconda3/lib/python3.12/site-packages/OCC/ /usr/local/lib/python3.10/dist-packages/ && \
+    rm -r /root/miniconda3/lib/terminfo && \
     cp /root/miniconda3/lib/* /lib/ -r && \
     rm -r /root/miniconda3/
 
