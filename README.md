@@ -52,7 +52,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | echo_v0.1 | 28.168192863464355 MB |
 | openfast_v3.5.2 | 73.00116920471191 MB |
 | openfast_v4.0.2 | 83.28230571746826 MB |
-| xbeach_v1.24 | 94.56818866729736 MB |
 | cans_v2.4.0 | 97.27389526367188 MB |
 | fvcom_v5.1.0 | 100.73739910125732 MB |
 | swash_v9.01A | 101.37859630584717 MB |
