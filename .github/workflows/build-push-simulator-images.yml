@@ -36,7 +36,7 @@ jobs:
       # Example: https://github.com/tj-actions/changed-files/blob/main/.github/workflows/matrix-example.yml
       - name: Get all changed dockerfiles
         id: changed-dockerfiles
-        uses: tj-actions/changed-files@v43
+        uses: tj-actions/changed-files@v46
         with:
           files: |
              simulators/**/*
