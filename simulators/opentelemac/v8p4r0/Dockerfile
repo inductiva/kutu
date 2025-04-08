@@ -48,4 +48,7 @@ ENV PYTHONUNBUFFERED=true
 WORKDIR /case
 VOLUME /case
 
+COPY ./test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
+
 CMD ["bash"]
