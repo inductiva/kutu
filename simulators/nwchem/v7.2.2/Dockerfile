@@ -48,6 +48,8 @@ RUN apt update -qq && \
     apt clean
 
 ENV OMP_NUM_THREADS=1
+# https://nwchemgit.github.io/FAQ.html#nb_wait_for_handle-error
+ENV COMEX_MAX_NB_OUTSTANDING=16
 
 COPY --from=build /lib/x86_64-linux-gnu/libscalapack-openmpi.so.2.1 /lib/x86_64-linux-gnu/libscalapack-openmpi.so.2.1
 COPY --from=build /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7 /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7
