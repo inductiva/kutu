@@ -28,7 +28,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt install -y \
     python3 python3-pip libmetis-dev mpich \
-    python3-numpy python3-scipy python3-matplotlib curl && \
+    python3-numpy python3-scipy python3-matplotlib curl unzip && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /opt/telemac-mascaret/scripts /opt/telemac-mascaret/scripts
