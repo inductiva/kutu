@@ -23,7 +23,7 @@ ENV NWCHEM_TOP=/nwchem-7.2.2 \
     BUILD_OPENBLAS=1 \
     SCALAPACK_SIZE=4 \
     USE_SCALAPACK=y \
-	USE_OPENMP=0 \
+	USE_OPENMP=1 \
 	USE_MPIF4=y \
     BLAS_SIZE=4 \
 	USE_NOIO=y \
@@ -47,6 +47,7 @@ RUN apt update -qq && \
         openmpi-bin=4.1.2-2ubuntu1 && \
     apt clean
 
+ENV OMP_NUM_THREADS=1
 # https://nwchemgit.github.io/FAQ.html#nb_wait_for_handle-error
 ENV COMEX_MAX_NB_OUTSTANDING=16
 
