@@ -47,6 +47,7 @@ RUN apt update -qq && \
         openmpi-bin=4.1.2-2ubuntu1 && \
     apt clean
 
+
 ENV OMP_NUM_THREADS=1
 # https://nwchemgit.github.io/FAQ.html#nb_wait_for_handle-error
 ENV COMEX_MAX_NB_OUTSTANDING=16
