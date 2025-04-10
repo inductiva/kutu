@@ -42,6 +42,10 @@ RUN wget https://github.com/nwchemgit/nwchem/releases/download/v7.2.2-release/nw
 
 FROM ubuntu:22.04
 
+ENV OMP_NUM_THREADS=1
+# https://nwchemgit.github.io/FAQ.html#nb_wait_for_handle-error
+ENV COMEX_MAX_NB_OUTSTANDING=16
+
 RUN apt update -qq && \
     apt install --no-install-recommends -y \
         openmpi-bin=4.1.2-2ubuntu1 && \
