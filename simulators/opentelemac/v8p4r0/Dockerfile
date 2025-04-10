@@ -3,7 +3,9 @@ FROM ubuntu:22.04 as builder
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt install -y \
-    build-essential gfortran mpich git wget curl \
+    build-essential gfortran git wget curl \
+    openmpi-bin=4.1.2-2ubuntu1 openmpi-common=4.1.2-2ubuntu1 \
+    libopenmpi-dev=4.1.2-2ubuntu1 \
     python3 python3-pip python3-numpy python3-scipy python3-matplotlib \
     libmetis-dev cmake unzip
 
@@ -27,7 +29,9 @@ FROM ubuntu:22.04 as final
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt install -y \
-    python3 python3-pip libmetis-dev mpich \
+    python3 python3-pip libmetis-dev \
+    openmpi-bin=4.1.2-2ubuntu1 openmpi-common=4.1.2-2ubuntu1 \
+    libopenmpi-dev=4.1.2-2ubuntu1 \
     python3-numpy python3-scipy python3-matplotlib curl unzip && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
