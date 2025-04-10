@@ -53,7 +53,7 @@ RUN curl https://storage.googleapis.com/inductiva-api-demo-files/opentelemac-inp
     --output /home/opentelemac-input-example.zip \
     && unzip /home/opentelemac-input-example.zip -d /home/ \
     && rm /home/opentelemac-input-example.zip \
-    # Reduce Simulation time to 1 second
+    # Reduce Simulation time to 1 second for testing
     && sed -i 's/^DURATION *= *.*/DURATION = 1./' /home/t2d_malpasset-fine.cas
 
 COPY ./test_sim.sh /home/test_sim.sh
