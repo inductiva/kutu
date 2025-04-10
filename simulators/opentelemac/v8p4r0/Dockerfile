@@ -5,13 +5,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y \
     build-essential gfortran mpich git wget curl \
     python3 python3-pip python3-numpy python3-scipy python3-matplotlib \
-    libmetis-dev cmake unzip git-lfs && git lfs install
+    libmetis-dev cmake unzip curl
 
 WORKDIR /opt
 RUN git clone https://gitlab.pam-retd.fr/otm/telemac-mascaret.git telemac-mascaret
 
 WORKDIR /opt/telemac-mascaret
-RUN git checkout tags/v8p4r0 && git lfs pull
+RUN git checkout tags/v8p4r0
 
 # Copy configs
 COPY systel.cfg /opt/telemac-mascaret/configs/systel.cfg
@@ -49,7 +49,8 @@ WORKDIR /case
 VOLUME /case
 
 # Get input example
-RUN wget -O /home/opentelemac-input-example.zip https://storage.googleapis.com/inductiva-api-demo-files/opentelemac-input-example.zip \
+RUN curl https://storage.googleapis.com/inductiva-api-demo-files/opentelemac-input-example.zip \
+    --output /home/opentelemac-input-example.zip \
     && unzip /home/opentelemac-input-example.zip -d /home/ \
     && rm /home/opentelemac-input-example.zip \
     # Reduce Simulation time to 1 second
