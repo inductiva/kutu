@@ -42,15 +42,14 @@ RUN wget https://github.com/nwchemgit/nwchem/releases/download/v7.2.3-release/nw
 
 FROM ubuntu:22.04
 
+ENV OMP_NUM_THREADS=1
+# https://nwchemgit.github.io/FAQ.html#nb_wait_for_handle-error
+ENV COMEX_MAX_NB_OUTSTANDING=16
+
 RUN apt update -qq && \
     apt install --no-install-recommends -y \
         openmpi-bin=4.1.2-2ubuntu1 && \
     apt clean
-
-
-ENV OMP_NUM_THREADS=1
-# https://nwchemgit.github.io/FAQ.html#nb_wait_for_handle-error
-ENV COMEX_MAX_NB_OUTSTANDING=16
 
 COPY --from=build /lib/x86_64-linux-gnu/libscalapack-openmpi.so.2.1 /lib/x86_64-linux-gnu/libscalapack-openmpi.so.2.1
 COPY --from=build /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7 /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7
