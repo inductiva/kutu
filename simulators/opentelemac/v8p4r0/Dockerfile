@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y \
     build-essential gfortran mpich git wget curl \
     python3 python3-pip python3-numpy python3-scipy python3-matplotlib \
-    libmetis-dev cmake unzip curl
+    libmetis-dev cmake unzip
 
 WORKDIR /opt
 RUN git clone https://gitlab.pam-retd.fr/otm/telemac-mascaret.git telemac-mascaret
@@ -28,7 +28,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt install -y \
     python3 python3-pip libmetis-dev mpich \
-    python3-numpy python3-scipy python3-matplotlib && \
+    python3-numpy python3-scipy python3-matplotlib curl && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /opt/telemac-mascaret/scripts /opt/telemac-mascaret/scripts
