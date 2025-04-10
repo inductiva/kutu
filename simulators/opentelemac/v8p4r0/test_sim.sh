@@ -1,2 +1,5 @@
 #!/bin/bash
-echo "opentelemac!!"
+
+cd /home/opentelemac-input-example
+
+telemac2d.py t2d_malpasset-fine.cas
