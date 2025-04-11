@@ -65,13 +65,14 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | opensees_v2.5.0 | 290.51967906951904 MB |
 | snl-swan_v2.2 | 295.79521083831787 MB |
 | dualsphysics_v5.2.1 | 317.7801342010498 MB |
+| opentelemac_v8p4r0 | 384.2470808029175 MB |
 | swash_v10.01A | 390.79254245758057 MB |
 | swash_v10.05 | 390.88879013061523 MB |
 | swash_v11.01 | 390.89534854888916 MB |
-| nwchem_v7.2.2 | 396.5039577484131 MB |
-| nwchem_v7.2.3 | 401.409161567688 MB |
+| nwchem_v7.2.2 | 403.40702056884766 MB |
+| nwchem_v7.2.3 | 404.76081562042236 MB |
+| delft3d_v6.04.00 | 517.3401861190796 MB |
 | openfoam-foundation_v8 | 527.9802980422974 MB |
-| base-image_v0.1.1 | 553.7915143966675 MB |
 | swan_v41.51 | 558.3809080123901 MB |
 | cm1_v21.1 | 576.6939287185669 MB |
 | openfoam-foundation_v12 | 628.443922996521 MB |
