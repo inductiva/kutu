@@ -16,9 +16,6 @@ ENV OMPI_ALLOW_RUN_AS_ROOT=1
 ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
 RUN apt-get remove cmake -y && \
-    apt-get install -y \
-    libssl-dev \
-    fftw3-dev && \
     # Install cmake
     wget -O cmake.tar.gz https://github.com/Kitware/CMake/archive/refs/tags/v3.31.5.tar.gz && \
     tar -xzf cmake.tar.gz && ls && cd CMake-3.31.5 && \
