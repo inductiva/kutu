@@ -12,32 +12,75 @@ COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
 # Start from an image provided by NVIDIA with CUDA 11.7.
-FROM inductiva/kutu:base-image_v0.1.0 as build
+FROM nvidia/cuda:11.7.1-devel-ubuntu22.04 as build
 
 # Set frontend to be noninteractive, to avoid prompts during installation.
 ENV DEBIAN_FRONTEND=noninteractive
 
+RUN apt-get update && \
+    apt-get install -y \
+        software-properties-common && \
+    add-apt-repository ppa:git-core/ppa -y && \ 
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get install -y \
+    # Development Tools
+    build-essential \
+    pkg-config \
+    cmake \
+    make \
+    wget \
+    curl \
+    vim \
+    git \
+    # Compilers and Libraries
+    libopenmpi-dev=4.1.2-2ubuntu1 \
+    libscalapack-openmpi-dev \
+    libopenblas-dev \
+    libnetcdff-dev \
+    liblapack-dev \
+    libnetcdf-dev \
+    libfftw3-dev \
+    gfortran-10 \
+    libblas-dev \
+    libomp-dev \
+    liblapack3 \
+    gfortran \
+    libgomp1 \
+    g++-10 \
+    gcc-10 \
+    gcc \
+    g++ \
+    # MPI (Message Passing Interface)
+    openmpi-common=4.1.2-2ubuntu1 \
+    openmpi-bin=4.1.2-2ubuntu1 \
+    # Python
+    python3.11-distutils \
+    python3-pip \
+    python3.11 \
+    # X11 and Graphics Libraries
+    libgl1-mesa-glx \
+    freeglut3-dev \
+    libglu1-mesa \
+    libx11-6 \
+    xorg-dev \
+    libxmu6 \
+    xvfb \
+    # Miscellaneous
+    openssh-client \
+    fftw3 \
+    gmsh \
+    flex \
+    unzip
+
 # Clone the DualSPHysics repository.
 WORKDIR /
 
-RUN wget -O DualSPHysics_v5.4.1.zip https://storage.googleapis.com/inductiva-host-source-codes/DualSPHysics_v5.4.1.zip\
-    && unzip /DualSPHysics_v5.4.1.zip && \
-    rm -r /DualSPHysics_v5.4.1.zip \ 
-        /DualSPHysics_v5.4.1/bin/windows \
-        /DualSPHysics_v5.4.1/CHANGES.txt \
-        /DualSPHysics_v5.4.1/examples/ \
-        /DualSPHysics_v5.4.1/doc/ \
-        /DualSPHysics_v5.4.1/Files_DualSPHysics_v5.4.1.pdf \
-        /DualSPHysics_v5.4.1/src/VS \
-        /DualSPHysics_v5.4.1/src/lib/vs2022/ \
-        /DualSPHysics_v5.4.1/src_flexstruc/VS/ \
-        /DualSPHysics_v5.4.1/src_flexstruc/lib/vs2022/ \
-        /DualSPHysics_v5.4.1/src_extra/ \
-        /DualSPHysics_v5.4.1/src_mphase/ 
+RUN wget -O DualSPHysics_v5.4.1.zip  https://storage.googleapis.com/inductiva-host-source-codes/DualSPHysics_v5.4.1.zip\
+    && unzip /DualSPHysics_v5.4.1.zip
 
 # Build DualSPHysics.
-WORKDIR /DualSPHysics_v5.4.1/src/source/build
-RUN CC=gcc CXX=g++ cmake .. && make DualSPHysics5.2CPU_linux64
+WORKDIR /DualSPHysics_v5.4/src/source/build
+RUN CC=gcc CXX=g++ cmake .. && make DualSPHysics5.4CPU_linux64
 
 FROM ubuntu:22.04 
 

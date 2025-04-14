@@ -76,22 +76,10 @@ RUN apt-get update && \
 WORKDIR /
 
 RUN wget -O DualSPHysics_v5.4.1.zip  https://storage.googleapis.com/inductiva-host-source-codes/DualSPHysics_v5.4.1.zip\
-    && unzip /DualSPHysics_v5.4.1.zip && \
-    rm -r /DualSPHysics_v5.4.1.zip \ 
-        /DualSPHysics_v5.4.1/bin/windows \
-        /DualSPHysics_v5.4.1/CHANGES.txt \
-        /DualSPHysics_v5.4.1/examples/ \
-        /DualSPHysics_v5.4.1/doc/ \
-        /DualSPHysics_v5.4.1/Files_DualSPHysics_v5.4.1.pdf \
-        /DualSPHysics_v5.4.1/src/VS \
-        /DualSPHysics_v5.4.1/src/lib/vs2022/ \
-        /DualSPHysics_v5.4.1/src_flexstruc/VS/ \
-        /DualSPHysics_v5.4.1/src_flexstruc/lib/vs2022/ \
-        /DualSPHysics_v5.4.1/src_extra/ \
-        /DualSPHysics_v5.4.1/src_mphase/ 
+    && unzip /DualSPHysics_v5.4.1.zip
 
 # Build DualSPHysics.
-WORKDIR /DualSPHysics_v5.4.1/src/source/build
+WORKDIR /DualSPHysics_v5.4/src/source/build
 RUN CC=gcc CXX=g++ cmake .. && make
 
 FROM nvidia/cuda:11.7.1-runtime-ubuntu22.04

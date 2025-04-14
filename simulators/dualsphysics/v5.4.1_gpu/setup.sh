@@ -3,7 +3,7 @@
 # Set up symbolic links to the executables in the bin directory
 # so that they can be called with more convenient names (e.g., partvk
 # instead of PartVTK_linux64)
-DUALSPHYSICS_BIN_DIR="/DualSPHysics_v5.2/bin/linux"
+DUALSPHYSICS_BIN_DIR="/DualSPHysics_v5.4/bin/linux"
 
 for file_path in $DUALSPHYSICS_BIN_DIR/*; do
     echo "Setting up $file_path..."
