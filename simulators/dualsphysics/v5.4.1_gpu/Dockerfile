@@ -81,8 +81,9 @@ RUN git clone https://github.com/DualSPHysics/DualSPHysics.git && \
     cd src/source && \
     sed -i 's/^CUDAVER=12$/CUDAVER=11/' Makefile && \
     sed -i 's|DIRTOOLKIT=/exports/opt/NVIDIA/cuda-11.7$|DIRTOOLKIT=/usr/local/cuda-11.7|' Makefile && \
-    make
-
+    make && \
+    make -f Makefile_cpu
+    
 FROM nvidia/cuda:11.7.1-runtime-ubuntu22.04
 
 # COPY libgomp libraries from the build stage.
