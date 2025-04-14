@@ -80,7 +80,7 @@ RUN git clone https://github.com/DualSPHysics/DualSPHysics.git && \
     git checkout f4fa76ad5083873fa1c6dd3b26cdce89c55a9aeb && \
     cd src/source && \
     sed -i 's/^CUDAVER=12$/CUDAVER=11/' Makefile && \
-    sed -i 's|^DIRTOOLKIT=/exports/opt/NVIDIA/cuda-11.7$|DIRTOOLKIT=/usr/local/cuda-11.7|' Makefile && \
+    sed -i 's|DIRTOOLKIT=/exports/opt/NVIDIA/cuda-11.7$|DIRTOOLKIT=/usr/local/cuda-11.7|' Makefile && \
     make
 
 FROM nvidia/cuda:11.7.1-runtime-ubuntu22.04
