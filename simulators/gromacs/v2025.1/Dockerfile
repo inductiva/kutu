@@ -10,12 +10,26 @@ RUN apt-get update && apt-get install -y \
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-FROM inductiva/kutu:base-image_v0.1.1 as build
+FROM ubuntu:22.04 as build
 
 ENV OMPI_ALLOW_RUN_AS_ROOT=1
 ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
-RUN apt-get remove cmake && \
+RUN apt-get update \
+    && apt-get install -y \
+    fftw3-dev pkg-config \
+    build-essential \
+    openmpi-common \
+    libopenmpi-dev \
+    openssh-client \
+    openmpi-bin \
+    liblapack3 \
+    libgomp1 \
+    python3 \
+    fftw3 \
+    unzip \
+    wget \
+    libssl-dev && \
     # Install cmake
     wget -O cmake.tar.gz https://github.com/Kitware/CMake/archive/refs/tags/v3.31.5.tar.gz && \
     tar -xzf cmake.tar.gz && ls && cd CMake-3.31.5 && \
