@@ -1,12 +1,9 @@
 FROM inductiva/kutu:base-image_v0.1.0 as test_env
 
-RUN curl https://storage.googleapis.com/inductiva-api-demo-files/dualsphysics-input-example.zip\ 
-        --output /home/dualsphysics-input-example.zip && \
-    unzip /home/dualsphysics-input-example.zip -d /home/ && \
-    rm /home/dualsphysics-input-example.zip && \
-    #Reduce Simulation time to 1 second
-    sed -i 's/key="TimeMax" value="3"/key="TimeMax" value="1"/g' \
-        /home/dualsphysics-input-example/config.xml
+RUN curl https://storage.googleapis.com/inductiva-api-demo-files/dualsphysicsv5.4.1-input-example.zip\ 
+        --output /home/dualsphysicsv5.4.1-input-example.zip && \
+    unzip /home/dualsphysicsv5.4.1-input-example.zip -d /home/ && \
+    rm /home/dualsphysicsv5.4.1-input-example.zip
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
