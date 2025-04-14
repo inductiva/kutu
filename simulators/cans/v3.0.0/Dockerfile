@@ -1,8 +1,8 @@
 FROM inductiva/kutu:base-image_v0.1.0 as test_env
 
-RUN wget https://storage.googleapis.com/inductiva-api-demo-files/cansv2.4.0-input-example.zip -P /home/ && \
-    unzip /home/cansv2.4.0-input-example.zip -d /home/ && \
-    rm /home/cansv2.4.0-input-example.zip
+RUN wget https://storage.googleapis.com/inductiva-api-demo-files/cansv3.0.0-input-example.zip -P /home/ && \
+    unzip /home/cansv3.0.0-input-example.zip -d /home/ && \
+    rm /home/cansv3.0.0-input-example.zip
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
