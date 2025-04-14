@@ -15,7 +15,7 @@ FROM inductiva/kutu:base-image_v0.1.1 as build
 ENV OMPI_ALLOW_RUN_AS_ROOT=1
 ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
-RUN apt-get remove cmake && \
+RUN apt-get remove cmake -y && \
     # Install cmake
     wget -O cmake.tar.gz https://github.com/Kitware/CMake/archive/refs/tags/v3.31.5.tar.gz && \
     tar -xzf cmake.tar.gz && ls && cd CMake-3.31.5 && \
