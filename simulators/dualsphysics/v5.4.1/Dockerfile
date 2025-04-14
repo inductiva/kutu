@@ -75,27 +75,27 @@ RUN apt-get update && \
 # Clone the DualSPHysics repository.
 WORKDIR /
 
-RUN wget -O DualSPHysics_v5.4.1.zip  https://storage.googleapis.com/inductiva-host-source-codes/DualSPHysics_v5.4.1.zip\
-    && unzip /DualSPHysics_v5.4.1.zip
-
-# Build DualSPHysics.
-WORKDIR /DualSPHysics_v5.4/src/source/build
-RUN CC=gcc CXX=g++ cmake .. && make DualSPHysics5.4CPU_linux64
+RUN git clone https://github.com/DualSPHysics/DualSPHysics.git && \
+    cd DualSPHysics && \
+    git checkout f4fa76ad5083873fa1c6dd3b26cdce89c55a9aeb && \
+    cd src/source && \
+    make -f Makefile_cpu
 
 FROM ubuntu:22.04 
 
 # COPY libgomp libraries from the build stage.
 COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0 /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0
 COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1 /usr/lib/x86_64-linux-gnu/libgomp.so.1
-COPY --from=build /DualSPHysics_v5.4.1 /DualSPHysics_v5.4.1
+COPY --from=build /DualSPHysics /DualSPHysics
 
 COPY --from=test_env /home /home
 
-RUN cp /DualSPHysics_v5.4.1/bin/linux/DualSPHysics5.2CPU_linux64 /DualSPHysics_v5.4.1/bin/linux/dualsphysics 
+RUN cp /DualSPHysics/bin/linux/DualSPHysics5.4CPU_linux64 /DualSPHysics/bin/linux/dualsphysics 
 
 # Set environment variable with path to DualSPHysics binaries.
-ENV DUALSPHYSICS_BIN_DIR="/DualSPHysics_v5.4.1/bin/linux"
+ENV DUALSPHYSICS_BIN_DIR="/DualSPHysics/bin/linux"
 ENV PATH="${DUALSPHYSICS_BIN_DIR}:${PATH}"
+ENV LD_LIBRARY_PATH=/DualSPHysics/bin/linux:$LD_LIBRARY_PATH
 
 
 WORKDIR /

@@ -75,12 +75,13 @@ RUN apt-get update && \
 # Clone the DualSPHysics repository.
 WORKDIR /
 
-RUN wget -O DualSPHysics_v5.4.1.zip  https://storage.googleapis.com/inductiva-host-source-codes/DualSPHysics_v5.4.1.zip\
-    && unzip /DualSPHysics_v5.4.1.zip
-
-# Build DualSPHysics.
-WORKDIR /DualSPHysics_v5.4/src/source/build
-RUN CC=gcc CXX=g++ cmake .. && make
+RUN git clone https://github.com/DualSPHysics/DualSPHysics.git && \
+    cd DualSPHysics && \
+    git checkout f4fa76ad5083873fa1c6dd3b26cdce89c55a9aeb && \
+    cd src/source && \
+    sed -i 's/^CUDAVER=12$/CUDAVER=11/' Makefile && \
+    sed -i 's|^DIRTOOLKIT=/exports/opt/NVIDIA/cuda-11.7$|DIRTOOLKIT=/usr/local/cuda-11.7|' Makefile && \
+    make
 
 FROM nvidia/cuda:11.7.1-runtime-ubuntu22.04
 
@@ -94,18 +95,20 @@ COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1 /usr/lib/x86_64-linux-g
 COPY --from=build /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
 COPY --from=build /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/lib/x86_64-linux-gnu/libstdc++.so.6
 COPY --from=build /usr/lib/x86_64-linux-gnu/libpthread.so.0 /usr/lib/x86_64-linux-gnu/libpthread.so.0
-COPY --from=build /DualSPHysics_v5.4.1/src/source/../lib/linux_gcc/libdsphchrono.so /DualSPHysics_v5.4.1/src/source/../lib/linux_gcc/libdsphchrono.so
-COPY --from=build /DualSPHysics_v5.4.1/src/source/../lib/linux_gcc/libChronoEngine.so /DualSPHysics_v5.4.1/src/source/../lib/linux_gcc/libChronoEngine.so
+COPY --from=build /DualSPHysics/bin/linux/libdsphchrono.so /DualSPHysics/bin/linux/libdsphchrono.so
+COPY --from=build /DualSPHysics/bin/linux/libChronoEngine.so /DualSPHysics/bin/linux/libChronoEngine.so
 
 COPY --from=test_env /home /home
-COPY --from=build /DualSPHysics_v5.4.1 /DualSPHysics_v5.4.1
+COPY --from=build /DualSPHysics /DualSPHysics
 
 # Set environment variable with path to DualSPHysics binaries.
-ENV DUALSPHYSICS_BIN_DIR="/DualSPHysics_v5.4.1/bin/linux"
+ENV DUALSPHYSICS_BIN_DIR="/DualSPHysics/bin/linux"
 ENV PATH="${DUALSPHYSICS_BIN_DIR}:${PATH}"
+ENV LD_LIBRARY_PATH=/DualSPHysics/bin/linux:$LD_LIBRARY_PATH
+
 
 WORKDIR /
 COPY ./setup.sh /setup.sh
 RUN chmod +x /setup.sh && \
     /setup.sh && \
-    cp /DualSPHysics_v5.4.1/bin/linux/DualSPHysics5.2_linux64 /DualSPHysics_v5.4.1/bin/linux/dualsphysics
+    cp /DualSPHysics/bin/linux/DualSPHysics5.4_linux64 /DualSPHysics/bin/linux/dualsphysics
