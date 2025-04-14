@@ -62,7 +62,7 @@ RUN apt-get update && \
     apt-get install -y libnetcdf-dev libnetcdff-dev
 
 # Clone the source code
-RUN git clone --recurse-submodules --branch v5.11 https://github.com/schism-dev/schism.git && \
+RUN git clone --recurse-submodules --branch v5.13 https://github.com/schism-dev/schism.git && \
     cd schism && \
     git reset --hard 4af0f8c32930f50a0ea45532506991afc247bd8f && \
     # Install according to the instructions
