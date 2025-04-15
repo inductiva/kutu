@@ -49,11 +49,9 @@ docker pull inductiva/kutu:gromacs_v2022.2
 <!-- DOCKER-TAGS-TABLE -->
 | Tag | Size (MB) |
 |---|---|
-| echo_v0.1 | 28.168192863464355 MB |
 | openfast_v3.5.2 | 73.00116920471191 MB |
 | openfast_v4.0.2 | 83.28230571746826 MB |
 | cans_v2.4.0 | 97.27389526367188 MB |
-| fvcom_v5.1.0 | 100.73739910125732 MB |
 | swash_v9.01A | 101.622633934021 MB |
 | gromacs_v2025.0 | 109.83393669128418 MB |
 | apptainer-converter_v0.1.0 | 114.74631023406982 MB |
