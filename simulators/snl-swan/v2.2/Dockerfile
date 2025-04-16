@@ -65,7 +65,9 @@ RUN wget https://github.com/sandialabs/SNL-SWAN/archive/refs/tags/v${SWAN_VERSIO
     make mpi FLAGS_OPT="-g -fallow-argument-mismatch" > build.log |tee build.log && \
     mv ../tutorial ${SWAN_EXAMPLES} &&\
     mv swan.exe hcat.exe swanrun /bin && \
-    chmod +rx /bin/swanrun 
+    chmod +rx /bin/swanrun && \
+    sed -i '2i set -e' /bin/swanrun && \
+    sed -i 's/mpirun -np \$npmpi swan.exe/mpirun -np \$npmpi -machinefile machinefile swan.exe/' /bin/swanrun
 
 
 COPY /INPUT ${SWAN_EXAMPLES}/tutorial
