@@ -65,7 +65,8 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | swan_v41.45 | 282.5113525390625 MB |
 | swan_v41.31 | 282.51443099975586 MB |
 | opensees_v2.5.0 | 290.51967906951904 MB |
-| snl-swan_v2.2 | 295.79521083831787 MB |
+| snl-swan_v2.2 | 298.9218330383301 MB |
+| opentelemac_v9.0.0 | 382.2199287414551 MB |
 | opentelemac_v8p4r0 | 384.2470808029175 MB |
 | swash_v10.01A | 390.79254245758057 MB |
 | swash_v10.05 | 390.88879013061523 MB |
