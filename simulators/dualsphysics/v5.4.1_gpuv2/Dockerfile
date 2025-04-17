@@ -74,7 +74,7 @@ WORKDIR /
 
 RUN git clone https://github.com/DualSPHysics/DualSPHysics.git && \
     cd DualSPHysics && \
-    git checkout f4fa76ad5083873fa1c6dd3b26cdce89c55a9aeb && \
+    git checkout ef3721a861fda961f0e2f9ec4cd317b19de99086 && \
     cd src/source
 
 # Build DualSPHysics.
