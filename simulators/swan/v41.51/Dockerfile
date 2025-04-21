@@ -30,7 +30,18 @@ WORKDIR ${SWAN_TMP}
 
 # Download, build, and install SWAN
 
-RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
+RUN apt-get remove -y libopenmpi-dev=4.1.2-2ubuntu1 \
+    libscalapack-openmpi-dev \
+    openmpi-common=4.1.2-2ubuntu1 \
+    openmpi-bin=4.1.2-2ubuntu1 && \
+    cd / && \
+    wget https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.7.tar.bz2 && \
+    tar -xjf openmpi-5.0.7.tar.bz2 && \
+    cd openmpi-5.0.7 && \
+    ./configure --prefix=/usr/local/openmpi && \
+    make all && \
+    make install && \
+    wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
     tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
     mkdir build ${SWAN_HOME} && \
     cd build && \
