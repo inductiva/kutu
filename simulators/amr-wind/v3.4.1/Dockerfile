@@ -17,6 +17,7 @@ RUN export FC=/usr/bin/gfortran && \
     mkdir amr-wind/build && cd amr-wind/build && \
     cmake   -DAMR_WIND_ENABLE_OPENMP:BOOL=FALSE \
             -DCMAKE_BUILD_TYPE:STRING=RELEASE \
+            -DAMR_WIND_ENABLE_NETCDF:BOOL=ON \
             -DAMR_WIND_ENABLE_MPI:BOOL=ON .. && \
     # Using -j may cause the build to fail
     make && \
