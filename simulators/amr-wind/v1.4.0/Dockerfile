@@ -12,6 +12,7 @@ FROM inductiva/kutu:base-image_v0.1.0 as build
 
     # Fortran compiler
 RUN export FC=/usr/bin/gfortran && \
+    apt-get install -y libnetcdf-mpi-dev && \
     # Clone Openfast repository
     git clone --recursive --branch v1.4.0 https://github.com/Exawind/amr-wind.git amr-wind && \
     mkdir amr-wind/build && cd amr-wind/build && \
