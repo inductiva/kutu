@@ -42,6 +42,8 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     gcc \
     g++ \
+    libnetcdff-dev \
+    libnetcdf-dev \
     unzip && \
     cd / && \
     wget https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.7.tar.bz2 && \
