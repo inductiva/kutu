@@ -12,11 +12,14 @@ FROM inductiva/kutu:base-image_v0.1.0 as build
 
     # Fortran compiler
 RUN export FC=/usr/bin/gfortran && \
+    apt-get install -y libnetcdf-mpi-dev && \
+    cp /usr/lib/x86_64-linux-gnu/netcdf/mpi/include/netcdf_par.h /usr/include/ && \
     # Clone Openfast repository
     git clone --recursive --branch v1.4.0 https://github.com/Exawind/amr-wind.git amr-wind && \
     mkdir amr-wind/build && cd amr-wind/build && \
     cmake   -DAMR_WIND_ENABLE_OPENMP:BOOL=FALSE \
             -DCMAKE_BUILD_TYPE:STRING=RELEASE \
+            -DAMR_WIND_ENABLE_NETCDF:BOOL=ON \
             -DAMR_WIND_ENABLE_MPI:BOOL=ON .. && \
     # Using -j may cause the build to fail
     make && \
@@ -33,18 +36,7 @@ RUN apt update -qq && \
 
 COPY --from=build /usr/local/bin/ /usr/local/bin/
 
-COPY --from=build /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7 /lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7
-COPY --from=build /lib/x86_64-linux-gnu/libevent_core-2.1.so.7 /lib/x86_64-linux-gnu/libevent_core-2.1.so.7
-COPY --from=build /lib/x86_64-linux-gnu/libopen-pal.so.40 /lib/x86_64-linux-gnu/libopen-pal.so.40
-COPY --from=build /lib/x86_64-linux-gnu/libopen-rte.so.40 /lib/x86_64-linux-gnu/libopen-rte.so.40
-COPY --from=build /lib/x86_64-linux-gnu/libmpi_cxx.so.40 /lib/x86_64-linux-gnu/libmpi_cxx.so.40
-COPY --from=build /lib/x86_64-linux-gnu/libstdc++.so.6 /lib/x86_64-linux-gnu/libstdc++.so.6
-COPY --from=build /lib/x86_64-linux-gnu/libhwloc.so.15 /lib/x86_64-linux-gnu/libhwloc.so.15
-COPY --from=build /lib/x86_64-linux-gnu/libgcc_s.so.1 /lib/x86_64-linux-gnu/libgcc_s.so.1
-COPY --from=build /lib/x86_64-linux-gnu/libudev.so.1 /lib/x86_64-linux-gnu/libudev.so.1
-COPY --from=build /lib/x86_64-linux-gnu/libmpi.so.40 /lib/x86_64-linux-gnu/libmpi.so.40
-COPY --from=build /lib/x86_64-linux-gnu/libm.so.6 /lib/x86_64-linux-gnu/libm.so.6
-COPY --from=build /lib/x86_64-linux-gnu/libc.so.6 /lib/x86_64-linux-gnu/libc.so.6
-COPY --from=build /lib/x86_64-linux-gnu/libz.so.1 /lib/x86_64-linux-gnu/libz.so.1
+COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
+COPY --from=build /lib/x86_64-linux-gnu/ /lib/x86_64-linux-gnu/
 
 COPY --from=test_env /home /home
