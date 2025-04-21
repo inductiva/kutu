@@ -12,7 +12,7 @@ COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
 # Fetch base image of ubuntu with 77 MB. 
-FROM inductiva/kutu:base-image_v0.1.1
+FROM ubuntu:22.04
 
 # Set frontend to be noninteractive, to avoid prompts during installation.
 ENV DEBIAN_FRONTEND=noninteractive
@@ -30,10 +30,19 @@ WORKDIR ${SWAN_TMP}
 
 # Download, build, and install SWAN
 
-RUN apt-get remove -y libopenmpi-dev=4.1.2-2ubuntu1 \
-    libscalapack-openmpi-dev \
-    openmpi-common=4.1.2-2ubuntu1 \
-    openmpi-bin=4.1.2-2ubuntu1 && \
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    pkg-config \
+    cmake \
+    make \
+    wget \
+    curl \
+    vim \
+    git \
+    gfortran \
+    gcc \
+    g++ \
+    unzip && \
     cd / && \
     wget https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.7.tar.bz2 && \
     tar -xjf openmpi-5.0.7.tar.bz2 && \
