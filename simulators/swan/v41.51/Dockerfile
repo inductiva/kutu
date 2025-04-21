@@ -38,7 +38,7 @@ RUN apt-get remove -y libopenmpi-dev=4.1.2-2ubuntu1 \
     wget https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.7.tar.bz2 && \
     tar -xjf openmpi-5.0.7.tar.bz2 && \
     cd openmpi-5.0.7 && \
-    ./configure --prefix=/usr/local/openmpi && \
+    ./configure --prefix=/usr && \
     make all && \
     make install && \
     wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
