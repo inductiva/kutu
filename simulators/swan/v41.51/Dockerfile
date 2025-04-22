@@ -12,7 +12,7 @@ COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
 # Fetch base image of ubuntu with 77 MB. 
-FROM ubuntu:22.04
+FROM intel/oneapi-hpckit:2023.2.1-devel-ubuntu22.04 AS build
 
 # Set frontend to be noninteractive, to avoid prompts during installation.
 ENV DEBIAN_FRONTEND=noninteractive
@@ -30,28 +30,11 @@ WORKDIR ${SWAN_TMP}
 
 # Download, build, and install SWAN
 
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    pkg-config \
-    cmake \
-    make \
-    wget \
-    curl \
-    vim \
-    git \
-    gfortran \
-    gcc \
-    g++ \
+RUN rm -rf /etc/apt/sources.list.d/* && \
+    apt update && \
+    apt install cmake -y \
     libnetcdff-dev \
-    libnetcdf-dev \
-    unzip && \
-    cd / && \
-    wget https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-5.0.7.tar.bz2 && \
-    tar -xjf openmpi-5.0.7.tar.bz2 && \
-    cd openmpi-5.0.7 && \
-    ./configure --prefix=/usr && \
-    make all && \
-    make install && \
+    libnetcdf-dev && \
     cd /tmp/swan && \
     wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
     tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
@@ -59,10 +42,6 @@ RUN apt-get update && apt-get install -y \
     cd build && \
     cmake .. \
         -DMPI=ON \
-        -DCMAKE_C_COMPILER=mpicc \
-        -DCMAKE_CXX_COMPILER=mpicxx \
-        -DCMAKE_Fortran_COMPILER=mpif90 \
-        -DNETCDF=ON \
         -DCMAKE_INSTALL_PREFIX=${SWAN_HOME} && \
     make && \
     make install && \
@@ -72,10 +51,7 @@ RUN apt-get update && apt-get install -y \
     sed -i '2i set -e' ${SWAN_HOME}/swanrun && \
     sed -i 's/mpirun -np \$npmpi swan.exe/mpirun -np \$npmpi -machinefile machinefile swan.exe/' ${SWAN_HOME}/swanrun
 
-ENV PATH ${SWAN_HOME}:$PATH
+ENV PATH=${SWAN_HOME}:$PATH
 
-ENV OMPI_MCA_rmaps_base_oversubscribe=1
-ENV OMPI_MCA_hwloc_base_binding_policy=core:overload-allowed
-ENV OMPI_MCA_rmaps_base_mapping_policy=core
 
 COPY --from=test_env /home /home
