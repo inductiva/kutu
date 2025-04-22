@@ -74,4 +74,6 @@ RUN apt-get update && apt-get install -y \
 
 ENV PATH ${SWAN_HOME}:$PATH
 
+ENV OMPI_MCA_rmaps_base_oversubscribe=1
+
 COPY --from=test_env /home /home
