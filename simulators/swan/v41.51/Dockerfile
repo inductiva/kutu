@@ -52,6 +52,7 @@ RUN apt-get update && apt-get install -y \
     ./configure --prefix=/usr && \
     make all && \
     make install && \
+    cd /tmp/swan && \
     wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
     tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
     mkdir build ${SWAN_HOME} && \
