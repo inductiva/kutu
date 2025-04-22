@@ -75,5 +75,7 @@ RUN apt-get update && apt-get install -y \
 ENV PATH ${SWAN_HOME}:$PATH
 
 ENV OMPI_MCA_rmaps_base_oversubscribe=1
+ENV OMPI_MCA_hwloc_base_binding_policy=core:overload-allowed
+ENV OMPI_MCA_rmaps_base_mapping_policy=core
 
 COPY --from=test_env /home /home
