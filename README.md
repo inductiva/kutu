@@ -58,14 +58,15 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | gromacs_v2025.0 | 109.83393669128418 MB |
 | gromacs_v2025.1 | 111.13646411895752 MB |
 | apptainer-converter_v0.1.0 | 114.74631023406982 MB |
-| amr-wind_v3.4.0 | 127.6489782333374 MB |
-| amr-wind_v3.4.1 | 128.933913230896 MB |
 | mohid_v24.10 | 175.23876190185547 MB |
 | cm1_v18 | 239.32962894439697 MB |
 | swan_v41.45 | 282.5113525390625 MB |
 | swan_v41.31 | 282.51443099975586 MB |
 | opensees_v2.5.0 | 290.51967906951904 MB |
 | snl-swan_v2.2 | 298.9218330383301 MB |
+| amr-wind_v1.4.0 | 325.1194372177124 MB |
+| amr-wind_v3.4.1 | 333.0209074020386 MB |
+| amr-wind_v3.4.0 | 333.0294647216797 MB |
 | opentelemac_v9.0.0 | 382.2199287414551 MB |
 | opentelemac_v8p4r0 | 384.2470808029175 MB |
 | swash_v10.01A | 390.79254245758057 MB |
@@ -91,7 +92,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | gromacs_v2022.2_gpu | 1385.8429822921753 MB |
 | gromacs_v2025.0_gpu | 1410.7519044876099 MB |
 | gromacs_v2025.1_gpu | 1412.1280975341797 MB |
-| dualsphysics_v5.2.1_gpu | 1433.2349166870117 MB |
 | dualsphysics_v5.4.1 | 1653.303677558899 MB |
 | coawst_v3.8 | 1674.9419555664062 MB |
 | cp2k_v2025.1 | 1710.383994102478 MB |
