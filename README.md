@@ -84,12 +84,10 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | fds_v6.10.1 | 952.6337289810181 MB |
 | reef3d_v24.12 | 1075.5085287094116 MB |
 | reef3d_v25.02 | 1102.0069732666016 MB |
-| openfoam-esi_v2206 | 1148.198037147522 MB |
 | openfoam-esi_v2406 | 1170.1125230789185 MB |
 | openfoam-esi_v2412 | 1177.428095817566 MB |
 | quantum-espresso_v7.3.1 | 1275.9760751724243 MB |
 | quantum-espresso_v7.4.1 | 1307.454647064209 MB |
-| gromacs_v2022.2_gpu | 1385.8429822921753 MB |
 | gromacs_v2025.0_gpu | 1410.7519044876099 MB |
 | gromacs_v2025.1_gpu | 1412.1280975341797 MB |
 | dualsphysics_v5.4.1 | 1653.303677558899 MB |
