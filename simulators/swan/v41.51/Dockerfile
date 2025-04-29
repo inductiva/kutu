@@ -30,6 +30,9 @@ WORKDIR ${SWAN_TMP}
 
 # Download, build, and install SWAN
 
+ENV FFLAGS="-O2 -W0 -assume byterecl -diag-disable 8290 -diag-disable 8291 -diag-disable 8293"
+ENV FFLAGS90="-O2 -W0 -assume byterecl -diag-disable 8290 -diag-disable 8291 -diag-disable 8293"
+
 RUN apt-get update && apt-get install -y \
     libnetcdf-dev \
     libnetcdff-dev && \
