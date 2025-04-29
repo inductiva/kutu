@@ -41,6 +41,7 @@ RUN apt-get update && apt-get install -y \
     cmake .. \
         -DMPI=ON \
         -DNETCDF=ON \
+        -DCMAKE_Fortran_COMPILER=mpiifort \
         -DCMAKE_INSTALL_PREFIX=${SWAN_HOME} && \
     make && \
     make install && \
