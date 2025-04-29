@@ -30,7 +30,11 @@ WORKDIR ${SWAN_TMP}
 
 # Download, build, and install SWAN
 
-RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
+RUN apt-get update && apt-get install -y \
+    libnetcdf-dev \
+    libnetcdff-dev && \
+    rm -rf /var/lib/apt/lists/* && \
+    wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
     tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
     mkdir build ${SWAN_HOME} && \
     cd build && \
