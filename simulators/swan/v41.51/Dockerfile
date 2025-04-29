@@ -30,20 +30,16 @@ WORKDIR ${SWAN_TMP}
 
 # Download, build, and install SWAN
 
-ENV FFLAGS="-O2 -W0 -assume byterecl -diag-disable 8290 -diag-disable 8291 -diag-disable 8293"
-ENV FFLAGS90="-O2 -W0 -assume byterecl -diag-disable 8290 -diag-disable 8291 -diag-disable 8293"
+# ENV FFLAGS="-O2 -W0 -assume byterecl -diag-disable 8290 -diag-disable 8291 -diag-disable 8293"
+# ENV FFLAGS90="-O2 -W0 -assume byterecl -diag-disable 8290 -diag-disable 8291 -diag-disable 8293"
 
-RUN apt-get update && apt-get install -y \
-    libnetcdf-dev \
-    libnetcdff-dev && \
-    rm -rf /var/lib/apt/lists/* && \
-    wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
+RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
     tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
     mkdir build ${SWAN_HOME} && \
     cd build && \
     cmake .. \
         -DMPI=ON \
-        -DNETCDF=ON \
+        # -DNETCDF=ON \
         -DCMAKE_Fortran_COMPILER=mpiifort \
         -DCMAKE_INSTALL_PREFIX=${SWAN_HOME} && \
     make && \
