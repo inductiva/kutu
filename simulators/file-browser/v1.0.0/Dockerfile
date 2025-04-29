@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y curl \
     rm -rf /var/lib/apt/lists/* && \
     pip install --upgrade inductiva numpy pandas matplotlib && \
     curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash && \
-    curl -fsSL https://code-server.dev/install.sh | sh
+    curl -fsSL https://code-server.dev/install.sh | sh && \
+    code-server --install-extension ms-python.python
 
 
 COPY ./settings.json /home/task-runner/.local/share/code-server/User/settings.json
