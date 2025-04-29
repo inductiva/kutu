@@ -9,8 +9,9 @@ RUN apt-get update && apt-get install -y curl \
     build-essential && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
+    pip install --upgrade inductiva numpy pandas matplotlib && \
     curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash && \
-    curl -fsSL https://code-server.dev/install.sh | sh && \
+    curl -fsSL https://code-server.dev/install.sh | sh
 
 
 COPY ./test_sim.sh /home/test_sim.sh
