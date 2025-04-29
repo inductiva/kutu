@@ -12,7 +12,7 @@ COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
 # Fetch base image of ubuntu with 77 MB. 
-FROM inductiva/kutu:base-image_v0.1.1
+FROM intel/oneapi-hpckit:devel-ubuntu20.04 AS build
 
 # Set frontend to be noninteractive, to avoid prompts during installation.
 ENV DEBIAN_FRONTEND=noninteractive
@@ -36,9 +36,6 @@ RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWA
     cd build && \
     cmake .. \
         -DMPI=ON \
-        -DCMAKE_C_COMPILER=mpicc \
-        -DCMAKE_CXX_COMPILER=mpicxx \
-        -DCMAKE_Fortran_COMPILER=mpif90 \
         -DNETCDF=ON \
         -DCMAKE_INSTALL_PREFIX=${SWAN_HOME} && \
     make && \
