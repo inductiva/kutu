@@ -14,5 +14,6 @@ RUN apt-get update && apt-get install -y curl \
     curl -fsSL https://code-server.dev/install.sh | sh
 
 
+COPY ./settings.json /home/task-runner/.local/share/code-server/User/settings.json
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
