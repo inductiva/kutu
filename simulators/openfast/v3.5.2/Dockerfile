@@ -11,16 +11,17 @@ RUN apt-get update && apt-get install -y \
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-FROM intel/oneapi-hpckit:devel-ubuntu20.04 AS build
+FROM ubuntu:22.04 AS build
 
-RUN apt update -qq && \
-    
-    
+RUN apt update && \
+    apt install -y gpg-agent wget && \
+    # download the key to system keyring
+    wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB && \
+    | gpg --dearmor | tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null && \
+    echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | tee /etc/apt/sources.list.d/oneAPI.list && \
+    apt update && \
+    apt install intel-oneapi-hpc-toolkit -y && \
     apt install -y \
-        cmake cmake-curses-gui \
-        make \
-        python3-pip \
-        wget \
         git && \
     # Clone Openfast repository
     git clone --recursive --branch v3.5.2 https://github.com/openfast/openfast.git openfast && \
