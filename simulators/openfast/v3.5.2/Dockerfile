@@ -1,4 +1,11 @@
-nput-example.zip && \
+FROM ubuntu:22.04 AS test_env
+
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip && \
+    wget https://storage.googleapis.com/inductiva-api-demo-files/openfast-input-example.zip -P /home/ && \
+    unzip /home/openfast-input-example.zip -d /home/ && \
+    rm /home/openfast-input-example.zip && \
     ls -l
 
 COPY ./test_sim.sh /home/test_sim.sh
