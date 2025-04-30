@@ -13,6 +13,8 @@ RUN chmod +x /home/test_sim.sh
 
 FROM ubuntu:22.04 AS build
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt update && \
     apt install -y gpg-agent wget && \
     # download the key to system keyring
@@ -22,6 +24,8 @@ RUN apt update && \
     apt install -y \
         intel-oneapi-hpc-toolkit \
         intel-oneapi-base-toolkit \
+        gfortran-10 \
+        g++ \
         cmake \
         git && \
     # Clone Openfast repository
