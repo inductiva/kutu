@@ -24,10 +24,12 @@ RUN apt update && \
     apt install -y \
         intel-oneapi-hpc-toolkit \
         intel-oneapi-base-toolkit \
-        gfortran-10 \
-        g++ \
+        gfortran \
         cmake \
+        libblas-dev \
+        liblapack-dev \
         git && \
+    export FC=/usr/bin/gfortran && \
     # Clone Openfast repository
     git clone --recursive --branch v3.5.2 https://github.com/openfast/openfast.git openfast && \
     cd /openfast && \
