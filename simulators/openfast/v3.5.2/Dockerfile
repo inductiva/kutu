@@ -1,33 +1,20 @@
-FROM ubuntu:22.04 AS test_env
-
-RUN apt-get update && apt-get install -y \
-    wget \
-    unzip && \
-    wget https://storage.googleapis.com/inductiva-api-demo-files/openfast-input-example.zip -P /home/ && \
-    unzip /home/openfast-input-example.zip -d /home/ && \
-    rm /home/openfast-input-example.zip && \
+nput-example.zip && \
     ls -l
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
-FROM ubuntu:22.04 AS build
+FROM intel/oneapi-hpckit:devel-ubuntu20.04 AS build
 
-ARG DEBIAN_FRONTEND=noninteractive
-
-RUN apt update && \
-    apt install -y gpg-agent wget && \
-    # download the key to system keyring
-    wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | gpg --dearmor | tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null && \
-    echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | tee /etc/apt/sources.list.d/oneAPI.list && \
-    apt update && \
+RUN apt update -qq && \
+    
+    
     apt install -y \
-        intel-oneapi-hpc-toolkit \
-        intel-oneapi-base-toolkit \
+        cmake cmake-curses-gui \
+        make \
         gfortran \
-        cmake \
-        libblas-dev \
-        liblapack-dev \
+        python3-pip \
+        wget \
         git && \
     export FC=/usr/bin/gfortran && \
     # Clone Openfast repository
