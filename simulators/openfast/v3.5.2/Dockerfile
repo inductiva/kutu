@@ -19,11 +19,9 @@ RUN apt update -qq && \
     apt install -y \
         cmake cmake-curses-gui \
         make \
-        gfortran \
         python3-pip \
         wget \
         git && \
-    export FC=/usr/bin/gfortran && \
     # Clone Openfast repository
     git clone --recursive --branch v3.5.2 https://github.com/openfast/openfast.git openfast && \
     cd /openfast && \
