@@ -13,8 +13,8 @@ RUN apt-get update && apt-get install -y \
     vim git && \
     git clone --recursive --branch v2.3.4 https://github.com/CaNS-World/CaNS && \
     cd CaNS && \
-    sed -i 's/GPU=0/GPU=1/; s/FCOMP=GNU/FCOMP=NVIDIA/' configs/defaults/build-default.conf && \
-    sed -i 's/-gpu=cc60,cc70,cc80/-gpu=cc60,cc70,cc80,cc89,cc90,cc86/' configs/defaults/flags-default.mk && \
+    sed -i 's/GPU=0/GPU=1/; s/FCOMP=GNU/FCOMP=NVIDIA/' build.conf && \
+    sed -i 's/-gpu=cc60,cc70,cc80/-gpu=cc60,cc70,cc80,cc89,cc90,cc86/' configs/flags.mk && \
     make libs && \
     make -j && \
     cp -a /CaNS/run/* /usr/local/bin/
