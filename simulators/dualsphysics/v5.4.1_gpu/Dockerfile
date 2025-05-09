@@ -72,12 +72,11 @@ RUN apt-get update && \
 # Clone the DualSPHysics repository.
 WORKDIR /
 
-RUN git clone https://github.com/DualSPHysics/DualSPHysics.git && \
-    cd DualSPHysics && \
-    git checkout f4fa76ad5083873fa1c6dd3b26cdce89c55a9aeb && \
-    cd src/source && \
-    sed -i 's/^CUDAVER=12$/CUDAVER=11/' Makefile && \
-    sed -i 's|DIRTOOLKIT=/exports/opt/NVIDIA/cuda-11.7$|DIRTOOLKIT=/usr/local/cuda-11.7|' Makefile && \
+RUN wget -O DualSPHysics_v5.4.1zip  https://storage.googleapis.com/inductiva-host-source-codes/DualSPHysics_v5.4.1.zip\
+    && unzip /DualSPHysics_v5.4.1zip && \
+    cd /DualSPHysics_v5.4/src/source/ && \
+    sed -i 's/^CUDAVER=12/CUDAVER=11/' Makefile && \
+    sed -i 's|DIRTOOLKIT=/exports/opt/NVIDIA/cuda-11.7|DIRTOOLKIT=/usr/local/cuda-11.7|' Makefile && \
     make && \
     make -f Makefile_cpu
     
