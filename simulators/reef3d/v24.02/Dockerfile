@@ -20,6 +20,8 @@ ARG DIVEMesh_VERSION=24.02
 RUN apt-get update --fix-missing
 RUN apt-get -y install git cmake build-essential gfortran wget
 
+
+
 WORKDIR /
 RUN wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.6.tar.gz
 RUN apt-get install -y build-essential
