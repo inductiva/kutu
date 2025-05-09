@@ -26,7 +26,7 @@ RUN apt update -qq && \
     # Fortran compiler
     export FC=/usr/bin/gfortran && \
     # Clone Openfast repository
-    git clone --recursive --branch v3.5.2 https://github.com/openfast/openfast.git openfast && \
+    git clone --recursive --branch v3.5.5 https://github.com/openfast/openfast.git openfast && \
     cd /openfast && \
     #Build Openfast with Fast.Farm
     mkdir build && \
