@@ -80,6 +80,7 @@ RUN wget -O DualSPHysics_v5.4.1zip  https://storage.googleapis.com/inductiva-hos
     make && \
     make -f Makefile_cpu
     
+    
 FROM nvidia/cuda:11.7.1-runtime-ubuntu22.04
 
 # COPY libgomp libraries from the build stage.
