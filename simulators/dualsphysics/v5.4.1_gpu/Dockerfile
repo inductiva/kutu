@@ -74,7 +74,7 @@ WORKDIR /
 
 RUN wget -O DualSPHysics_v5.4.1zip  https://storage.googleapis.com/inductiva-host-source-codes/DualSPHysics_v5.4.1.zip\
     && unzip /DualSPHysics_v5.4.1zip && \
-    mv DualSPHysics_v5.4.1 DualSPHysics && \
+    mv /DualSPHysics_v5.4 /DualSPHysics && \
     cd /DualSPHysics/src/source/ && \
     sed -i 's/^CUDAVER=12/CUDAVER=11/' Makefile && \
     sed -i 's|DIRTOOLKIT=/exports/opt/NVIDIA/cuda-11.7|DIRTOOLKIT=/usr/local/cuda-11.7|' Makefile && \
