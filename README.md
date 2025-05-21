@@ -49,10 +49,8 @@ docker pull inductiva/kutu:gromacs_v2022.2
 <!-- DOCKER-TAGS-TABLE -->
 | Tag | Size (MB) |
 |---|---|
-| openfast_v3.5.2 | 73.00116920471191 MB |
 | openfast_v4.0.3 | 83.2683687210083 MB |
 | openfast_v4.0.2 | 83.28230571746826 MB |
-| cans_v2.4.0 | 97.27389526367188 MB |
 | cans_v3.0.0 | 98.62833499908447 MB |
 | swash_v9.01A | 101.622633934021 MB |
 | gromacs_v2025.0 | 109.83393669128418 MB |
@@ -77,7 +75,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | delft3d_v6.04.00 | 517.3401861190796 MB |
 | swan_v41.51 | 558.3809080123901 MB |
 | cm1_v21.1 | 576.6939287185669 MB |
-| opensees_v3.7.1 | 719.4835586547852 MB |
 | reef3d_v24.02 | 778.3759803771973 MB |
 | schism_v5.13.0 | 836.2760696411133 MB |
 | fds_v6.9.1 | 944.8491230010986 MB |
@@ -93,6 +90,10 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | cp2k_v2025.1 | 1710.383994102478 MB |
 | openseespy_v3.7.1 | 1811.5896615982056 MB |
 | cp2k_v2025.1_gpu | 2147.861210823059 MB |
-| gx_v11-2024_gpu | 2695.2003326416016 MB |
 | dualsphysics_v5.4.1_gpu | 3081.0428953170776 MB |
+| cans_v2.4.0_gpu | 3278.5980014801025 MB |
+| cans_v3.0.0_gpu | 3280.701066017151 MB |
+| amr-wind_v3.4.0_gpu | 3588.6835708618164 MB |
+| amr-wind_v3.4.1_gpu | 3613.75515460968 MB |
+| amr-wind_v1.4.0_gpu | 5300.673182487488 MB |
 <!-- END-DOCKER-TAGS-TABLE -->
