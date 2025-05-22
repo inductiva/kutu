@@ -96,6 +96,29 @@ RUN CC=gcc CXX=g++ cmake .. && make
 
 FROM nvidia/cuda:11.7.1-runtime-ubuntu22.04
 
+# Avoid user prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies, Python, pip, and Python packages
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-dev \
+    build-essential \
+    libgl1 \
+    libglib2.0-0 \
+    && pip3 install --no-cache-dir \
+    vtk \
+    numpy \
+    numba \
+    scikit-image \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set default python command
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+COPY ./script/vtk_to_obj.py /python_script/vtk_to_obj.py
+
 # COPY libgomp libraries from the build stage.
 COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
 COPY --from=build /usr/lib/x86_64-linux-gnu/libc.so.6 /usr/lib/x86_64-linux-gnu/libc.so.6
