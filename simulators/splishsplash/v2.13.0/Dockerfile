@@ -52,7 +52,16 @@ RUN make -j 4
 RUN apt-get update -y; \
     apt-get install -y gmsh
 
+RUN apt-get update && apt-get install -y \
+    curl && \
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    /root/.cargo/bin/cargo install splashsurf
+
 FROM ubuntu:22.04 
+
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+COPY --from=build /root/.cargo/bin/splashsurf /root/.cargo/bin/splashsurf
 
 COPY --from=build /usr/lib/x86_64-linux-gnu/libGLdispatch.so.0 /usr/lib/x86_64-linux-gnu/libGLdispatch.so.0
 COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0 /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0
