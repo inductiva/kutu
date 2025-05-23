@@ -107,26 +107,12 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 
 COPY --from=build /root/.cargo/bin/splashsurf /root/.cargo/bin/splashsurf
 
-# Install system dependencies, Python, pip, and Python packages
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-dev \
-    build-essential \
-    libgl1 \
-    libglib2.0-0 \
-    libxrender1 \
-    && pip3 install --no-cache-dir \
-    vtk \
-    numpy \
-    numba \
-    scikit-image \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+ 
 
 # Set default python command
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
-COPY ./script/vtk_to_obj.py /python_script/vtk_to_obj.py
+ 
 
 # COPY libgomp libraries from the build stage.
 COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
