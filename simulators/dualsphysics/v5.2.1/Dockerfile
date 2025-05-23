@@ -43,6 +43,11 @@ FROM ubuntu:22.04
 
 # Avoid user prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && |
+    cargo install splashsurf
 
 # Install system dependencies, Python, pip, and Python packages
 RUN apt-get update && apt-get install -y \
