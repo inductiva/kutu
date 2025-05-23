@@ -78,10 +78,18 @@ RUN git clone https://github.com/DualSPHysics/DualSPHysics.git && \
     cd src/source && \
     make -f Makefile_cpu
 
+RUN apt-get update && apt-get install -y \
+    curl && \
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    /root/.cargo/bin/cargo install splashsurf
+
 FROM ubuntu:22.04
 
 # Avoid user prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+COPY --from=build /root/.cargo/bin/splashsurf /root/.cargo/bin/splashsurf
 
 # Install system dependencies, Python, pip, and Python packages
 RUN apt-get update && apt-get install -y \

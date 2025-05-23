@@ -39,15 +39,18 @@ RUN wget -O DualSPHysics_v5.2.zip  https://storage.googleapis.com/inductiva-host
 WORKDIR /DualSPHysics_v5.2/src/source/build
 RUN CC=gcc CXX=g++ cmake .. && make DualSPHysics5.2CPU_linux64
 
+RUN apt-get update && apt-get install -y \
+    curl && \
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    /root/.cargo/bin/cargo install splashsurf
+
 FROM ubuntu:22.04 
 
 # Avoid user prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && |
-    cargo install splashsurf
+COPY --from=build /root/.cargo/bin/splashsurf /root/.cargo/bin/splashsurf
 
 # Install system dependencies, Python, pip, and Python packages
 RUN apt-get update && apt-get install -y \

@@ -94,10 +94,18 @@ RUN wget -O DualSPHysics_v5.2.zip  https://storage.googleapis.com/inductiva-host
 WORKDIR /DualSPHysics_v5.2/src/source/build
 RUN CC=gcc CXX=g++ cmake .. && make
 
+RUN apt-get update && apt-get install -y \
+    curl && \
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    /root/.cargo/bin/cargo install splashsurf
+
 FROM nvidia/cuda:11.7.1-runtime-ubuntu22.04
 
 # Avoid user prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+COPY --from=build /root/.cargo/bin/splashsurf /root/.cargo/bin/splashsurf
 
 # Install system dependencies, Python, pip, and Python packages
 RUN apt-get update && apt-get install -y \
