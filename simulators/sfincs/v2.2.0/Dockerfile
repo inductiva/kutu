@@ -8,6 +8,6 @@ COPY ./test_sim.sh /home/test_sim.sh
 
 RUN chmod +x /home/test_sim.sh
 
-FROM deltares/sfincs-cpu:sfincs-v2.1.3 as build
+FROM deltares/sfincs-cpu:sfincs-v2.2.0-col-dEze-Release as build
 
 COPY --from=test_env /home /home
