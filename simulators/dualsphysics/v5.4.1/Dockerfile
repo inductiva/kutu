@@ -78,7 +78,25 @@ RUN git clone https://github.com/DualSPHysics/DualSPHysics.git && \
     cd src/source && \
     make -f Makefile_cpu
 
-FROM ubuntu:22.04 
+RUN apt-get update && apt-get install -y \
+    curl && \
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    /root/.cargo/bin/cargo install splashsurf
+
+FROM ubuntu:22.04
+
+# Avoid user prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+COPY --from=build /root/.cargo/bin/splashsurf /root/.cargo/bin/splashsurf
+
+ 
+
+# Set default python command
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+ 
 
 # COPY libgomp libraries from the build stage.
 COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0 /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0
