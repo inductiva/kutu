@@ -1,5 +1,5 @@
 #!/bin/bash
 
-mkdir /home/sfincs-input-example/output
+cd /home/sfincs-input-example
 
 sfincs
