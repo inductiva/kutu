@@ -88,7 +88,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | cp2k_v2025.1 | 1710.383994102478 MB |
 | openseespy_v3.7.1 | 1811.5896615982056 MB |
 | cp2k_v2025.1_gpu | 2147.861210823059 MB |
-| dualsphysics_v5.4.1_gpu | 2164.4796104431152 MB |
+| dualsphysics_v5.4.1_gpu | 2167.187635421753 MB |
 | cans_v2.4.0_gpu | 3278.5980014801025 MB |
 | cans_v3.0.0_gpu | 3280.701066017151 MB |
 | amr-wind_v3.4.0_gpu | 3588.6835708618164 MB |
