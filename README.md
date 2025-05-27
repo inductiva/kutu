@@ -60,6 +60,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | swan_v41.31 | 282.51443099975586 MB |
 | opensees_v2.5.0 | 290.51967906951904 MB |
 | snl-swan_v2.2 | 298.9218330383301 MB |
+| dualsphysics_v5.2.1 | 320.4835147857666 MB |
 | amr-wind_v1.4.0 | 325.1194372177124 MB |
 | amr-wind_v3.4.1 | 333.0209074020386 MB |
 | amr-wind_v3.4.0 | 333.0294647216797 MB |
@@ -82,12 +83,12 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | quantum-espresso_v7.3.1 | 1275.9760751724243 MB |
 | quantum-espresso_v7.4.1 | 1307.454647064209 MB |
 | gromacs_v2025.1_gpu | 1412.1280975341797 MB |
-| dualsphysics_v5.4.1 | 1653.303677558899 MB |
+| dualsphysics_v5.4.1 | 1662.9539070129395 MB |
 | coawst_v3.8 | 1674.9419555664062 MB |
 | cp2k_v2025.1 | 1710.383994102478 MB |
 | openseespy_v3.7.1 | 1811.5896615982056 MB |
 | cp2k_v2025.1_gpu | 2147.861210823059 MB |
-| dualsphysics_v5.4.1_gpu | 2164.4796104431152 MB |
+| dualsphysics_v5.4.1_gpu | 2167.187635421753 MB |
 | cans_v2.4.0_gpu | 3278.5980014801025 MB |
 | cans_v3.0.0_gpu | 3280.701066017151 MB |
 | amr-wind_v3.4.0_gpu | 3588.6835708618164 MB |
