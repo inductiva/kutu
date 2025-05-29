@@ -19,9 +19,12 @@ for item in "$INPUT_FOLDER"/*; do
   # Skip if no files match (i.e., folder is empty)
   [ -e "$item" ] || continue
 
-  # Get the base name of the item (file or folder)
   base=$(basename "$item")
 
-  # Create a symlink in the current directory
-  ln -s "$item" "$base"
+  if [ ! -e "$base" ]; then
+    ln -snf "$item" "$base"
+    echo "Created symlink for $base"
+  else
+    echo "File $base already exists, skipping."
+  fi
 done
