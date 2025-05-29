@@ -90,11 +90,30 @@ RUN apt-get install csh perl -y && \
     cp landread.c.dist landread.c && \
     cd /WRF/ && \
     printf "34\n1" | ./configure && \
-    ./compile em_real && \
+    ./compile em_b_wave && \
     ./compile em_fire && \
+    ./compile em_hill2d_x && \
+    ./compile em_real && \
+    ./compile em_squall2d_x && \
+    ./compile em_convrad && \
+    ./compile em_grav2d_x && \
+    ./compile em_les && \
+    ./compile em_scm_xy && \
+    ./compile em_squall2d_y && \
+    ./compile em_esmf_exp && \
+    ./compile em_heldsuarez && \
+    ./compile em_quarter_ss && \
+    ./compile em_seabreeze2d_x && \
+    ./compile em_tropical_cyclone && \
     git clone --recurse-submodules https://github.com/wrf-model/WPS.git && \
     cd WPS/ && \
     printf "3\n" |./configure && \
     ./compile
 
 ENV PATH=/WRF/test/em_real/:/WRF/WPS/util/:$PATH
+
+COPY ./functions/create_links.sh /scripts/create_links.sh
+COPY ./functions/delete_links.sh /scripts/delete_links.sh
+
+RUN chmod +x /scripts/create_links.sh && \
+    chmod +x /scripts/delete_links.sh
