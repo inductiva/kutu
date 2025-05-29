@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 import shutil
 import argparse
@@ -55,7 +53,8 @@ def _make_combined_dir(source_dirs: list[pathlib.Path],
                        combined_dir: pathlib.Path) -> pathlib.Path:
     """
     Create (or recreate) `combined_dir` and symlink every entry from each
-    path in `source_dirs` into it. Returns the combined_dir.
+    path in `source_dirs` into it. If two source dirs contain the same
+    filename, the second is silently ignored.
     """
     if combined_dir.exists():
         shutil.rmtree(combined_dir)
@@ -66,7 +65,11 @@ def _make_combined_dir(source_dirs: list[pathlib.Path],
             raise FileNotFoundError(
                 f"Expected a directory at {src_dir}, got nothing")
         for item in src_dir.iterdir():
-            os.symlink(item.resolve(), combined_dir / item.name)
+            dest = combined_dir / item.name
+            if dest.exists():
+                # skip duplicates
+                continue
+            os.symlink(item.resolve(), dest)
 
     return combined_dir
 
