@@ -122,4 +122,3 @@ RUN chmod +x xbeach_animator.py \
  && ln -s /opt/xbeach_animator/xbeach_animator.py /usr/local/bin/xbeach_animator
 
 WORKDIR /
-
