@@ -6,8 +6,9 @@ import matplotlib.pyplot as plt
 import cartopy.crs as crs
 import cartopy.feature as cfeature
 import imageio
+import numpy as np
 
-def process_files(wrf_files, output_dir, var="RAINNC"):
+def process_files(wrf_files, output_dir, var="RAINNC", fps=3):
     if not wrf_files:
         print("No WRF output files found.")
         return
@@ -17,14 +18,15 @@ def process_files(wrf_files, output_dir, var="RAINNC"):
     os.makedirs(frames_dir, exist_ok=True)
     frame_paths = []
 
-    # Find global max precipitation for color scale
-    max_var = 0.0
+    # Find global max and min var value for color scale
+    min_var = np.inf
+    max_var = -np.inf
     for file in wrf_files:
-        ncfile = Dataset(file)
         try:
-            mesure_var = getvar(ncfile, var)
-
-            max_var = max(max_var, to_np(mesure_var).max())
+            ncfile = Dataset(file)
+            var_data = to_np(getvar(ncfile, var))
+            max_var = max(max_var, var_data.max())
+            min_var = min(min_var, var_data.min())
         except Exception as e:
             print(f"Warning: Skipping {file} due to error: {e}")
             continue
@@ -35,23 +37,25 @@ def process_files(wrf_files, output_dir, var="RAINNC"):
         ncfile = Dataset(file)
 
         try:
-            mesure_var = getvar(ncfile, var)
+            measure_var = getvar(ncfile, var)
 
         except Exception as e:
             print(f"Failed to extract {var} for {file}: {e}")
             continue
 
-        lats, lons = latlon_coords(mesure_var)
+        lats, lons = latlon_coords(measure_var)
 
         plt.figure(figsize=(10, 8))
-        ax = plt.axes(projection=get_cartopy(mesure_var))
+        ax = plt.axes(projection=get_cartopy(measure_var))
         ax.coastlines()
         ax.add_feature(cfeature.BORDERS)
+        levels = np.linspace(min_var, max_var, 100)  # 100 levels, adjust as needed
         contour = plt.contourf(to_np(lons),
                                to_np(lats),
-                               to_np(mesure_var),
+                               to_np(measure_var),
+                               levels=levels,
                                cmap="Blues",
-                               vmin=0,
+                               vmin=min_var,
                                vmax=max_var,
                                transform=crs.PlateCarree())
         
@@ -66,7 +70,7 @@ def process_files(wrf_files, output_dir, var="RAINNC"):
 
     # Generate GIF
     gif_filename = os.path.join(output_dir, f"{var}_animation.gif")
-    imageio.mimsave(gif_filename, [imageio.imread(f) for f in frame_paths], fps=3)
+    imageio.mimsave(gif_filename, [imageio.imread(f) for f in frame_paths], fps=fps)
     print(f"\nGIF saved as: {gif_filename}")
 
 
@@ -85,6 +89,14 @@ def main():
     )
 
     parser.add_argument(
+        "--fps",
+        type=int,
+        default=3,
+        help="Frames per second for the output GIF (default: 3)"
+    )
+
+
+    parser.add_argument(
         "--var",
         default="RAINNC",
         help="Variable to visualize (default: RAINNC)"
@@ -97,7 +109,7 @@ def main():
         print("Error: No valid files were found in the list.")
         return
 
-    process_files(wrf_files, args.output_dir, var=args.var)
+    process_files(wrf_files, args.output_dir, var=args.var, fps=args.fps)
 
 
 if __name__ == "__main__":
