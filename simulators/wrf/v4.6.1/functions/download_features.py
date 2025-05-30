@@ -1,22 +1,14 @@
-import cartopy.feature as cfeature
-import matplotlib.pyplot as plt
-import cartopy.crs as ccrs
+import cartopy.io.shapereader as shpreader
 
-# Create a dummy plot with all common features to force download
-fig = plt.figure()
-ax = plt.axes(projection=ccrs.PlateCarree())
-
-# List of common features to download
-features = [
-    cfeature.COASTLINE,
-    cfeature.BORDERS,
-    cfeature.LAKES,
-    cfeature.RIVERS,
-    cfeature.STATES
+datasets = [
+    ('50m', 'physical', 'coastline'),
+    ('50m', 'physical', 'land'),
+    ('50m', 'cultural', 'admin_0_countries'),
+    ('50m', 'physical', 'rivers_lake_centerlines'),
+    ('50m', 'physical', 'lakes'),
 ]
 
-for feat in features:
-    ax.add_feature(feat)
-
-# Save a dummy plot to trigger downloads
-plt.savefig("/tmp/cartopy_cache_dummy.png")
+for resolution, category, name in datasets:
+    print(f"Downloading {category} {name} at {resolution} resolution...")
+    shpreader.natural_earth(resolution=resolution, category=category, name=name)
+print("All downloads complete!")
