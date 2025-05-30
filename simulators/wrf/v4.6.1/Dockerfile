@@ -34,7 +34,7 @@ RUN conda create -n wrf-env -c conda-forge -y \
     imageio \
     && conda clean --all --yes
 
-COPY ./functions/gen_gif.sh /scripts/gen_gif.sh
+COPY ./functions/gen_gif.py /scripts/gen_gif.py
 
 RUN apt-get install csh perl -y && \
     git clone --recurse-submodules https://github.com/wrf-model/WRF.git && \
