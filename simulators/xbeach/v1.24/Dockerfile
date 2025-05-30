@@ -37,7 +37,20 @@ FROM ubuntu:22.04
 
 RUN apt update -qq && \
     apt install -y \
-        openmpi-bin=4.1.2-2ubuntu1 && \
+      openmpi-bin=4.1.2-2ubuntu1 \
+      python3 \
+      python3-pip \
+      libxrender1 \
+      libx11-6 \
+      libxext6 \
+      libxi6 \
+      libxt6 \
+      libgl1-mesa-glx \
+      libosmesa6 \
+      libegl1 \
+      vim \
+      libglu1-mesa && \
+    ln -s /usr/bin/python3 /usr/bin/python && \
     apt clean
 
 ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
@@ -97,3 +110,15 @@ COPY --from=build /usr/local/lib/libxbeach.so.0 /usr/local/lib/libxbeach.so.0
 COPY --from=build /lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
 
 COPY --from=test_env /home /home
+
+COPY xbeach_animator /opt/xbeach_animator
+
+# 4) Install Python deps
+WORKDIR /opt/xbeach_animator
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 5) Expose a CLI shim
+RUN chmod +x xbeach_animator.py \
+ && ln -s /opt/xbeach_animator/xbeach_animator.py /usr/local/bin/xbeach_animator
+
+WORKDIR /

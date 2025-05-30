@@ -1,0 +1,8 @@
+inductiva
+matplotlib==3.9.3
+numpy==2.2.5
+pyvista==0.45.2
+xarray==2025.4.0
+xbTools==1.0.2
+imageio-ffmpeg==0.6.0
+imageio==2.37.0
