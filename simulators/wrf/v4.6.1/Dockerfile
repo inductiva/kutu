@@ -1,3 +1,13 @@
+FROM inductiva/kutu:base-image_v0.1.0 as test_env
+
+RUN wget https://storage.googleapis.com/inductiva-api-demo-files/wrf-input-example.zip -P /home/ && \
+    unzip /home/wrf-input-example.zip -d /home/ && \
+    rm /home/wrf-input-example.zip 
+
+COPY ./test_sim.sh /home/test_sim.sh
+
+RUN chmod +x /home/test_sim.sh
+
 FROM inductiva/kutu:base-image_v0.1.1 as build
 
 ENV DIR=/WRF/LIBRARIES
@@ -138,3 +148,5 @@ COPY ./functions/delete_links.sh /scripts/delete_links.sh
 
 RUN chmod +x /scripts/create_links.sh && \
     chmod +x /scripts/delete_links.sh
+
+COPY --from=test_env /home /home
