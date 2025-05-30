@@ -7,6 +7,10 @@ import cartopy.crs as crs
 import cartopy.feature as cfeature
 import imageio
 import numpy as np
+import cartopy.config as cfg
+
+
+cfg['data_dir'] = '/root/.local/share/cartopy'
 
 def process_files(wrf_files, output_dir, var="RAINNC", fps=3):
     if not wrf_files:
