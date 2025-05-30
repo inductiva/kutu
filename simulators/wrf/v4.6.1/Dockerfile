@@ -38,6 +38,10 @@ RUN conda create -n wrf-env -c conda-forge -y \
 
 COPY ./functions/gen_gif.py /scripts/gen_gif.py
 
+COPY ./functions/download_features.py /scripts/downdownload_featuresload_cartopy_data.py
+
+RUN conda run -n wrf-env python /scripts/download_features.py
+
 RUN apt-get install csh perl -y && \
     git clone --recurse-submodules https://github.com/wrf-model/WRF.git && \
     cd WRF/ && \
