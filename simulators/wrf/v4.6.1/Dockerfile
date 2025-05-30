@@ -20,6 +20,8 @@ ENV PATH=$NETCDF/bin:${PATH}
 ENV JASPERLIB=$DIR/grib2/lib
 ENV JASPERINC=$DIR/grib2/include
 ENV WRF_DIR=/WRF/
+# Add conda to PATH
+ENV PATH="/opt/conda/bin:$PATH"
 
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
     bash miniconda.sh -b -p /opt/conda && \
