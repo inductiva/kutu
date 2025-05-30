@@ -59,7 +59,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | cm1_v18 | 239.32962894439697 MB |
 | swan_v41.45 | 282.5113525390625 MB |
 | swan_v41.31 | 282.51443099975586 MB |
-| opensees_v2.5.0 | 290.51967906951904 MB |
 | snl-swan_v2.2 | 298.9218330383301 MB |
 | dualsphysics_v5.2.1 | 320.4835147857666 MB |
 | amr-wind_v1.4.0 | 325.1194372177124 MB |
@@ -77,13 +76,10 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | cm1_v21.1 | 576.6939287185669 MB |
 | openfoam-foundation_v12 | 633.7755060195923 MB |
 | openfoam-foundation_v8 | 640.8673410415649 MB |
-| reef3d_v24.02 | 778.3759803771973 MB |
 | schism_v5.13.0 | 836.2760696411133 MB |
 | opensees-eesd_v3.0.2 | 890.849702835083 MB |
 | fds_v6.10.1 | 952.6337289810181 MB |
-| reef3d_v24.12 | 1075.5085287094116 MB |
 | reef3d_v25.02 | 1102.0069732666016 MB |
-| quantum-espresso_v7.3.1 | 1275.9760751724243 MB |
 | quantum-espresso_v7.4.1 | 1307.454647064209 MB |
 | gromacs_v2025.1_gpu | 1412.1280975341797 MB |
 | dualsphysics_v5.4.1 | 1662.9539070129395 MB |
