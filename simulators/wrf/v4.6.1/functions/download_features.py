@@ -4,6 +4,7 @@ datasets = [
     ('50m', 'physical', 'coastline'),
     ('50m', 'physical', 'land'),
     ('50m', 'cultural', 'admin_0_countries'),
+    ('50m', 'cultural', 'admin_0_boundary_lines_land'),  # <- Added this line
     ('50m', 'physical', 'rivers_lake_centerlines'),
     ('50m', 'physical', 'lakes'),
 ]
