@@ -3,11 +3,13 @@ FROM ubuntu:22.04 as builder
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt install -y \
-    build-essential gfortran git wget curl \
+    build-essential gfortran-9 git wget curl \
     openmpi-bin=4.1.2-2ubuntu1 openmpi-common=4.1.2-2ubuntu1 \
     libopenmpi-dev=4.1.2-2ubuntu1 \
     python3 python3-pip python3-numpy python3-scipy python3-matplotlib \
-    libmetis-dev cmake unzip
+    libmetis-dev cmake unzip && \
+    update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-9 100
+
 
 WORKDIR /opt
 RUN git clone https://gitlab.pam-retd.fr/otm/telemac-mascaret.git telemac-mascaret
