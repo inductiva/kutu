@@ -58,7 +58,7 @@ WORKDIR /case
 VOLUME /case
 
 # Get input example
-RUN curl https://storage.googleapis.com/inductiva-api-demo-files/opentelemac-input-example.zip \
+RUN curl https://storage.googleapis.com/inductiva-api-demo-files/opentelemac-v8p1r2-input-example.zip \
     --output /home/opentelemac-input-example.zip \
     && unzip /home/opentelemac-input-example.zip -d /home/ \
     && rm /home/opentelemac-input-example.zip \
