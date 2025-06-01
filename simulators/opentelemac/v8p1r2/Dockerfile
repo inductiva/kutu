@@ -59,11 +59,11 @@ VOLUME /case
 
 # Get input example
 RUN curl https://storage.googleapis.com/inductiva-api-demo-files/opentelemac-v8p1r2-input-example.zip \
-    --output /home/opentelemac-input-example.zip \
-    && unzip /home/opentelemac-input-example.zip -d /home/ \
-    && rm /home/opentelemac-input-example.zip \
+    --output /home/opentelemac-v8p1r2-input-example.zip \
+    && unzip /home/opentelemac-v8p1r2-input-example.zip -d /home/ \
+    && rm /home/opentelemac-v8p1r2-input-example.zip \
     # Reduce Simulation time to 5 second for testing
-    && sed -i 's/^DURATION *= *.*/DURATION = 5./' /home/opentelemac-input-example/t2d_malpasset-fine.cas
+    && sed -i 's/^DURATION *= *.*/DURATION = 5./' /home/opentelemac-v8p1r2-input-example/t2d_malpasset-fine.cas
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
