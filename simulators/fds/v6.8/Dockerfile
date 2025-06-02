@@ -71,3 +71,5 @@ WORKDIR /
 COPY --from=test_env /home /home
 COPY ./smokeview.sh /smokeview.sh
 RUN chmod +x /smokeview.sh
+
+ENV OMP_NUM_THREADS=1
