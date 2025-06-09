@@ -23,7 +23,7 @@ ENV SWAN_HOME=/swan
 ARG SWAN_VERSION=41.51
 ARG SWAN_TMP=/tmp/swan
 ENV SWAN_BIN=swan.exe
-ENV METISROOT=/usr
+ENV Metis_ROOT=/usr
 
 # Instal SWAN from source code
 RUN mkdir ${SWAN_TMP}
@@ -53,9 +53,6 @@ RUN git clone https://gitlab.tudelft.nl/citg/wavemodels/swan.git && \
     cmake .. \
         -DMETIS=ON \
         -DMPI=ON \
-        -DCMAKE_C_COMPILER=mpicc \
-        -DCMAKE_CXX_COMPILER=mpicxx \
-        -DCMAKE_Fortran_COMPILER=mpif90 \
         -DNETCDF=ON \
         -DCMAKE_INSTALL_PREFIX=${SWAN_HOME} && \
     make && \
