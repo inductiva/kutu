@@ -41,7 +41,7 @@ RUN cd / && \
     cd / && \
     git clone https://github.com/KarypisLab/METIS.git && \
     cd METIS && \
-    make config shared=1 cc=gcc prefix=/usr && \
+    make config shared=1 cc=mpicc prefix=/usr && \
     make install
 
 RUN git clone https://gitlab.tudelft.nl/citg/wavemodels/swan.git && \
@@ -53,6 +53,9 @@ RUN git clone https://gitlab.tudelft.nl/citg/wavemodels/swan.git && \
     cmake .. \
         -DMETIS=ON \
         -DMPI=ON \
+        -DCMAKE_C_COMPILER=mpicc \
+        -DCMAKE_CXX_COMPILER=mpicxx \
+        -DCMAKE_Fortran_COMPILER=mpif90 \
         -DNETCDF=ON \
         -DCMAKE_INSTALL_PREFIX=${SWAN_HOME} && \
     make && \
