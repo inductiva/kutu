@@ -56,7 +56,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | apptainer-converter_v0.1.0 | 114.74631023406982 MB |
 | mohid_v24.10 | 175.23876190185547 MB |
 | sfincs_v2.2.1 | 214.66022109985352 MB |
-| cm1_v18 | 239.32962894439697 MB |
 | swan_v41.45 | 282.5113525390625 MB |
 | swan_v41.31 | 282.51443099975586 MB |
 | snl-swan_v2.2 | 298.9218330383301 MB |
