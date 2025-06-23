@@ -3,9 +3,9 @@ FROM ubuntu:22.04 AS test_env
 RUN apt-get update && apt-get install -y \
     wget \
     unzip && \
-    wget https://storage.googleapis.com/inductiva-api-demo-files/openfastv4.0.2-input-example.zip -P /home/ && \
-    unzip /home/openfastv4.0.2-input-example.zip -d /home/ && \
-    rm /home/openfastv4.0.2-input-example.zip && \
+    wget https://storage.googleapis.com/inductiva-api-demo-files/openfastv4.1.0-input-example.zip -P /home/ && \
+    unzip /home/openfastv4.1.0-input-example.zip -d /home/ && \
+    rm /home/openfastv4.1.0-input-example.zip && \
     ls -l
 
 COPY ./test_sim.sh /home/test_sim.sh
