@@ -30,11 +30,19 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt install -y \
     python3 python3-pip libmetis-dev \
-    libhdf5-dev libmedc-dev libmed11 \
+    libhdf5-dev \
+    wget \
     openmpi-bin=4.1.2-2ubuntu1 openmpi-common=4.1.2-2ubuntu1 \
     libopenmpi-dev=4.1.2-2ubuntu1 \
     python3-numpy python3-scipy python3-matplotlib curl unzip && \
-    apt clean && rm -rf /var/lib/apt/lists/*
+    apt clean && rm -rf /var/lib/apt/lists/* && \
+    cd / && \
+    wget http://files.salome-platform.org/Salome/medfile/med-4.1.1.tar.gz && \
+    tar -xzf med-4.1.1.tar.gz && \
+    cd med-4.1.1 && \
+    ./configure --prefix=$PREFIX CFLAGS=-O2 CXXFLAGS=-O2 FFLAGS=-O2 && \
+    make && \
+    make install
 
 COPY --from=builder /opt/telemac-mascaret/scripts /opt/telemac-mascaret/scripts
 COPY --from=builder /opt/telemac-mascaret/builds /opt/telemac-mascaret/builds
