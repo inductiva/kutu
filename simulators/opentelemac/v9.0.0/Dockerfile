@@ -30,6 +30,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt install -y \
     python3 python3-pip libmetis-dev \
+    libhdf5-dev libmedc-dev libmed1v5 \
     openmpi-bin=4.1.2-2ubuntu1 openmpi-common=4.1.2-2ubuntu1 \
     libopenmpi-dev=4.1.2-2ubuntu1 \
     python3-numpy python3-scipy python3-matplotlib curl unzip && \
