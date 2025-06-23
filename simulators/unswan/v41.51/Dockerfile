@@ -35,7 +35,7 @@ WORKDIR ${SWAN_TMP}
 RUN cd / && \
     git clone https://github.com/KarypisLab/GKlib.git && \
     cd GKlib && \
-    make config prefix=/usr && \
+    make config cc=mpicc prefix=/usr && \
     make && \
     make install && \
     cd / && \
