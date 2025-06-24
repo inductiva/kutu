@@ -50,6 +50,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | Tag | Size (MB) |
 |---|---|
 | openfast_v4.0.3 | 83.2683687210083 MB |
+| openfast_v4.1.0 | 83.68922710418701 MB |
 | cans_v3.0.0 | 98.62833499908447 MB |
 | swash_v9.01A | 101.622633934021 MB |
 | gromacs_v2025.1 | 111.13646411895752 MB |
@@ -85,6 +86,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | dualsphysics_v5.4.1 | 1662.9539070129395 MB |
 | openseespy_v3.7.1 | 1811.5896615982056 MB |
 | wrf_v4.6.1 | 1965.3614587783813 MB |
+| wrf_v4.7.1 | 1966.6437969207764 MB |
 | dualsphysics_v5.4.1_gpu | 2167.187635421753 MB |
 | cans_v2.4.0_gpu | 3278.5980014801025 MB |
 | cans_v3.0.0_gpu | 3280.701066017151 MB |
