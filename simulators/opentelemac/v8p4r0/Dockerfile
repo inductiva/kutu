@@ -2,6 +2,37 @@ FROM ubuntu:22.04 as builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+### HDF5 -------------------------------------------------------------
+ENV HDF5HOME=/opt/hdf5-1.10.6
+ENV LD_LIBRARY_PATH=${HDF5HOME}/lib:${LD_LIBRARY_PATH}
+### MED -------------------------------------------------------------
+ENV MEDHOME=/opt/med-4.1.1
+ENV LD_LIBRARY_PATH=${MEDHOME}/lib:${LD_LIBRARY_PATH}
+ENV PATH=${MEDHOME}/bin:${PATH}
+
+RUN apt update && apt install -y \
+    python3 python3-pip libmetis-dev \
+    wget \
+    openmpi-bin=4.1.2-2ubuntu1 openmpi-common=4.1.2-2ubuntu1 \
+    libopenmpi-dev=4.1.2-2ubuntu1 \
+    python3-numpy python3-scipy python3-matplotlib curl unzip && \
+    apt clean && rm -rf /var/lib/apt/lists/* && \
+    ln -s /usr/bin/python3 /usr/bin/python && \
+    cd / && \
+    wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.6/src/hdf5-1.10.6.tar.gz && \
+    tar -xzf hdf5-1.10.6.tar.gz && \
+    cd hdf5-1.10.6 && \
+    ./configure --prefix=${HDF5HOME} && \
+    make && \
+    make install && \
+    cd / && \
+    wget --user-agent="Mozilla/5.0" http://files.salome-platform.org/Salome/medfile/med-4.1.1.tar.gz && \
+    tar -xzf med-4.1.1.tar.gz && \
+    cd med-4.1.1 && \
+    ./configure --prefix=${MEDHOME} CFLAGS=-O2 CXXFLAGS=-O2 FFLAGS=-O2 && \
+    make && \
+    make install
+
 RUN apt update && apt install -y \
     build-essential gfortran git wget curl \
     openmpi-bin=4.1.2-2ubuntu1 openmpi-common=4.1.2-2ubuntu1 \
@@ -26,6 +57,13 @@ RUN bash -c "source $SOURCEFILE && compile_telemac.py"
 
 FROM ubuntu:22.04 as final
 
+### HDF5 -------------------------------------------------------------
+ENV HDF5HOME=/opt/hdf5-1.10.6
+ENV LD_LIBRARY_PATH=${HDF5HOME}/lib:${LD_LIBRARY_PATH}
+### MED -------------------------------------------------------------
+ENV MEDHOME=/opt/med-4.1.1
+ENV LD_LIBRARY_PATH=${MEDHOME}/lib:${LD_LIBRARY_PATH}
+ENV PATH=${MEDHOME}/bin:${PATH}
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt install -y \
