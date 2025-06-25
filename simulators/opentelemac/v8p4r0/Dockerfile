@@ -78,6 +78,9 @@ COPY --from=builder /opt/telemac-mascaret/builds /opt/telemac-mascaret/builds
 COPY --from=builder /opt/telemac-mascaret/configs /opt/telemac-mascaret/configs
 COPY --from=builder /opt/telemac-mascaret/sources /opt/telemac-mascaret/sources
 
+COPY --from=builder /opt/hdf5-1.10.6 /opt/hdf5-1.10.6
+COPY --from=builder /opt/med-4.1.1 /opt/med-4.1.1
+
 ENV HOMETEL=/opt/telemac-mascaret
 ENV SYSTELCFG=$HOMETEL/configs/systel.cfg
 ENV USETELCFG=gfortranHPC

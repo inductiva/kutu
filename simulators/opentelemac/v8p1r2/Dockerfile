@@ -34,13 +34,11 @@ RUN apt update && apt install -y \
     make install
 
 RUN apt update && apt install -y \
-    build-essential gfortran-9 git wget curl \
+    build-essential gfortran git wget curl \
     openmpi-bin=4.1.2-2ubuntu1 openmpi-common=4.1.2-2ubuntu1 \
     libopenmpi-dev=4.1.2-2ubuntu1 \
     python3 python3-pip python3-numpy python3-scipy python3-matplotlib \
-    libmetis-dev cmake unzip && \
-    update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-9 100
-
+    libmetis-dev cmake unzip
 
 WORKDIR /opt
 RUN git clone https://gitlab.pam-retd.fr/otm/telemac-mascaret.git telemac-mascaret
@@ -79,6 +77,9 @@ COPY --from=builder /opt/telemac-mascaret/scripts /opt/telemac-mascaret/scripts
 COPY --from=builder /opt/telemac-mascaret/builds /opt/telemac-mascaret/builds
 COPY --from=builder /opt/telemac-mascaret/configs /opt/telemac-mascaret/configs
 COPY --from=builder /opt/telemac-mascaret/sources /opt/telemac-mascaret/sources
+
+COPY --from=builder /opt/hdf5-1.10.6 /opt/hdf5-1.10.6
+COPY --from=builder /opt/med-4.1.1 /opt/med-4.1.1
 
 ENV HOMETEL=/opt/telemac-mascaret
 ENV SYSTELCFG=$HOMETEL/configs/systel.cfg
