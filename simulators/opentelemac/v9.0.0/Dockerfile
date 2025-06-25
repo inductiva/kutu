@@ -37,7 +37,7 @@ RUN apt update && apt install -y \
     python3-numpy python3-scipy python3-matplotlib curl unzip && \
     apt clean && rm -rf /var/lib/apt/lists/* && \
     cd / && \
-    wget http://files.salome-platform.org/Salome/medfile/med-4.1.1.tar.gz && \
+    wget --user-agent="Mozilla/5.0" http://files.salome-platform.org/Salome/medfile/med-4.1.1.tar.gz && \
     tar -xzf med-4.1.1.tar.gz && \
     cd med-4.1.1 && \
     ./configure --prefix=$PREFIX CFLAGS=-O2 CXXFLAGS=-O2 FFLAGS=-O2 && \
