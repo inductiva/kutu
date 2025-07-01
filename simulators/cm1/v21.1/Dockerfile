@@ -28,10 +28,7 @@ ENV LD_LIBRARY_PATH=${LIB_PATH}:${OPENMPI_PATH}/lib
 ENV OMPI_MCA_btl_vader_single_copy_mechanism=none
 ENV OMPI_FC=gfortran
 ENV FFLAGS=" -m64 -fallow-argument-mismatch -ffree-form -ffree-line-length-none -O2 -finline-functions -fno-range-check -Wno-line-truncation"
-ENV OUTPUTINC="-I/usr/include"
-ENV OUTPUTLIB="-L/usr/lib/x86_64-linux-gnu"
-ENV FC=mpif90
-ENV OPTS="-ffree-form -ffree-line-length-none -O2 -finline-functions"
+
 # Create working directory
 WORKDIR ${CM1_BASE_DIR}
 

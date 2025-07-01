@@ -42,10 +42,10 @@ LINKOPTS  = -lnetcdf -lnetcdff
 #-----------------------------------------------------------------------------
 #  multiple processors, hybrid distributed (MPI) and shared memory (OpenMP), Intel compiler 
 #      (can be used for NCAR's derecho)
-FC   = mpif90
-OPTS = -O3 -ip -assume byterecl -fp-model precise -ftz -no-fma
-CPP  = cpp -C -P -traditional -Wno-invalid-pp-token -ffreestanding
-DM   = -DMPI
+# FC   = mpif90
+# OPTS = -O3 -ip -assume byterecl -fp-model precise -ftz -no-fma
+# CPP  = cpp -C -P -traditional -Wno-invalid-pp-token -ffreestanding
+# DM   = -DMPI
 #-----------------------------------------------------------------------------
 #  single processor, NVIDIA (formerly Portland Group) compiler
 #FC   = nvfortran
@@ -70,10 +70,10 @@ DM   = -DMPI
 #CPP  = cpp -C -P -traditional -Wno-invalid-pp-token -ffreestanding
 #-----------------------------------------------------------------------------
 #  multiple processors, distributed memory (MPI), GNU compiler
-#FC = mpif90
-#OPTS = -ffree-form -ffree-line-length-none -O2 -finline-functions -fallow-argument-mismatch
-#CPP  = cpp -C -P -traditional -Wno-invalid-pp-token -ffreestanding
-#DM = -DMPI
+FC = mpif90
+OPTS = -ffree-form -ffree-line-length-none -O2 -finline-functions -fallow-argument-mismatch
+CPP  = cpp -C -P -traditional -Wno-invalid-pp-token -ffreestanding
+DM = -DMPI
 #-----------------------------------------------------------------------------
 #  multiple processors, shared memory (OpenMP), GNU compiler
 #FC   = gfortran
