@@ -43,6 +43,7 @@ RUN wget https://www2.mmm.ucar.edu/people/bryan/cm1/cm1r${CM1_VERSION}.tar.gz &&
 
     
 # Compile CM1
+COPY ./Makefile src/Makefile
 
 RUN cd src && \
     make \
