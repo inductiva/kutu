@@ -42,10 +42,10 @@ LINKOPTS  = -lnetcdf -lnetcdff
 #-----------------------------------------------------------------------------
 #  multiple processors, hybrid distributed (MPI) and shared memory (OpenMP), Intel compiler 
 #      (can be used for NCAR's derecho)
-FC = mpif90
-OPTS = -ffree-form -ffree-line-length-none -I../include -O2
-CPP  = cpp -P -Wno-invalid-pp-token
-DM = -DMPI
+FC   = mpif90
+OPTS = -O3 -ip -assume byterecl -fp-model precise -ftz -no-fma
+CPP  = cpp -C -P -traditional -Wno-invalid-pp-token -ffreestanding
+DM   = -DMPI
 #-----------------------------------------------------------------------------
 #  single processor, NVIDIA (formerly Portland Group) compiler
 #FC   = nvfortran
