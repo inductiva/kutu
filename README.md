@@ -50,11 +50,11 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | Tag | Size (MB) |
 |---|---|
 | openfast_v4.0.3 | 83.2683687210083 MB |
+| openfast_v4.1.0 | 83.68922710418701 MB |
 | cans_v3.0.0 | 98.62833499908447 MB |
 | swash_v9.01A | 101.622633934021 MB |
 | gromacs_v2025.1 | 111.13646411895752 MB |
 | apptainer-converter_v0.1.0 | 114.74631023406982 MB |
-| mohid_v24.10 | 175.23876190185547 MB |
 | sfincs_v2.2.1 | 214.66022109985352 MB |
 | swan_v41.45 | 282.5113525390625 MB |
 | swan_v41.31 | 282.51443099975586 MB |
@@ -73,7 +73,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | nwchem_v7.2.3 | 404.76081562042236 MB |
 | delft3d_v6.04.00 | 517.3401861190796 MB |
 | swan_v41.51 | 558.3809080123901 MB |
-| cm1_v21.1 | 576.6939287185669 MB |
 | openfoam-foundation_v12 | 633.7755060195923 MB |
 | openfoam-foundation_v8 | 640.8673410415649 MB |
 | xbeach_v1.24 | 651.6205368041992 MB |
@@ -85,6 +84,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | dualsphysics_v5.4.1 | 1662.9539070129395 MB |
 | openseespy_v3.7.1 | 1811.5896615982056 MB |
 | wrf_v4.6.1 | 1965.3614587783813 MB |
+| wrf_v4.7.1 | 1966.6437969207764 MB |
 | dualsphysics_v5.4.1_gpu | 2167.187635421753 MB |
 | cans_v2.4.0_gpu | 3278.5980014801025 MB |
 | cans_v3.0.0_gpu | 3280.701066017151 MB |
