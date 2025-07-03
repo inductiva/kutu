@@ -96,7 +96,7 @@ COPY --from=build /opt/intel/oneapi/readme-get-started-linux-hpc-kit.html /opt/i
 COPY --from=build /opt/intel/oneapi/readme-get-started-linux-base-kit.html /opt/intel/oneapi/readme-get-started-linux-base-kit.html
 
 #Set env vars
-ENV PATH=/opt/delft3dfm/bin:${PATH}
+ENV PATH=/opt/delft3dfm/bin:/opt/delft3dfm/lnx64/swan/scripts/:/opt/delft3dfm/lnx64/swan/bin/:${PATH}
 ENV PATH=/opt/intel/oneapi/mpi/2021.6.0//bin:${PATH}
 ENV VT_MPI=impi4
 ENV IPP_TARGET_ARCH=intel64
@@ -112,6 +112,8 @@ ENV ACL_BOARD_VENDOR_PATH=/opt/Intel/OpenCLFPGA/oneAPI/Boards
 ENV FI_PROVIDER_PATH=/opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/prov:/usr/lib64/libfabric
 ENV LIBRARY_PATH=/opt/intel/oneapi/mpi/2021.6.0//libfabric/lib:/opt/intel/oneapi/mpi/2021.6.0//lib/release:/opt/intel/oneapi/mpi/2021.6.0//lib
 ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:/usr/local/lib:/opt/intel/oneapi/vpl/2022.1.0/lib:/opt/intel/oneapi/tbb/2021.6.0/env/../lib/intel64/gcc4.8:/opt/intel/oneapi/mpi/2021.6.0//libfabric/lib:/opt/intel/oneapi/mpi/2021.6.0//lib/release:/opt/intel/oneapi/mpi/2021.6.0//lib:/opt/intel/oneapi/mkl/2022.1.0/lib/intel64:/opt/intel/oneapi/itac/2021.6.0/slib:/opt/intel/oneapi/ippcp/2021.6.0/lib/intel64:/opt/intel/oneapi/ipp/2021.6.0/lib/intel64:/opt/intel/oneapi/dnnl/2022.1.0/cpu_dpcpp_gpu_dpcpp/lib:/opt/intel/oneapi/debugger/2021.6.0/gdb/intel64/lib:/opt/intel/oneapi/debugger/2021.6.0/libipt/intel64/lib:/opt/intel/oneapi/debugger/2021.6.0/dep/lib:/opt/intel/oneapi/dal/2021.6.0/lib/intel64:/opt/intel/oneapi/compiler/2022.1.0/linux/lib:/opt/intel/oneapi/compiler/2022.1.0/linux/lib/x64:/opt/intel/oneapi/compiler/2022.1.0/linux/lib/oclfpga/host/linux64/lib:/opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin:/opt/intel/oneapi/ccl/2021.6.0/lib/cpu_gpu_dpcpp:/opt/delft3dfm/lnx64/flow2d3d/bin/
+ENV D3D_HOME=/opt/delft3dfm/
+ENV ARCH=lnx64
 
 #Intel MPI dependencies
 COPY --from=build /lib/x86_64-linux-gnu/libgomp.so.1 /lib/x86_64-linux-gnu/libgomp.so.1
