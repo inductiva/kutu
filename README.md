@@ -73,6 +73,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | nwchem_v7.2.3 | 404.76081562042236 MB |
 | delft3d_v6.04.00 | 517.3401861190796 MB |
 | swan_v41.51 | 558.3809080123901 MB |
+| cm1_v21.1 | 570.0145578384399 MB |
 | openfoam-foundation_v12 | 633.7755060195923 MB |
 | openfoam-foundation_v8 | 640.8673410415649 MB |
 | xbeach_v1.24 | 651.6205368041992 MB |
