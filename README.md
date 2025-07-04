@@ -71,7 +71,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | opentelemac_v8p1r2 | 392.26356506347656 MB |
 | nwchem_v7.2.2 | 403.40702056884766 MB |
 | nwchem_v7.2.3 | 404.76081562042236 MB |
-| delft3d_v6.04.00 | 517.3401861190796 MB |
+| delft3d_v6.04.00 | 519.2441167831421 MB |
 | swan_v41.51 | 558.3809080123901 MB |
 | cm1_v21.1 | 570.0145578384399 MB |
 | openfoam-foundation_v12 | 633.7755060195923 MB |
