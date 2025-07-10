@@ -57,3 +57,5 @@ RUN apt-get -y update && \
     ./configure --prefix=/  --enable-mpi --enable-openmp --with-blacs="-lscalapack-openmpi" && \
     make -j && \
     make install
+
+COPY --from=test_env /home /home
