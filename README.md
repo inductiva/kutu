@@ -80,7 +80,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | schism_v5.13.0 | 836.2760696411133 MB |
 | opensees-eesd_v3.0.2 | 890.849702835083 MB |
 | fds_v6.10.1 | 952.6337289810181 MB |
-| reef3d_v25.02 | 1102.0069732666016 MB |
 | gromacs_v2025.1_gpu | 1412.1280975341797 MB |
 | dualsphysics_v5.4.1 | 1662.9539070129395 MB |
 | openseespy_v3.7.1 | 1811.5896615982056 MB |
