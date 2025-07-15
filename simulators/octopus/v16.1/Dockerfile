@@ -58,7 +58,7 @@ RUN apt-get -y update && \
     autoreconf --install && \
     ./configure --prefix=/  --enable-mpi --enable-openmp --with-blacs="-lscalapack-openmpi" && \
     make -j && \
-    make install \
+    make install && \
     cd /octopus && \
     rm -r src && \
     rm -r share && \
