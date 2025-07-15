@@ -24,6 +24,8 @@ RUN apt-get -y update && \
         gcc \
         gfortran \
         git \
+        imagemagick \
+        gnuplot \
         libatlas-base-dev \
         libblas-dev \
         libboost-dev \
@@ -56,6 +58,12 @@ RUN apt-get -y update && \
     autoreconf --install && \
     ./configure --prefix=/  --enable-mpi --enable-openmp --with-blacs="-lscalapack-openmpi" && \
     make -j && \
-    make install
+    make install \
+    cd /octopus && \
+    rm -r src && \
+    rm -r share && \
+    rm -r doc && \
+    rm -r testsuite
+
 
 COPY --from=test_env /home /home
