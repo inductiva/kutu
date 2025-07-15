@@ -66,6 +66,8 @@ RUN apt-get update && \
     python3 \
     python3-pip \
     python3-dev \
+    libosmesa6 \
+    libosmesa6-dev \
     libxrender1 && \
     pip3 install --no-cache-dir \
     numpy \
