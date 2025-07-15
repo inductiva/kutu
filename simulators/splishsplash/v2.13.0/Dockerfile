@@ -61,6 +61,20 @@ FROM ubuntu:22.04
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 
+RUN apt-get update && \
+    apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-dev && \
+    pip3 install --no-cache-dir \
+    numpy \
+    imageio \
+    vtk && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY ./gen_gif.py /home/scripts/gen_gif.py
+
 COPY --from=build /root/.cargo/bin/splashsurf /root/.cargo/bin/splashsurf
 
 COPY --from=build /usr/lib/x86_64-linux-gnu/libGLdispatch.so.0 /usr/lib/x86_64-linux-gnu/libGLdispatch.so.0
