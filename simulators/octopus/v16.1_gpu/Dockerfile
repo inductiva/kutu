@@ -8,7 +8,7 @@ COPY ./test_sim.sh /home/test_sim.sh
 
 RUN chmod +x /home/test_sim.sh
 
-FROM nvidia/cuda:11.7.1-devel-ubuntu22.04 AS build
+FROM nvidia/cuda:11.7.1-runtime-ubuntu22.04 AS build
 
 ENV DEBIAN_FRONTEND=noninteractive
 # Bug: https://gitlab.com/octopus-code/octopus/-/issues/900
