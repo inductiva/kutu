@@ -65,6 +65,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | amr-wind_v3.4.0 | 333.0294647216797 MB |
 | opentelemac_v9.0.0 | 382.2199287414551 MB |
 | opentelemac_v8p4r0 | 384.2470808029175 MB |
+| splishsplash_v2.13.0 | 385.70003032684326 MB |
 | swash_v10.01A | 390.79254245758057 MB |
 | swash_v10.05 | 390.88879013061523 MB |
 | swash_v11.01 | 390.89534854888916 MB |
@@ -78,6 +79,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | openfoam-foundation_v8 | 640.8673410415649 MB |
 | xbeach_v1.24 | 651.6205368041992 MB |
 | schism_v5.13.0 | 836.2760696411133 MB |
+| octopus_v16.1 | 882.8841123580933 MB |
 | opensees-eesd_v3.0.2 | 890.849702835083 MB |
 | fds_v6.10.1 | 952.6337289810181 MB |
 | gromacs_v2025.1_gpu | 1412.1280975341797 MB |
