@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as test_env
+FROM ubuntu:22.04 AS test_env
 
 RUN apt-get update \
     && apt-get install -y \
@@ -52,6 +52,7 @@ RUN wget https://github.com/firemodels/fds/releases/download/FDS-6.9.1/FDS-6.9.1
     libglu1-mesa \
     libgl1-mesa-glx \
     xvfb \
+    ffmpeg \
     git;
 
 #Clone fds and builds fds with openmpi for linux
@@ -69,5 +70,5 @@ ENV DISPLAY :1
 WORKDIR /
 
 COPY --from=test_env /home /home
-COPY ./smokeview.sh /smokeview.sh
-RUN chmod +x /smokeview.sh
+
+COPY ./scripts /scripts
