@@ -40,6 +40,13 @@ ENV LD_LIBRARY_PATH=$MPIDIST/lib:$LD_LIBRARY_PATH
 
 WORKDIR /
 
+# Install Intel MKL libraries
+RUN wget https://registrationcenter-download.intel.com/akdlm/IRC_NAS/47c7d946-fca1-441a-b0df-b094e3f045ea/intel-onemkl-2025.2.0.629.sh
+RUN sh ./intel-onemkl-2025.2.0.629.sh -a --silent --eula accept
+RUN rm ./intel-onemkl*.sh
+
+ENV MKLROOT=/opt/intel/oneapi/mkl/latest
+
 # Extract files to get smokeview
 RUN wget https://github.com/firemodels/fds/releases/download/FDS-6.8.0/FDS-6.8.0_SMV-6.8.0_lnx.sh &&\
     printf "extract\n" | bash /FDS-6.8.0_SMV-6.8.0_lnx.sh &&\

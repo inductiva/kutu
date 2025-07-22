@@ -34,6 +34,10 @@ RUN wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.6.tar.g
     cd / &&\
     rm -rf openmpi-4.1.6 openmpi-4.1.6.tar.gz
 
+ENV MPIDIST=/shared/openmpi_64
+ENV PATH=$MPIDIST/bin:$PATH
+ENV LD_LIBRARY_PATH=$MPIDIST/lib:$LD_LIBRARY_PATH
+
 WORKDIR /
 
 # Install Intel MKL libraries
@@ -41,10 +45,7 @@ RUN wget https://registrationcenter-download.intel.com/akdlm/IRC_NAS/47c7d946-fc
 RUN sh ./intel-onemkl-2025.2.0.629.sh -a --silent --eula accept
 RUN rm ./intel-onemkl*.sh
 
-ENV MPIDIST=/shared/openmpi_64
-ENV PATH=$MPIDIST/bin:$PATH
-ENV LD_LIBRARY_PATH=$MPIDIST/lib:$LD_LIBRARY_PATH
-
+ENV MKLROOT=/opt/intel/oneapi/mkl/latest
 
 # Extract files to get smokeview
 RUN wget https://github.com/firemodels/fds/releases/download/FDS-6.10.1/FDS-6.10.1_SMV-6.10.1_lnx.sh &&\
@@ -60,8 +61,6 @@ RUN wget https://github.com/firemodels/fds/releases/download/FDS-6.10.1/FDS-6.10
     xvfb \
     ffmpeg \
     git;
-
-ENV MKLROOT=/opt/intel/oneapi/mkl/latest
 
 #Clone fds and builds fds with openmpi for linux
 RUN cd /opt &&\
