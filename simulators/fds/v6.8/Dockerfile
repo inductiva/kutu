@@ -57,7 +57,7 @@ RUN wget https://github.com/firemodels/fds/releases/download/FDS-6.8.0/FDS-6.8.0
 
 #Clone fds and builds fds with openmpi for linux
 RUN cd /opt &&\
-    git clone https://github.com/firemodels/fds.git && \
+    git clone --branch FDS-6.8.0 https://github.com/firemodels/fds.git && \
     cd /opt/fds/Build/ompi_gnu_linux && \
     ./make_fds.sh && \
     cd .. &&\
