@@ -71,6 +71,8 @@ RUN cd /opt &&\
     make clean &&\
     ln -s /opt/fds/Build/ompi_gnu_linux/fds_ompi_gnu_linux /usr/bin/fds
 
+RUN rm -r /opt/intel
+
 ENV PATH=/opt/smokeview/smvbin:$PATH
 
 ENV DISPLAY :1
