@@ -98,6 +98,7 @@ RUN wget https://github.com/firemodels/fds/releases/download/FDS-6.10.1/FDS-6.10
     git;
 
 ENV PATH=/opt/smokeview/smvbin:$PATH
+ENV DISPLAY=:1
 
 COPY --from=build_env /opt/fds /opt/fds
 RUN ln -s /opt/fds/Build/ompi_gnu_linux/fds_ompi_gnu_linux /usr/bin/fds
