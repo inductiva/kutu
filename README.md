@@ -92,5 +92,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | cans_v3.0.0_gpu | 3280.701066017151 MB |
 | amr-wind_v3.4.0_gpu | 3588.6835708618164 MB |
 | amr-wind_v3.4.1_gpu | 3613.75515460968 MB |
+| octopus_v16.1_gpu | 3742.739362716675 MB |
 | amr-wind_v1.4.0_gpu | 5300.673182487488 MB |
 <!-- END-DOCKER-TAGS-TABLE -->

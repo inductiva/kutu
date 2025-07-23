@@ -1,5 +1,5 @@
 # This workflow builds and pushes Docker images for the simulators that have
-# been modified when a PR is done. 
+# been modified when a PR is done.
 # The first job detects the modified simulators. It inspects the repository to
 # determine all the changed dockerfiles, using the github action changed-files.
 # The second job uses the output of the first and runs with a matrix strategy,
@@ -43,7 +43,7 @@ jobs:
       - name: Echo changed files
         run: |
           echo "all_changed_files=${{ steps.changed-dockerfiles.outputs.all_changed_files }}"
-        
+
       - name: Removed duplicated paths
         id: unique-changed-dockerfiles
         # Remove duplicated paths if multiple files in the same directory have changed
@@ -55,10 +55,14 @@ jobs:
             cut -d '/' -f1-3 | \
             sort | \
             uniq))
-          
+
           : # Convert bash array to JSON array and adds Dockerfile to each element
           json_array="["
           for ((i = 0; i < ${#unique_changed_simulators[@]}; i++)); do
+              if [ ! -f "${unique_changed_simulators[i]}/Dockerfile" ]; then
+                continue
+              fi
+
               json_array+="\"${unique_changed_simulators[i]}/Dockerfile\""
               : # if i less than the last index, add a comma
               if [[ $i -lt $(( ${#unique_changed_simulators[@]} - 1 )) ]]; then
@@ -66,9 +70,9 @@ jobs:
               fi
           done
           json_array+="]"
-          
+
           echo "$json_array"
-          
+
           echo "all_unique_changed_simulators_json_array=${json_array[@]}" >> $GITHUB_OUTPUT
 
   publish-simulator-image:
@@ -83,13 +87,13 @@ jobs:
         simulator-dockerfile-path: ${{ fromJSON(needs.generate-simulator-matrix.outputs.simulator-dockerfile-paths) }}
 
     steps:
-          
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Get simulator name, version, directory and environment
         id: get
-        run: | 
+        run: |
           : # Get Simulator name
           : # /some/path/to/simulator/version/Dockerfile -> simulator
           tmp=$(basename $(dirname $(dirname ${{ matrix.simulator-dockerfile-path }})))
@@ -103,7 +107,7 @@ jobs:
           : # Get Simulation Directory
           echo "simulator-directory=$(dirname ${{ matrix.simulator-dockerfile-path }})" >> $GITHUB_OUTPUT
 
-          : # Current environment 
+          : # Current environment
           if [[ "${{ github.ref }}" != "refs/heads/main" ]]; then
             echo "environment=_dev" >> $GITHUB_OUTPUT
           fi
@@ -128,7 +132,7 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      
+
       - name: Build and export to Docker
         uses: docker/build-push-action@v5
         with:
