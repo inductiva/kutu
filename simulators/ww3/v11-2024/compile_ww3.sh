@@ -1,9 +1,13 @@
 #!/bin/bash
 # Usage: bash script.sh Ifremer2
-# Should be called inside the WW3 dir
 
 # Exit on any error
 set -e
+
+cp -r /WW3 __WW3
+cd __WW3
+
+export WW3=/workdir/output/artifacts/__WW3
 
 # Check if argument is provided
 if [ -z "$1" ]; then
@@ -12,6 +16,7 @@ if [ -z "$1" ]; then
 fi
 
 SWITCH_NAME=$1
+rm -rf build
 mkdir -p build
 cd build
 
@@ -22,3 +27,5 @@ cmake .. -DSWITCH=${SWITCH_NAME} \
   -DNetCDF_F90_LIBRARY=/WW3_LIBRARIES/lib/libnetcdff.so
 
 make -j
+
+cd ../..
