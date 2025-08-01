@@ -97,3 +97,6 @@ RUN cd /WW3 && \
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
+
+COPY ./compile_ww3.sh /home/compile_ww3.sh
+RUN chmod +x /home/compile_ww3.sh
