@@ -63,6 +63,28 @@ RUN apt-get install -y libopenmpi-dev=4.1.2-2ubuntu1 \
     cd WW3/ && \
     git checkout 7705171721e825d58e1e867e552e328fc812bfdd && \
     echo -e ".\nn\nn" | sh model/bin/ww3_from_ftp.sh
+
+# Install METIS 5.1.0
+RUN wget https://karypis.github.io/glaros/files/sw/metis/metis-5.1.0.tar.gz && \
+    tar -xzf metis-5.1.0.tar.gz && \
+    cd metis-5.1.0 && \
+    make config shared=1 prefix=/usr/local && \
+    make && make install && \
+    cd .. && rm -rf metis-5.1.0 metis-5.1.0.tar.gz
+
+# Install ParMETIS 4.0.3
+RUN wget https://karypis.github.io/glaros/files/sw/parmetis/parmetis-4.0.3.tar.gz && \
+    tar -xzf parmetis-4.0.3.tar.gz && \
+    cd parmetis-4.0.3 && \
+    make config shared=1 prefix=/usr/local && \
+    make && make install && \
+    cd .. && rm -rf parmetis-4.0.3 parmetis-4.0.3.tar.gz
+
+ENV METIS_PATH=/usr/local \
+    LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH \
+    LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH \
+    CPATH=/usr/local/include:$CPATH 
+
 RUN cd /WW3 && \
     mkdir build && \
     cd build/ && \
