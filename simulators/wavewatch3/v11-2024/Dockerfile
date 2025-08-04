@@ -54,6 +54,8 @@ RUN apt-get update && \
 
 ENV LD_LIBRARY_PATH=$DIR/lib:$LD_LIBRARY_PATH
 ENV PATH=$DIR/bin:$PATH
+ENV PATH=/workdir/output/artifacts/__WW3/model/bin/:$PATH
+ENV PATH=/workdir/output/artifacts/__WW3/build/bin/:$PATH
 
 RUN apt-get install -y libopenmpi-dev=4.1.2-2ubuntu1 \
     openmpi-bin=4.1.2-2ubuntu1 && \
@@ -92,8 +94,7 @@ RUN cd /WW3 && \
       -DNetCDF_LIBRARIES="/WW3_LIBRARIES/lib/libnetcdf.so;/WW3_LIBRARIES/lib/libnetcdff.so" \
       -DNetCDF_C_LIBRARY=/WW3_LIBRARIES/lib/libnetcdf.so \
       -DNetCDF_F90_LIBRARY=/WW3_LIBRARIES/lib/libnetcdff.so && \
-    make -j && \
-    make install
+    make -j
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
