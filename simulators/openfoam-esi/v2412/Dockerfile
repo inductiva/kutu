@@ -65,7 +65,7 @@ RUN apt update -qq && \
     apt install --no-install-recommends -y \
         openmpi-bin=4.1.2-2ubuntu1 && \
 	apt install python3-pip -y && \
-	pip3 install matplotlib
+	pip3 install matplotlib && \
     apt clean && \
     apt-get clean && \
     apt-get autoclean && \
