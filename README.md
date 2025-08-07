@@ -81,6 +81,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | schism_v5.13.0 | 836.2760696411133 MB |
 | octopus_v16.1 | 882.8841123580933 MB |
 | opensees-eesd_v3.0.2 | 890.849702835083 MB |
+| wavewatch3_v11-2024 | 1004.6025238037109 MB |
 | fds_v6.8 | 1094.3659648895264 MB |
 | fds_v6.9.1 | 1109.0954656600952 MB |
 | fds_v6.10.1 | 1114.0761919021606 MB |

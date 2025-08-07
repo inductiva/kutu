@@ -36,6 +36,8 @@ RUN sh -c "wget -O - http://dl.openfoam.org/gpg.key | apt-key add -" ;\
 	add-apt-repository http://dl.openfoam.org/ubuntu ;\
 	apt-get update ;\
 	apt-get install -y --no-install-recommends ${openfoam_version} ;\
+	apt install python3-pip -y && \
+	pip3 install matplotlib && \
 	rm -rf /var/lib/apt/lists/*
 
 ENV OPENFOAM_SOURCE_FILE=/opt/${openfoam_version}/etc/bashrc
