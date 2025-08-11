@@ -18,3 +18,5 @@ RUN wget https://www.dhondt.de/ccx_2.22.tar.bz2 && \
     cd CalculiX/ccx_2.22/src && \
     cp ccx_2.22 /bin/ccx
 
+COPY --from=test_env /home /home
+
