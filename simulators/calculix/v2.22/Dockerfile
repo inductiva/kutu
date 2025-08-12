@@ -10,7 +10,7 @@ RUN chmod +x /home/test_sim.sh
 FROM ubuntu:18.04 as build
 
 RUN apt-get update && \
-    apt-get install -y wget bzip2 unzip libgomp1 libgfortran4 && \
+    apt-get install -y wget bunzip2 bzip2 unzip libgomp1 libgfortran4 && \
     rm -rf /var/lib/apt/lists/*
 
 RUN wget https://www.dhondt.de/ccx_2.22.tar.bz2 && \
@@ -19,7 +19,7 @@ RUN wget https://www.dhondt.de/ccx_2.22.tar.bz2 && \
     cp ccx_2.22 /bin/ccx
 
 RUN wget https://www.dhondt.de/cgx_2.22.bz2 && \
-    tar -xjf cgx_2.22.bz2 && \
+    bunzip2 cgx_2.22.bz2 && \
     cp cgx_2.22 /bin/cgx
 
 COPY --from=test_env /home /home
