@@ -62,7 +62,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | opentelemac_v9.0.0 | 382.2199287414551 MB |
 | opentelemac_v8p4r0 | 384.2470808029175 MB |
 | splishsplash_v2.13.0 | 385.70003032684326 MB |
-| swash_v10.01A | 390.79254245758057 MB |
 | swash_v10.05 | 390.88879013061523 MB |
 | swash_v11.01 | 390.89534854888916 MB |
 | opentelemac_v8p1r2 | 392.26356506347656 MB |
