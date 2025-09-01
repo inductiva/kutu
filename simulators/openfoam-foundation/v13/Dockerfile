@@ -98,8 +98,8 @@ ENV FOAM_EXT_LIBBIN="/opt/openfoam13/thirdparty/platforms/linux64GccDPInt32/lib"
 ENV PATH="/opt/openfoam13/thirdparty/platforms/linux64Gcc/gperftools-svn/bin:/opt/openfoam13/platforms/linux64GccDPInt32Opt/bin:/opt/openfoam13/bin:/opt/openfoam13/wmake:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 ENV LD_LIBRARY_PATH="/opt/openfoam13/thirdparty/platforms/linux64Gcc/gperftools-svn/lib:/opt/openfoam13/platforms/linux64GccDPInt32Opt/lib/openmpi-system:/opt/openfoam13/thirdparty/platforms/linux64GccDPInt32/lib/openmpi-system:/usr/lib/x86_64-linux-gnu/openmpi/lib:/opt/openfoam13/platforms/linux64GccDPInt32Opt/lib:/opt/openfoam13/thirdparty/platforms/linux64GccDPInt32/lib:/opt/openfoam13/platforms/linux64GccDPInt32Opt/lib/dummy"
 
-ENV FOAM_RUN=/workdir/output/artifacts/__customCode__/Openfoam/user-v8/run
-ENV WM_PROJECT_USER_DIR=/workdir/output/artifacts/__customCode__/Openfoam/user-v8
+ENV FOAM_RUN=/workdir/output/artifacts/__customCode__/Openfoam/user-v13/run
+ENV WM_PROJECT_USER_DIR=/workdir/output/artifacts/__customCode__/Openfoam/user-v13
 ENV FOAM_USER_LIBBIN=/workdir/output/artifacts/__customCode__/Openfoam/linux64GccDPInt32Opt/lib
 ENV FOAM_USER_APPBIN=/workdir/output/artifacts/__customCode__/Openfoam/linux64GccDPInt32Opt/bin
 ENV LD_LIBRARY_PATH=$FOAM_USER_LIBBIN:$LD_LIBRARY_PATH
