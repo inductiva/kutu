@@ -1,4 +1,4 @@
-FROM ubuntu:focal as test_env
+FROM ubuntu:22.04 as test_env
 
 RUN apt-get update \
     && apt-get install -y \
@@ -12,7 +12,7 @@ COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
 
 # Start from the official Ubuntu Bionic (18.04 LTS) image
-FROM ubuntu:focal
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
