@@ -20,7 +20,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install updates and essential tools to build and install Open MPI and SWAN.
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y wget ssh build-essential git
+    apt-get install -y wget ssh build-essential git cmake
 
 # Install gcc-10 and set it as the default GNU compiler.
 RUN apt-get install -y gcc-10 g++-10 gfortran-10 && \
