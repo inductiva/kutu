@@ -20,16 +20,31 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Environment variables and arguments for SWAN
 ENV SWAN_HOME=/swan
+ENV UNSWAN_HOME=/unswan
 ARG SWAN_VERSION=41.51
 ARG SWAN_TMP=/tmp/swan
 ENV SWAN_BIN=swan.exe
+ENV Metis_ROOT=/usr
 
 # Instal SWAN from source code
 RUN mkdir ${SWAN_TMP}
 WORKDIR ${SWAN_TMP}
 
 # Download, build, and install SWAN
+# install gklib and metis (needed for unstructured swan)
+RUN cd / && \
+    git clone https://github.com/KarypisLab/GKlib.git && \
+    cd GKlib && \
+    make config cc=mpicc prefix=/usr && \
+    make && \
+    make install && \
+    cd / && \
+    git clone https://github.com/KarypisLab/METIS.git && \
+    cd METIS && \
+    make config shared=1 cc=mpicc prefix=/usr && \
+    make install
 
+# compile swan -> with mpi and strucutured
 RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
     tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
     mkdir build ${SWAN_HOME} && \
@@ -49,6 +64,29 @@ RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWA
     sed -i '2i set -e' ${SWAN_HOME}/swanrun && \
     sed -i 's/mpirun -np \$npmpi swan.exe/mpirun -np \$npmpi -machinefile machinefile swan.exe/' ${SWAN_HOME}/swanrun
 
-ENV PATH ${SWAN_HOME}:$PATH
+# compile swan -> with openmp and unstructured
+RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
+    tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
+    mkdir build ${UNSWAN_HOME} && \
+    cd build && \
+    cmake .. \
+        -DMETIS=ON \
+        -DOPENMP=ON \
+        -DCMAKE_C_COMPILER=mpicc \
+        -DCMAKE_CXX_COMPILER=mpicxx \
+        -DCMAKE_Fortran_COMPILER=mpif90 \
+        -DNETCDF=ON \
+        -DCMAKE_INSTALL_PREFIX=${UNSWAN_HOME} && \
+    make && \
+    make install && \
+    mv bin/swan.exe bin/unswan.exe && \
+    mv ../bin/swanrun ../bin/unswanrun && \
+    cp bin/unswan.exe ../bin/unswanrun ${UNSWAN_HOME} && \
+    chmod +rx ${UNSWAN_HOME}/unswanrun && \
+    rm -rf ${SWAN_TMP} && \
+    sed -i '2i set -e' ${UNSWAN_HOME}/unswanrun && \
+    sed -i 's/swan\.exe/unswan.exe/g' ${UNSWAN_HOME}/unswanrun
+
+ENV PATH ${SWAN_HOME}:${UNSWAN_HOME}:$PATH
 
 COPY --from=test_env /home /home
