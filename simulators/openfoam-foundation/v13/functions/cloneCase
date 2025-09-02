@@ -1,0 +1,22 @@
+#cloneCase
+
+from=$1
+to=$2
+
+if [ ! -d $from ]
+then
+    echo "Case $from does not exist"
+    exit 1
+elif [ -d $to ]
+then
+    echo "Case already cloned: remove case directory $to to clone"
+    exit 1
+else
+    echo "Cloning $to case from $from"
+    mkdir -p $to
+    for f in 0 system constant
+    do
+        cp -R $from/$f $to
+    done
+    exit 0
+fi
