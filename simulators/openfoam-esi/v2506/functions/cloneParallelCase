@@ -1,0 +1,56 @@
+#cloneParallelCase
+[ -n "$FOAM_TUTORIALS" ] || export FOAM_TUTORIALS="$WM_PROJECT_DIR"/tutorials
+# Basic sanity checks
+[ -d "$FOAM_TUTORIALS" ] || echo "No OpenFOAM tutorials? : $FOAM_TUTORIALS" 1>&2
+# Darwin workaround - SIP clearing DYLD_LIBRARY_PATH variable
+if [ -n "$FOAM_LD_LIBRARY_PATH" ] && [ -z "$DYLD_LIBRARY_PATH" ]
+then
+    export DYLD_LIBRARY_PATH="$FOAM_LD_LIBRARY_PATH"
+fi
+
+
+
+src=$1
+dst=$2
+shift 2
+if [ -e "$dst" ]
+then
+    echo "Case already cloned: remove case directory $dst prior to cloning"
+    exit 1
+fi
+[ -d "$src" ] || {
+    echo "Error: no directory to clone: $src"
+    exit 1
+}
+echo "Cloning $dst parallel case from $src"
+mkdir $dst
+# These must exist, so do not hide error messages
+for f in constant system
+do
+    \cp -r $src/$f $dst
+done
+[ -d $src/processor0 ] || {
+    echo "Does not appear to be a parallel case"
+    exit 1
+}
+if [ "$#" -eq 0 ]
+then
+    # Copy all processor directories
+    echo "    clone processor* directories"
+    \cp -r $src/processor* $dst
+else
+    # Only copy some time directories
+    echo "    clone processor directories with $# times: $@"
+    for proc in $(\cd $src && \ls -d processor*)
+    do
+        srcProc=$src/$proc
+        dstProc=$dst/$proc
+        mkdir $dstProc
+        \cp -r $srcProc/constant $dstProc/
+        for time
+        do
+            [ -d $srcProc/$time ] && \cp -r $srcProc/$time $dstProc/
+        done
+    done
+fi
+exit 0

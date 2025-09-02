@@ -49,6 +49,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 <!-- DOCKER-TAGS-TABLE -->
 | Tag | Size (MB) |
 |---|---|
+| calculix_v2.22 | 75.58064842224121 MB |
 | openfast_v4.0.3 | 83.2683687210083 MB |
 | openfast_v4.1.0 | 83.68922710418701 MB |
 | cans_v3.0.0 | 98.62833499908447 MB |
@@ -62,8 +63,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | opentelemac_v9.0.0 | 382.2199287414551 MB |
 | opentelemac_v8p4r0 | 384.2470808029175 MB |
 | splishsplash_v2.13.0 | 385.70003032684326 MB |
-| swash_v10.05 | 390.88879013061523 MB |
-| swash_v11.01 | 390.89534854888916 MB |
 | opentelemac_v8p1r2 | 392.26356506347656 MB |
 | nwchem_v7.2.2 | 403.40702056884766 MB |
 | nwchem_v7.2.3 | 404.76081562042236 MB |

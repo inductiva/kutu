@@ -1,0 +1,2 @@
+#getNumberOfProcessors
+foamDictionary -entry numberOfSubdomains -value system/decomposeParDict
