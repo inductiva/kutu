@@ -20,6 +20,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Environment variables and arguments for SWAN
 ENV SWAN_HOME=/swan
+ENV UNSWAN_HOME=/unswan
 ARG SWAN_VERSION=41.51
 ARG SWAN_TMP=/tmp/swan
 ENV SWAN_BIN=swan.exe
@@ -64,8 +65,9 @@ RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWA
     sed -i 's/mpirun -np \$npmpi swan.exe/mpirun -np \$npmpi -machinefile machinefile swan.exe/' ${SWAN_HOME}/swanrun
 
 # compile swan -> with openmp and unstructured
-RUN rm -r build && \
-    mkdir build && \
+RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swan/v${SWAN_VERSION}/swan${SWAN_VERSION}.tar.gz && \
+    tar -xzf swan${SWAN_VERSION}.tar.gz --directory . --strip-components 1 && \
+    mkdir build ${UNSWAN_HOME} && \
     cd build && \
     cmake .. \
         -DMETIS=ON \
@@ -74,17 +76,17 @@ RUN rm -r build && \
         -DCMAKE_CXX_COMPILER=mpicxx \
         -DCMAKE_Fortran_COMPILER=mpif90 \
         -DNETCDF=ON \
-        -DCMAKE_INSTALL_PREFIX=${SWAN_HOME} && \
+        -DCMAKE_INSTALL_PREFIX=${UNSWAN_HOME} && \
     make && \
     make install && \
     mv bin/swan.exe bin/unswan.exe && \
     mv ../bin/swanrun ../bin/unswanrun && \
-    cp bin/swan.exe ../bin/swanrun ${SWAN_HOME} && \
-    chmod +rx ${SWAN_HOME}/swanrun && \
+    cp bin/unswan.exe ../bin/unswanrun ${UNSWAN_HOME} && \
+    chmod +rx ${UNSWAN_HOME}/unswanrun && \
     rm -rf ${SWAN_TMP} && \
-    sed -i '2i set -e' ${SWAN_HOME}/swanrun && \
-    sed -i 's/mpirun -np \$npmpi swan.exe/mpirun -np \$npmpi -machinefile machinefile swan.exe/' ${SWAN_HOME}/swanrun
+    sed -i '2i set -e' ${UNSWAN_HOME}/unswanrun && \
+    sed -i 's/swan\.exe/unswan.exe/g' ${UNSWAN_HOME}/unswanrun
 
-ENV PATH ${SWAN_HOME}:$PATH
+ENV PATH ${SWAN_HOME}:${UNSWAN_HOME}:$PATH
 
 COPY --from=test_env /home /home
