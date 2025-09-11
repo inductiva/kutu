@@ -1,0 +1,3 @@
+#getApplication
+
+foamDictionary -entry solver -value system/controlDict
