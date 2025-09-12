@@ -11,3 +11,5 @@ RUN cp /tmp/hec-ras/Linux_RAS_v66/bin/* /bin/ && chmod +x /bin/* && \
     cp /tmp/hec-ras/Linux_RAS_v66/libs/mkl/lib* /lib && \
     cp /tmp/hec-ras/Linux_RAS_v66/libs/rhel_8/lib* /lib && \
     rm -rf /tmp/hec-ras
+
+ENV LD_LIBRARY_PATH="/usr/local/lib:/lib:${LD_LIBRARY_PATH}"
