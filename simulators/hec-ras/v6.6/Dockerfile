@@ -6,5 +6,5 @@ RUN wget https://www.hec.usace.army.mil/software/hec-ras/downloads/Linux_RAS_v66
     rm /tmp/Linux_RAS_v66.zip
 
 # Move binaries to PATH
-RUN cp /tmp/hec-ras/* /bin/ && chmod +x /bin/* && \
+RUN cp /tmp/hec-ras/Linux_RAS_v66/bin/* /bin/ && chmod +x /bin/* && \
     rm -rf /tmp/hec-ras
