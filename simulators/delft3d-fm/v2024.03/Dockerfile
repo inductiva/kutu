@@ -16,11 +16,15 @@ ENV DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-c"]
 
 COPY --from=test_env /home /home
+ENV openmp_flag="-fopenmp"
+ENV FCFLAGS="-fmax-line-length=0"
+ENV FFLAGS="-fmax-line-length=0"
+
 
 # update the system
 RUN apt-get -y update && apt list --upgradable && apt-get -y upgrade && \
-    apt-get install subversion -y && \
-    svn checkout https://svn.oss.deltares.nl/repos/delft3d/tags/delft3dfm/142431 delft3d-fm
+    apt-get install subversion petsc-dev patchelf proj-bin build-essential libpthread-stubs0-dev proj-bin libproj-dev gdal-bin libgdal-dev -y && \
+    svn checkout https://svn.oss.deltares.nl/repos/delft3d/branches/releases/7545/ delft3d
 
 # install dependencies from package manager - apt
 RUN apt-get install -y m4 zlib1g zlib1g-dev ruby uuid uuid-dev curl libcurl4 libcurl4-openssl-dev expat libexpat1-dev autoconf libtool bison flex environment-modules
@@ -57,7 +61,7 @@ RUN rm -rf /home/delft3dfm_compile/dependencies
 
 ## compiling delft3dfm
 # copy the zipped delft3dfm source code into the container
-WORKDIR /delft3d-fm/src/
+WORKDIR /delft3d/src/
 
 # copy missing files: fix for known issue
 #RUN cp third_party_open/swan/src/*.[fF]* third_party_open/swan/swan_mpi && cp third_party_open/swan/src/*.[fF]* third_party_open/swan/swan_omp
