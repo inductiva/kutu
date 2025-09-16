@@ -1,0 +1,16 @@
+FROM inductiva/kutu:base-image_v0.1.0 as test_env
+
+# Download and unzip
+RUN wget https://www.hec.usace.army.mil/software/hec-ras/downloads/Linux_RAS_v66.zip -O /tmp/Linux_RAS_v66.zip && \
+    unzip /tmp/Linux_RAS_v66.zip -d /tmp/hec-ras && \
+    rm /tmp/Linux_RAS_v66.zip
+
+# Move binaries to PATH
+RUN cp /tmp/hec-ras/Linux_RAS_v66/bin/* /bin/ && chmod +x /bin/* && \
+    cp /tmp/hec-ras/Linux_RAS_v66/libs/lib* /lib && \
+    cp /tmp/hec-ras/Linux_RAS_v66/libs/mkl/lib* /lib && \
+    cp /tmp/hec-ras/Linux_RAS_v66/libs/rhel_8/lib* /lib && \
+    rm -rf /tmp/hec-ras && \
+    pip3 install h5py
+
+ENV LD_LIBRARY_PATH="/usr/local/lib:/lib:${LD_LIBRARY_PATH}"
