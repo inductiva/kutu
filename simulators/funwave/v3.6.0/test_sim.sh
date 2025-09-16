@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd /home/amr-wind-input-example
+cd /home/funwave-input-example
 
-mpirun --allow-run-as-root --use-hwthread-cpus -np 2 amr_wind abl_amd_wenoz.inp
+mpirun --allow-run-as-root --use-hwthread-cpus -np 4 /FUNWAVE-TVD-Version_3.6/funwave-work/funwave--mpif90-parallel-single input.txt

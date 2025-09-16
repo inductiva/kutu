@@ -14,6 +14,8 @@ FROM inductiva/kutu:base-image_v0.1.1 as build
 RUN wget https://github.com/fengyanshi/FUNWAVE-TVD/archive/refs/tags/Version_3.6.zip && \
     unzip Version_3.6.zip && \
     rm Version_3.6.zip && \
-    sed -i 's|^FUNWAVE_DIR *= .*|FUNWAVE_DIR = /FUNWAVE-TVD-Version_3.6|; s|^COMPILER *= intel|COMPILER    = gnu|' /FUNWAVE-TVD-Version_3.6/Makefile
+    sed -i 's|^FUNWAVE_DIR *= .*|FUNWAVE_DIR = /FUNWAVE-TVD-Version_3.6|; s|^COMPILER *= intel|COMPILER    = gnu|' /FUNWAVE-TVD-Version_3.6/Makefile && \
+    cd /FUNWAVE-TVD-Version_3.6 && \
+    make
 
 COPY --from=test_env /home /home
