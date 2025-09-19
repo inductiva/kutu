@@ -31,7 +31,8 @@ RUN apt-get update && \
     make && \
     make install && \
     cd / && \
-    rm -r /elmerfem
+    rm -r /elmerfem && \
+    pip3 install gmsh numpy
 
 # Set the path
 ENV PATH=$PATH:/usr/local/Elmer/bin
