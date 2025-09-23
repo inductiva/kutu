@@ -74,6 +74,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | xbeach_v1.24 | 651.6205368041992 MB |
 | openfoam-foundation_v12 | 723.0185632705688 MB |
 | openfoam-foundation_v8 | 730.0319910049438 MB |
+| elmer_v9.0 | 741.0405473709106 MB |
 | octopus_v16.1 | 882.8841123580933 MB |
 | opensees-eesd_v3.0.2 | 890.849702835083 MB |
 | hec-ras_v6.6 | 1004.4883346557617 MB |
