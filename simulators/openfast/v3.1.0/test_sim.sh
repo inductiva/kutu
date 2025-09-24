@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd /home/openfast-input-example
+cd /home/openfastv3.1.0-input-example
 
-openfast ./IEA-15-240-RWT-Monopile.fst
+openfast ./5MW_OC4Semi_WSt_WavesWN/5MW_OC4Semi_WSt_WavesWN.fst
