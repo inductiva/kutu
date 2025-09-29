@@ -51,6 +51,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 |---|---|
 | calculix_v2.22 | 75.58064842224121 MB |
 | openfast_v4.1.0 | 83.68922710418701 MB |
+| openfast_v3.1.0 | 102.22733879089355 MB |
 | cans_v3.1.0 | 102.64637565612793 MB |
 | sfincs_v2.2.1 | 214.66022109985352 MB |
 | swan_v41.45 | 277.1442565917969 MB |
@@ -77,7 +78,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | elmer_v9.0 | 741.0405473709106 MB |
 | freefem_v4.15 | 858.8000240325928 MB |
 | octopus_v16.1 | 882.8841123580933 MB |
-| opensees-eesd_v3.0.2 | 890.849702835083 MB |
 | hec-ras_v6.6 | 1004.4883346557617 MB |
 | wavewatch3_v11-2024 | 1004.6025238037109 MB |
 | fds_v6.8 | 1094.3659648895264 MB |
