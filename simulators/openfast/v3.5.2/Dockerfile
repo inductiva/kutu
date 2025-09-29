@@ -40,7 +40,7 @@ RUN apt update -qq && \
     cd /openfast && \
     # Compile ROSCO Controller (Rosco can be used with openfast)
     # This will generate /openfast/ROSCO/rosco/controller/build/libdiscon.so
-    git clone https://github.com/NREL/ROSCO.git && \
+    git clone --branch v2.9.0 https://github.com/NREL/ROSCO.git && \
     cd ROSCO/rosco/controller/ && \
     mkdir build && \
     cd build && \
