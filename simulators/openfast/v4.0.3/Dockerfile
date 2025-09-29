@@ -50,7 +50,30 @@ RUN apt update -qq && \
     cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon.so
 
 
-
+RUN cd / && \
+    git clone --branch v4.0.3 https://github.com/OpenFAST/r-test.git && \
+    #DISCON - DISCON_ITI - DISCON_OC3
+    cd r-test/glue-codes/openfast/5MW_Baseline/ServoData/ && \
+    cd DISCON && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make && \
+    mv DISCON.dll ../.. && \
+    cd ../.. && \
+    cd DISCON_ITI && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make && \
+    mv DISCON_ITIBarge.dll ../.. && \
+    cd ../.. && \
+    cd DISCON_OC3 && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make && \
+    mv DISCON_OC3Hywind.dll ../..
 
 
 # Final stage
@@ -74,5 +97,8 @@ COPY --from=build /usr/lib/x86_64-linux-gnu/liblapack.so.3 /usr/lib/x86_64-linux
 
 # Copy test environment files
 COPY --from=test_env /home /home
+
+# Copy DLL files
+COPY --from=build /r-test/glue-codes/openfast/5MW_Baseline/ServoData/ /DLLs
 
 WORKDIR /openfast
