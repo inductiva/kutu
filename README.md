@@ -49,14 +49,16 @@ docker pull inductiva/kutu:gromacs_v2022.2
 <!-- DOCKER-TAGS-TABLE -->
 | Tag | Size (MB) |
 |---|---|
+| openfast_v3.5.2 | 73.18239498138428 MB |
 | calculix_v2.22 | 75.58064842224121 MB |
-| openfast_v4.1.0 | 83.68922710418701 MB |
-| openfast_v3.1.0 | 102.22733879089355 MB |
+| openfast_v4.0.3 | 83.48221397399902 MB |
+| openfast_v4.0.2 | 83.49291801452637 MB |
+| openfast_v4.1.0 | 83.90264320373535 MB |
+| openfast_v3.1.0 | 102.41022872924805 MB |
 | cans_v3.1.0 | 102.64637565612793 MB |
 | sfincs_v2.2.1 | 214.66022109985352 MB |
 | swan_v41.45 | 277.1442565917969 MB |
 | swan_v41.31 | 277.14671516418457 MB |
-| dualsphysics_v5.2.1 | 320.4835147857666 MB |
 | amr-wind_v3.5.0 | 339.29206466674805 MB |
 | amr-wind_v3.6.0 | 339.3611078262329 MB |
 | amr-wind_v3.7.0 | 339.39133071899414 MB |
@@ -87,10 +89,8 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | openfoam-esi_v2406 | 1271.3269062042236 MB |
 | openfoam-esi_v2412 | 1278.6407299041748 MB |
 | openfoam-esi_v2506 | 1283.2025861740112 MB |
-| dualsphysics_v5.4.1 | 1662.9539070129395 MB |
 | wrf_v4.6.1 | 1959.4803743362427 MB |
 | wrf_v4.7.1 | 1962.0568532943726 MB |
-| dualsphysics_v5.4.1_gpu | 2167.187635421753 MB |
 | cans_v3.1.0_gpu | 3280.982307434082 MB |
 | amr-wind_v3.5.0_gpu | 3617.049026489258 MB |
 | amr-wind_v3.6.0_gpu | 3625.056008338928 MB |
