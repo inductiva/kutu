@@ -58,19 +58,8 @@ RUN apt update -qq && \
     cd build && \
     cmake .. && \
     make -j 4 && \
-    cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon_v2.9.4.so && \
-    rm -rf /openfast/ROSCO && \
-    cd /openfast && \
-    # Compile ROSCO Controller (Rosco can be used with openfast)
-    # This will generate /openfast/ROSCO/rosco/controller/build/libdiscon.so
-    git clone --branch v2.6.0 https://github.com/NREL/ROSCO.git && \
-    cd ROSCO/rosco/controller/ && \
-    mkdir build && \
-    cd build && \
-    cmake .. && \
-    make -j 4 && \
-    cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon_v2.6.0.so && \
-    rm -rf /openfast/ROSCO
+    cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon_v2.9.4.so
+     
 
 
 RUN cd / && \
