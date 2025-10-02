@@ -47,7 +47,7 @@ RUN apt update -qq && \
     cmake .. && \
     make -j 4 && \
     cp -a /openfast/install/bin/* /usr/local/bin/ && \
-    cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon_latest.so && \
+    cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon.so && \
     rm -rf /openfast/ROSCO && \
     cd /openfast && \
     # Compile ROSCO Controller (Rosco can be used with openfast)
@@ -58,8 +58,9 @@ RUN apt update -qq && \
     cd build && \
     cmake .. && \
     make -j 4 && \
-    cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon.so
+    cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon_v2.9.4.so
      
+
 
 RUN cd / && \
     git clone --branch v3.1.0 https://github.com/OpenFAST/r-test.git && \
