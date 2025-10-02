@@ -66,6 +66,20 @@ RUN echo 'int main() { return 0; }' > test.cpp && \
     g++ test.cpp -o test $(pkg-config --cflags --libs ipopt) && \
     ./test
 
+# HiGHS
+
+RUN cd / && \
+    git clone https://github.com/ERGO-Code/HiGHS.git && \
+    cd HiGHS && \
+    cmake -S. -B build && \
+    cmake --build build --parallel
+
+# GLPK
+RUN wget http://ftp.gnu.org/gnu/glpk/glpk-5.0.tar.gz && \
+    gzip -d glpk-5.0.tar.gz && \
+    tar -x < glpk-5.0.tar
+
+
 COPY ./test_sim.sh /home/test_sim.sh
 
 RUN chmod +x /home/test_sim.sh
