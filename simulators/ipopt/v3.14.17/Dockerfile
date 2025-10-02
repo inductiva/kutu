@@ -77,7 +77,12 @@ RUN cd / && \
 # GLPK
 RUN wget http://ftp.gnu.org/gnu/glpk/glpk-5.0.tar.gz && \
     gzip -d glpk-5.0.tar.gz && \
-    tar -x < glpk-5.0.tar
+    tar -x < glpk-5.0.tar && \
+    cd glpk-5.0 && \
+    ./configure && \
+    make && \
+    make install
+
 
 
 COPY ./test_sim.sh /home/test_sim.sh
