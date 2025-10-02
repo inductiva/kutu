@@ -61,7 +61,6 @@ RUN apt update -qq && \
     cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon.so
      
 
-
 RUN cd / && \
     git clone --branch v3.1.0 https://github.com/OpenFAST/r-test.git && \
     #DISCON - DISCON_ITI - DISCON_OC3
