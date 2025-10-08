@@ -12,7 +12,7 @@ ENV DIR=/WW3_LIBRARIES
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y wget tar gcc gfortran m4 git cmake && \
+    apt-get install -y wget unzip tar gcc gfortran m4 git cmake && \
     apt-get install build-essential -y && \
     mkdir /LIBRARIES && \
     mkdir /WW3_LIBRARIES && \
