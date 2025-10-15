@@ -56,7 +56,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | openfast_v4.1.0 | 83.90264320373535 MB |
 | openfast_v3.1.0 | 102.41022872924805 MB |
 | cans_v3.1.0 | 102.64637565612793 MB |
-| sfincs_v2.2.1 | 214.66022109985352 MB |
 | swan_v41.45 | 277.1442565917969 MB |
 | swan_v41.31 | 277.14671516418457 MB |
 | amr-wind_v3.5.0 | 339.29206466674805 MB |
@@ -74,7 +73,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | swan_v41.51 | 575.2361478805542 MB |
 | funwave_v3.6 | 580.9323892593384 MB |
 | openfoam-foundation_v13 | 604.4442005157471 MB |
-| xbeach_v1.24 | 651.6205368041992 MB |
 | openfoam-foundation_v12 | 723.0185632705688 MB |
 | openfoam-foundation_v8 | 730.0319910049438 MB |
 | elmer_v9.0 | 741.0405473709106 MB |
