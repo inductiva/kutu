@@ -69,13 +69,15 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | opentelemac_v8p4r1 | 434.3572254180908 MB |
 | opentelemac_v8p1r2 | 440.4989881515503 MB |
 | delft3d_v6.04.00 | 519.2441167831421 MB |
-| cm1_v21.1 | 570.0145578384399 MB |
 | swan_v41.51 | 575.2361478805542 MB |
 | funwave_v3.6 | 580.9323892593384 MB |
 | openfoam-foundation_v13 | 604.4442005157471 MB |
 | openfoam-foundation_v12 | 723.0185632705688 MB |
 | openfoam-foundation_v8 | 730.0319910049438 MB |
 | elmer_v9.0 | 741.0405473709106 MB |
+| reef3d_v24.03 | 852.4085483551025 MB |
+| reef3d_v24.05 | 852.7895708084106 MB |
+| reef3d_v24.08 | 853.0494995117188 MB |
 | freefem_v4.15 | 858.8000240325928 MB |
 | octopus_v16.1 | 882.8841123580933 MB |
 | hec-ras_v6.6 | 1004.4883346557617 MB |
@@ -83,6 +85,8 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | fds_v6.8 | 1094.3659648895264 MB |
 | fds_v6.9.1 | 1109.0954656600952 MB |
 | fds_v6.10.1 | 1114.0761919021606 MB |
+| reef3d_v25.05 | 1148.9573516845703 MB |
+| reef3d_v25.07 | 1150.2133140563965 MB |
 | openfoam-esi_v2206 | 1249.4238557815552 MB |
 | openfoam-esi_v2406 | 1271.3269062042236 MB |
 | openfoam-esi_v2412 | 1278.6407299041748 MB |
