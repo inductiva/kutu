@@ -72,7 +72,7 @@ RUN wget https://storage.googleapis.com/inductiva-simulators-sources/swash/v${SW
     mv swash.exe swashrun ${SWASH_HOME} && \
     chmod +rx ${SWASH_HOME}/swashrun && \
     sed -i '2i rc=0   # initialize return code' ${SWASH_HOME}/swashrun && \
-    sed -i 's/mpirun -np \$npmpi swash.exe/mpirun -np \$npmpi -machinefile machinefile swash.exe || rc=$?/' ${SWASH_HOME}/swashrun && \
+    sed -i 's/mpirun -np \$npmpi swash.exe/mpirun -np \$npmpi -machinefile machinefile swash.exe || rc=$?/g' ${SWASH_HOME}/swashrun && \
     sed -i '$a\exit $rc' ${SWASH_HOME}/swashrun && \
     rm -rf ${SWASH_TMP}
 ENV PATH ${SWASH_HOME}:$PATH
