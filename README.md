@@ -61,7 +61,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | amr-wind_v3.5.0 | 339.29206466674805 MB |
 | amr-wind_v3.6.0 | 339.3611078262329 MB |
 | amr-wind_v3.7.0 | 339.39133071899414 MB |
-| splishsplash_v2.13.0 | 385.70003032684326 MB |
 | nwchem_v7.2.2 | 407.6346321105957 MB |
 | nwchem_v7.2.3 | 408.98841857910156 MB |
 | opentelemac_v9.0.0 | 430.3798551559448 MB |
