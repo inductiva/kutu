@@ -57,10 +57,8 @@ RUN mkdir -p /home/input /home/output
 # Get input example
 RUN curl -L https://storage.googleapis.com/inductiva-api-demo-files/gprmax-input-example.zip \
     --output /home/gprmax-input-example.zip \
-    && mkdir -p /home/gprmax-input-example \
-    && unzip /home/gprmax-input-example.zip -d /home/gprmax-input-example \
+    && unzip /home/gprmax-input-example.zip -d /home \
     && rm /home/gprmax-input-example.zip
-
 
 COPY ./test_sim.sh /home/test_sim.sh
 RUN chmod +x /home/test_sim.sh
