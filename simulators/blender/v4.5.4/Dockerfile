@@ -41,6 +41,7 @@ RUN apt-get update && \
     libxcomposite1 \
     libxdamage1 \
     libgbm1 \
+    libegl1-mesa \
     xvfb && \
     rm -rf /var/lib/apt/lists/*
 
