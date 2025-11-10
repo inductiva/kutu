@@ -12,7 +12,9 @@ RUN wget https://download.blender.org/release/Blender4.5/blender-4.5.4-linux-x64
     mv blender-4.5.4-linux-x64 /opt/blender && \
     rm blender-4.5.4-linux-x64.tar.xz
 
+
 FROM ubuntu:22.04
+
 # Copy Blender installation
 COPY --from=build /opt/blender /opt/blender
 
