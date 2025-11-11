@@ -23,13 +23,26 @@ RUN apt-get update && \
     apt-get install -y \
     libgl1 \
     libglu1-mesa \
+    libx11-6 \
+    libxext6 \
+    libxrender1 \
+    libxi6 \
+    libxfixes3 \
+    libxrandr2 \
+    libxinerama1 \
+    libxcursor1 \
+    libxss1 \
+    libxkbcommon0 \
     libfontconfig1 \
     libfreetype6 \
     libasound2 \
     libpulse0 \
     libdrm2 \
+    libxcomposite1 \
+    libxdamage1 \
     libgbm1 \
-    libegl1-mesa && \
+    libegl1-mesa \
+    xvfb && \
     rm -rf /var/lib/apt/lists/*
 
 # Create symlink for blender command
