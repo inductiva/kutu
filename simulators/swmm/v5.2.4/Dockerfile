@@ -8,6 +8,7 @@ RUN apt-get update && \
     apt-get install -y \
         build-essential \
         cmake \
+        python3 \
         wget \
         unzip && \
     rm -rf /var/lib/apt/lists/*
@@ -20,6 +21,17 @@ RUN wget -O swmm.zip ${SWMM_SRC_URL} && \
     rm swmm.zip
 
 WORKDIR /tmp/swmm/swmm-${SWMM_VERSION}
+
+RUN python3 - <<'PY'
+from pathlib import Path
+path = Path("src/consts.h")
+old = "#define   MAXFNAME           259            // Max. # characters in file name"
+new = "#define   MAXFNAME           1023           // Max. # characters in file name"
+text = path.read_text()
+if old not in text:
+    raise SystemExit("MAXFNAME definition not found")
+path.write_text(text.replace(old, new, 1))
+PY
 
 RUN cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && \
     cmake --build build -j"$(nproc)" && \
