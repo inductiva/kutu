@@ -46,6 +46,7 @@ ENV LD_LIBRARY_PATH="/root/OpenFOAM/user-v2412/platforms/linux64GccDPInt32Opt/li
 
 # Create work directory
 RUN mkdir -p /workdir/output/artifacts/__customCode__/Openfoam/user-v2412/run
+RUN mkdir -p /home && ln -s /root/OpenFOAM /home/OpenFOAM
 
 # Copy and set up test script
 COPY ./test_sim.sh /home/test_sim.sh
