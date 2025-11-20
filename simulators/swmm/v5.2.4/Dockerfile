@@ -21,7 +21,7 @@ RUN wget -O swmm.zip ${SWMM_SRC_URL} && \
     rm swmm.zip
 
 WORKDIR /tmp/swmm/swmm-${SWMM_VERSION}
-
+# Extend MAXFNAME so fully qualified input paths don’t overflow SWMM’s static buffers.
 RUN python3 - <<'PY'
 from pathlib import Path
 path = Path("src/consts.h")
@@ -32,6 +32,32 @@ if old not in text:
     raise SystemExit("MAXFNAME definition not found")
 path.write_text(text.replace(old, new, 1))
 PY
+
+# GNU libc also aborts if realpath() writes beyond the destination buffer, so
+# resolve into a heap buffer and copy back safely.
+RUN python3 - <<'PY'
+from pathlib import Path
+path = Path("src/swmm5.c")
+old = """        #else
+            realpath(fname, absPath);
+        #endif"""
+new = """        #else
+            char *resolved = realpath(fname, NULL);
+            if (resolved)
+            {
+                if (strlen(resolved) < size)
+                {
+                    sstrncpy(absPath, resolved, size);
+                }
+                free(resolved);
+            }
+        #endif"""
+text = path.read_text()
+if old not in text:
+    raise SystemExit("realpath block not found")
+path.write_text(text.replace(old, new, 1))
+PY
+RUN grep -n "MAXFNAME" src/consts.h
 
 RUN cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && \
     cmake --build build -j"$(nproc)" && \
@@ -56,6 +82,3 @@ RUN printf '/opt/swmm/lib\n' > /etc/ld.so.conf.d/swmm.conf && \
 ENV PATH="/opt/swmm/bin:${PATH}"
 
 RUN ln -s /opt/swmm/bin/runswmm /usr/local/bin/runswmm
-
-COPY ./test_sim.sh /home/test_sim.sh
-RUN chmod +x /home/test_sim.sh
