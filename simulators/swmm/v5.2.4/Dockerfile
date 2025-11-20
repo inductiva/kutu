@@ -82,3 +82,6 @@ RUN printf '/opt/swmm/lib\n' > /etc/ld.so.conf.d/swmm.conf && \
 ENV PATH="/opt/swmm/bin:${PATH}"
 
 RUN ln -s /opt/swmm/bin/runswmm /usr/local/bin/runswmm
+
+COPY test_sim.sh /home/test_sim.sh
+RUN chmod +x /home/test_sim.sh
