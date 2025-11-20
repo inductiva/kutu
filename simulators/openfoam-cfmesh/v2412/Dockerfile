@@ -15,7 +15,8 @@ ENV WM_PRECISION_OPTION="DP"
 ENV WM_OPTIONS="linux64GccDPInt32Opt"
 
 # Add cfMesh tools to PATH
-ENV PATH="/root/OpenFOAM/user-v2412/platforms/linux64GccDPInt32Opt/bin:${PATH}"
+ENV PATH="/root/OpenFOAM/user-v2412/platforms/linux64GccDPInt32Opt/bin:/usr/lib/openfoam/openfoam2412/platforms/linux64GccDPInt32Opt/bin:${PATH}"
+ENV LD_LIBRARY_PATH="/root/OpenFOAM/user-v2412/platforms/linux64GccDPInt32Opt/lib:/usr/lib/openfoam/openfoam2412/platforms/linux64GccDPInt32Opt/lib:/usr/lib/openfoam/openfoam2412/platforms/linux64GccDPInt32Opt/lib/sys-openmpi:${LD_LIBRARY_PATH}"
 
 # Create work directory
 RUN mkdir -p /workdir/output/artifacts/__customCode__/Openfoam/user-v2412/run
