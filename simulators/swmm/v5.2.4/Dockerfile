@@ -71,7 +71,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y \
-        libgomp1 && \
+        libgomp1 \
+        curl \
+        unzip && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /opt/swmm /opt/swmm
