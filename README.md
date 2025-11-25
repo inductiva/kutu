@@ -70,6 +70,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | swan_v41.51 | 575.2361478805542 MB |
 | funwave_v3.6 | 580.9323892593384 MB |
 | openfoam-foundation_v13 | 604.4442005157471 MB |
+| gprmax_v3.1.7 | 677.5728044509888 MB |
 | openfoam-foundation_v12 | 723.0185632705688 MB |
 | openfoam-foundation_v8 | 730.0319910049438 MB |
 | elmer_v9.0 | 741.0405473709106 MB |
@@ -77,7 +78,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | reef3d_v24.05 | 852.7895708084106 MB |
 | reef3d_v24.08 | 853.0494995117188 MB |
 | freefem_v4.15 | 858.8000240325928 MB |
-| octopus_v16.1 | 882.8841123580933 MB |
 | hec-ras_v6.6 | 1004.4883346557617 MB |
 | wavewatch3_v11-2024 | 1004.6025238037109 MB |
 | fds_v6.8 | 1094.3659648895264 MB |
@@ -95,5 +95,4 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | amr-wind_v3.5.0_gpu | 3617.049026489258 MB |
 | amr-wind_v3.6.0_gpu | 3625.056008338928 MB |
 | amr-wind_v3.7.0_gpu | 3625.730348587036 MB |
-| octopus_v16.1_gpu | 3742.739362716675 MB |
 <!-- END-DOCKER-TAGS-TABLE -->
