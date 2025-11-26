@@ -49,6 +49,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 <!-- DOCKER-TAGS-TABLE -->
 | Tag | Size (MB) |
 |---|---|
+| swmm_v5.2.4 | 31.428787231445312 MB |
 | openfast_v3.5.2 | 73.18239498138428 MB |
 | calculix_v2.22 | 75.58064842224121 MB |
 | openfast_v4.0.3 | 83.48221397399902 MB |
@@ -68,6 +69,7 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | opentelemac_v8p4r1 | 434.3572254180908 MB |
 | opentelemac_v8p1r2 | 440.4989881515503 MB |
 | swan_v41.51 | 575.2361478805542 MB |
+| blender_v4.5.4 | 579.6728839874268 MB |
 | funwave_v3.6 | 580.9323892593384 MB |
 | openfoam-foundation_v13 | 604.4442005157471 MB |
 | gprmax_v3.1.7 | 677.5728044509888 MB |
@@ -80,7 +82,6 @@ docker pull inductiva/kutu:gromacs_v2022.2
 | freefem_v4.15 | 858.8000240325928 MB |
 | hec-ras_v6.6 | 1004.4883346557617 MB |
 | wavewatch3_v11-2024 | 1004.6025238037109 MB |
-| fds_v6.8 | 1094.3659648895264 MB |
 | fds_v6.9.1 | 1109.0954656600952 MB |
 | fds_v6.10.1 | 1114.0761919021606 MB |
 | reef3d_v25.05 | 1148.9573516845703 MB |
