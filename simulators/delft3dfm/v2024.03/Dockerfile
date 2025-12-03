@@ -11,7 +11,7 @@ RUN apt-get -y update && apt-get -y upgrade && \
         patchelf subversion python3-distutils unzip \
         m4 zlib1g zlib1g-dev ruby uuid uuid-dev curl libcurl4 libcurl4-openssl-dev \
         expat libexpat1-dev autoconf libtool bison flex environment-modules \
-        libproj-dev libgtest-dev libgdal-dev && \
+        libproj-dev libgtest-dev libgdal-dev libboost-all-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Install modern cmake required by Delft3D FM build system
@@ -83,8 +83,29 @@ RUN curl -L -o /tmp/Delft3D-DIMRset_2026.01.zip https://storage.googleapis.com/i
     rm /tmp/Delft3D-DIMRset_2026.01.zip
 WORKDIR /delft3dfm
 
-# Build using cmake directly (bypassing build.sh error checking for test discovery)
-# Use MPI wrappers to ensure proper linking
+# Patch: Remove from ESMF check (ESMF binary not bundled, waves will be limited)
+RUN sed -i 's/ESMF_RegridWeightGen REQUIRED/ESMF_RegridWeightGen/' \
+    /delft3dfm/src/engines_gpl/wave/packages/wave/wave_exe.cmake
+
+# Build fm-suite first (D-WAQ, DIMR, D-Waves, DRR, tools)
+RUN export NUM_JOBS=$(nproc) && \
+    export CC=mpiicc CXX=mpiicpc FC=mpiifort && \
+    export LDFLAGS="-L/opt/intel/oneapi/mpi/2021.6.0/lib -lmpifort" && \
+    mkdir -p build_fmsuite && \
+    cd build_fmsuite && \
+    /opt/cmake/bin/cmake ../src/cmake -G "Unix Makefiles" -B "." \
+        -D CONFIGURATION_TYPE="fm-suite" \
+        -D CMAKE_BUILD_TYPE=Release \
+        -D CMAKE_INSTALL_PREFIX=/opt/delft3dfm \
+        -D CMAKE_EXE_LINKER_FLAGS="-L/opt/intel/oneapi/mpi/2021.6.0/lib -lmpifort" && \
+    make -j${NUM_JOBS} && \
+    make install || true && \
+    mkdir -p /opt/delft3dfm/bin /opt/delft3dfm/lib && \
+    find /delft3dfm/build_fmsuite -type f -executable \( -name "delwaq" -o -name "wave_exe" -o -name "dimr" -o -name "dfmoutput" -o -name "delpar" -o -name "rr" -o -name "maptonetcdf" \) -exec cp {} /opt/delft3dfm/bin/ \; && \
+    find /delft3dfm/build_fmsuite -name "*.so" -exec cp {} /opt/delft3dfm/lib/ \; && \
+    rm -rf /delft3dfm/build_fmsuite
+
+# Build dflowfm CLI separately
 RUN export NUM_JOBS=$(nproc) && \
     export CC=mpiicc CXX=mpiicpc FC=mpiifort && \
     export LDFLAGS="-L/opt/intel/oneapi/mpi/2021.6.0/lib -lmpifort" && \
@@ -97,12 +118,8 @@ RUN export NUM_JOBS=$(nproc) && \
         -D CMAKE_EXE_LINKER_FLAGS="-L/opt/intel/oneapi/mpi/2021.6.0/lib -lmpifort" && \
     make -j${NUM_JOBS} && \
     make install || true && \
-    mkdir -p /opt/delft3dfm/bin /opt/delft3dfm/lib && \
-    cp /delft3dfm/build_dflowfm/dflowfm_cli_exe/dflowfm /opt/delft3dfm/bin/ 2>/dev/null || \
     find /delft3dfm/build_dflowfm -type f -executable -name "dflowfm" -exec cp {} /opt/delft3dfm/bin/ \; && \
-    cp /delft3dfm/build_dflowfm/dfm_volume_tool/dfm_volume_tool /opt/delft3dfm/bin/ 2>/dev/null || true && \
-    cp /delft3dfm/build_dflowfm/dfmoutput/dfmoutput /opt/delft3dfm/bin/ 2>/dev/null || true && \
-    find /delft3dfm/build_dflowfm -name "*.so" -exec cp {} /opt/delft3dfm/lib/ \; && \
+    find /delft3dfm/build_dflowfm -type f -executable -name "dfm_volume_tool" -exec cp {} /opt/delft3dfm/bin/ \; && \
     rm -rf /delft3dfm/build_dflowfm
 
 ENV PATH=/opt/delft3dfm/bin:${PATH}
