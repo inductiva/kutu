@@ -72,6 +72,19 @@ ENV LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}
 RUN ./configure CC=mpiicc CXX=mpiicxx FC=mpiifort F77=mpiifort --prefix=/usr/local --disable-fortran-type-check CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib" CFLAGS="-m64 -diag-disable=10441" --enable-shared --host=x86_64-pc-linux
 RUN make install
 
+# Install ESMF (required for D-Waves grid regridding)
+WORKDIR /home/delft3dfm_compile/dependencies
+RUN wget -q https://github.com/esmf-org/esmf/archive/refs/tags/v8.6.1.tar.gz -O esmf-8.6.1.tar.gz && \
+    tar -xf esmf-8.6.1.tar.gz
+WORKDIR /home/delft3dfm_compile/dependencies/esmf-8.6.1
+ENV ESMF_DIR=/home/delft3dfm_compile/dependencies/esmf-8.6.1
+ENV ESMF_INSTALL_PREFIX=/usr/local/esmf
+ENV ESMF_COMPILER=intel
+ENV ESMF_COMM=intelmpi
+ENV ESMF_NETCDF=nc-config
+RUN make -j$(nproc) && make install
+# ESMF binary is at /usr/local/esmf/bin/binO/Linux.intel.64.intelmpi.default/ESMF_RegridWeightGen
+
 # clean up src of dependencies
 RUN rm -rf /home/delft3dfm_compile/dependencies
 
@@ -83,7 +96,7 @@ RUN curl -L -o /tmp/Delft3D-DIMRset_2026.01.zip https://storage.googleapis.com/i
     rm /tmp/Delft3D-DIMRset_2026.01.zip
 WORKDIR /delft3dfm
 
-# Patch: Remove from ESMF check (ESMF binary not bundled, waves will be limited)
+# Patch: Make ESMF optional at cmake configure time (will be available at runtime)
 RUN sed -i 's/ESMF_RegridWeightGen REQUIRED/ESMF_RegridWeightGen/' \
     /delft3dfm/src/engines_gpl/wave/packages/wave/wave_exe.cmake
 
@@ -100,9 +113,13 @@ RUN export NUM_JOBS=$(nproc) && \
         -D CMAKE_EXE_LINKER_FLAGS="-L/opt/intel/oneapi/mpi/2021.6.0/lib -lmpifort" && \
     make -j${NUM_JOBS} && \
     make install || true && \
-    mkdir -p /opt/delft3dfm/bin /opt/delft3dfm/lib && \
-    find /delft3dfm/build_fmsuite -type f -executable \( -name "delwaq" -o -name "wave_exe" -o -name "dimr" -o -name "dfmoutput" -o -name "delpar" -o -name "rr" -o -name "maptonetcdf" \) -exec cp {} /opt/delft3dfm/bin/ \; && \
+    mkdir -p /opt/delft3dfm/bin /opt/delft3dfm/lib /opt/delft3dfm/scripts && \
+    find /delft3dfm/build_fmsuite -type f -executable \( -name "delwaq" -o -name "wave_exe" -o -name "dimr" -o -name "dfmoutput" -o -name "delpar" -o -name "rr" -o -name "maptonetcdf" -o -name "swan_mpi" -o -name "swan_omp" \) -exec cp {} /opt/delft3dfm/bin/ \; && \
     find /delft3dfm/build_fmsuite -name "*.so" -exec cp {} /opt/delft3dfm/lib/ \; && \
+    cp /usr/local/esmf/bin/binO/Linux.intel.64.intelmpi.default/ESMF_RegridWeightGen /opt/delft3dfm/bin/ && \
+    cp /delft3dfm/src/third_party_open/esmf/lnx64/scripts/ESMF_RegridWeightGen_in_Delft3D-WAVE.sh /opt/delft3dfm/scripts/ && \
+    cp /delft3dfm/src/third_party_open/swan/scripts/swan.sh /opt/delft3dfm/scripts/ && \
+    chmod +x /opt/delft3dfm/scripts/*.sh && \
     rm -rf /delft3dfm/build_fmsuite
 
 # Build dflowfm CLI separately
@@ -137,9 +154,10 @@ COPY --from=build /opt/intel/oneapi/modulefiles-setup.sh /opt/intel/oneapi/modul
 COPY --from=build /opt/intel/oneapi/readme-get-started-linux-hpc-kit.html /opt/intel/oneapi/readme-get-started-linux-hpc-kit.html
 COPY --from=build /opt/intel/oneapi/readme-get-started-linux-base-kit.html /opt/intel/oneapi/readme-get-started-linux-base-kit.html
 COPY --from=build /usr/local/petsc-3.19 /usr/local/petsc-3.19
+COPY --from=build /usr/local/esmf /usr/local/esmf
 
 #Set env vars
-ENV PATH=/opt/delft3dfm/bin:/opt/delft3dfm/lnx64/swan/scripts/:/opt/delft3dfm/lnx64/swan/bin/:${PATH}
+ENV PATH=/opt/delft3dfm/bin:/opt/delft3dfm/scripts:/usr/local/esmf/bin:/opt/delft3dfm/lnx64/swan/scripts/:/opt/delft3dfm/lnx64/swan/bin/:${PATH}
 ENV PATH=/opt/intel/oneapi/mpi/2021.6.0//bin:${PATH}
 ENV VT_MPI=impi4
 ENV IPP_TARGET_ARCH=intel64
@@ -154,7 +172,7 @@ ENV PKG_CONFIG_PATH=/opt/intel/oneapi/mpi/2021.6.0/lib/pkgconfig
 ENV ACL_BOARD_VENDOR_PATH=/opt/Intel/OpenCLFPGA/oneAPI/Boards
 ENV FI_PROVIDER_PATH=/opt/intel/oneapi/mpi/2021.6.0//libfabric/lib/prov:/usr/lib64/libfabric
 ENV LIBRARY_PATH=/opt/intel/oneapi/mpi/2021.6.0//libfabric/lib:/opt/intel/oneapi/mpi/2021.6.0//lib/release:/opt/intel/oneapi/mpi/2021.6.0//lib
-ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:/usr/local/petsc-3.19/lib:/usr/local/lib:/opt/intel/oneapi/vpl/2022.1.0/lib:/opt/intel/oneapi/tbb/2021.6.0/env/../lib/intel64/gcc4.8:/opt/intel/oneapi/mpi/2021.6.0//libfabric/lib:/opt/intel/oneapi/mpi/2021.6.0//lib/release:/opt/intel/oneapi/mpi/2021.6.0//lib:/opt/intel/oneapi/mkl/2022.1.0/lib/intel64:/opt/intel/oneapi/itac/2021.6.0/slib:/opt/intel/oneapi/ippcp/2021.6.0/lib/intel64:/opt/intel/oneapi/ipp/2021.6.0/lib/intel64:/opt/intel/oneapi/dnnl/2022.1.0/cpu_dpcpp_gpu_dpcpp/lib:/opt/intel/oneapi/debugger/2021.6.0/gdb/intel64/lib:/opt/intel/oneapi/debugger/2021.6.0/libipt/intel64/lib:/opt/intel/oneapi/debugger/2021.6.0/dep/lib:/opt/intel/oneapi/dal/2021.6.0/lib/intel64:/opt/intel/oneapi/compiler/2022.1.0/linux/lib:/opt/intel/oneapi/compiler/2022.1.0/linux/lib/x64:/opt/intel/oneapi/compiler/2022.1.0/linux/lib/oclfpga/host/linux64/lib:/opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin:/opt/intel/oneapi/ccl/2021.6.0/lib/cpu_gpu_dpcpp:/opt/delft3dfm/lnx64/flow2d3d/bin/
+ENV LD_LIBRARY_PATH=/opt/delft3dfm/lib:/usr/local/petsc-3.19/lib:/usr/local/lib:/usr/local/esmf/lib/libO/Linux.intel.64.intelmpi.default:/opt/intel/oneapi/vpl/2022.1.0/lib:/opt/intel/oneapi/tbb/2021.6.0/env/../lib/intel64/gcc4.8:/opt/intel/oneapi/mpi/2021.6.0//libfabric/lib:/opt/intel/oneapi/mpi/2021.6.0//lib/release:/opt/intel/oneapi/mpi/2021.6.0//lib:/opt/intel/oneapi/mkl/2022.1.0/lib/intel64:/opt/intel/oneapi/itac/2021.6.0/slib:/opt/intel/oneapi/ippcp/2021.6.0/lib/intel64:/opt/intel/oneapi/ipp/2021.6.0/lib/intel64:/opt/intel/oneapi/dnnl/2022.1.0/cpu_dpcpp_gpu_dpcpp/lib:/opt/intel/oneapi/debugger/2021.6.0/gdb/intel64/lib:/opt/intel/oneapi/debugger/2021.6.0/libipt/intel64/lib:/opt/intel/oneapi/debugger/2021.6.0/dep/lib:/opt/intel/oneapi/dal/2021.6.0/lib/intel64:/opt/intel/oneapi/compiler/2022.1.0/linux/lib:/opt/intel/oneapi/compiler/2022.1.0/linux/lib/x64:/opt/intel/oneapi/compiler/2022.1.0/linux/lib/oclfpga/host/linux64/lib:/opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin:/opt/intel/oneapi/ccl/2021.6.0/lib/cpu_gpu_dpcpp:/opt/delft3dfm/lnx64/flow2d3d/bin/
 ENV D3D_HOME=/opt/delft3dfm/
 ENV ARCH=lnx64
 
@@ -230,6 +248,15 @@ COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifport.so.5
 COPY --from=build /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5 /opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libifcoremt.so.5
 
+
+# Copy D-WAQ process library (proc_def.dat, bloom.spe, etc.) from build stage
+COPY --from=build /delft3dfm/src/engines_gpl/waq/resources/process_lib /opt/delft3dfm/share/delft3d
+ENV PROC_DEF_DIR=/opt/delft3dfm/share/delft3d
+
+# Copy test examples from build stage
+COPY --from=build /delft3dfm/examples/dflowfm/03_dflowfm_dwaq_sequential /home/examples/dflowfm_dwaq
+COPY --from=build /delft3dfm/examples/delft3d4/06_delwaq /home/examples/delwaq_standalone
+COPY --from=build /delft3dfm/examples/dflowfm/08_dflowfm_sequential_dwaves /home/examples/dflowfm_dwaves
 
 # Copy test script last to avoid cache invalidation when it changes
 COPY ./test_sim.sh /home/test_sim.sh

@@ -2,7 +2,7 @@
 set -e
 
 # Install dependencies
-apt-get update && apt-get install -y --no-install-recommends curl unzip subversion ca-certificates
+apt-get update && apt-get install -y --no-install-recommends curl unzip ca-certificates
 
 echo "=========================================="
 echo "TEST 1: Basic D-Flow FM simulation"
@@ -17,20 +17,37 @@ dflowfm --autostartstop f34.mdu
 
 echo ""
 echo "=========================================="
-echo "TEST 2: D-Flow FM + D-WAQ (Water Quality)"
+echo "TEST 2: D-Flow FM with WAQ processes (via DIMR)"
 echo "=========================================="
 
-# Download D-WAQ example from Deltares SVN
-# Source: https://svn.oss.deltares.nl/repos/delft3d/tags/delft3dfm/142431/examples/
-svn export --quiet https://svn.oss.deltares.nl/repos/delft3d/trunk/examples/dflowfm/03_dflowfm_dwaq_sequential /tmp/dwaq_example || {
-    echo "Could not download D-WAQ example from SVN, skipping..."
-    echo "All available tests completed!"
-    exit 0
-}
+# Copy example to temp (to avoid writing to read-only image location)
+cp -r /home/examples/dflowfm_dwaq /tmp/dflowfm_dwaq
+cd /tmp/dflowfm_dwaq
 
-cd /tmp/dwaq_example/dflowfm
-echo "Running D-Flow FM with Water Quality (D-WAQ)..."
-dflowfm --autostartstop f34_dynamo.mdu
+echo "Running D-Flow FM with inline water quality processes..."
+dimr dimr_config.xml
+
+echo ""
+echo "=========================================="
+echo "TEST 3: Standalone D-WAQ (delwaq)"
+echo "=========================================="
+
+cp -r /home/examples/delwaq_standalone /tmp/delwaq_standalone
+cd /tmp/delwaq_standalone
+
+echo "Running standalone D-WAQ water quality simulation..."
+delwaq com-tut_fti_waq.inp -p $PROC_DEF_DIR/proc_def.dat
+
+echo ""
+echo "=========================================="
+echo "TEST 4: D-Flow FM + D-Waves (coupled)"
+echo "=========================================="
+
+cp -r /home/examples/dflowfm_dwaves /tmp/dflowfm_dwaves
+cd /tmp/dflowfm_dwaves
+
+echo "Running D-Flow FM coupled with D-Waves..."
+dimr dimr_config.xml
 
 echo ""
 echo "=========================================="
