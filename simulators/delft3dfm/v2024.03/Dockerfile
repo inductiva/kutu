@@ -120,6 +120,7 @@ RUN export NUM_JOBS=$(nproc) && \
     cp /delft3dfm/src/third_party_open/esmf/lnx64/scripts/ESMF_RegridWeightGen_in_Delft3D-WAVE.sh /opt/delft3dfm/scripts/ && \
     cp /delft3dfm/src/third_party_open/swan/scripts/swan.sh /opt/delft3dfm/scripts/ && \
     chmod +x /opt/delft3dfm/scripts/*.sh && \
+    test -f /opt/delft3dfm/bin/delwaq || (echo "ERROR: delwaq not found after build!" && find /delft3dfm/build_fmsuite -name "*delwaq*" -ls && exit 1) && \
     rm -rf /delft3dfm/build_fmsuite
 
 # Build dflowfm CLI separately
