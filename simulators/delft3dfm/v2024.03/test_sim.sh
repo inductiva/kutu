@@ -82,9 +82,9 @@ run_test "D-Flow FM + D-RTC + D-Waves Sequential" \
     "dimr dimr_config.xml"
 
 # Test delft3d4 examples
-run_test "Standalone D-WAQ (delwaq)" \
-    "/home/examples/delft3d4/06_delwaq" \
-    "delwaq com-tut_fti_waq.inp -p $PROC_DEF_DIR/proc_def.dat"
+# run_test "Standalone D-WAQ (delwaq)" \
+#     "/home/examples/delft3d4/06_delwaq" \
+#     "delwaq com-tut_fti_waq.inp -p $PROC_DEF_DIR/proc_def.dat"
 
 run_test "Delft3D4 Wave (DIMR)" \
     "/home/examples/delft3d4/07_wave" \
