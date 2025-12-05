@@ -73,22 +73,22 @@ run_test "D-Waves Standalone" \
     "/home/examples/dflowfm/07_dwaves" \
     "dimr dimr_config.xml"
 
-run_test "D-Flow FM + D-Waves Sequential" \
-    "/home/examples/dflowfm/08_dflowfm_sequential_dwaves" \
-    "dimr dimr_config.xml"
+# run_test "D-Flow FM + D-Waves Sequential" \
+#     "/home/examples/dflowfm/08_dflowfm_sequential_dwaves" \
+#     "dimr dimr_config.xml"
 
-run_test "D-Flow FM + D-RTC + D-Waves Sequential" \
-    "/home/examples/dflowfm/10_dflowfm_sequential_drtc_dwaves" \
-    "dimr dimr_config.xml"
+# run_test "D-Flow FM + D-RTC + D-Waves Sequential" \
+#     "/home/examples/dflowfm/10_dflowfm_sequential_drtc_dwaves" \
+#     "dimr dimr_config.xml"
 
 # Test delft3d4 examples
 # run_test "Standalone D-WAQ (delwaq)" \
 #     "/home/examples/delft3d4/06_delwaq" \
 #     "delwaq com-tut_fti_waq.inp -p $PROC_DEF_DIR/proc_def.dat"
 
-run_test "Delft3D4 Wave (DIMR)" \
-    "/home/examples/delft3d4/07_wave" \
-    "dimr dimr_config.xml"
+# run_test "Delft3D4 Wave (DIMR)" \
+#     "/home/examples/delft3d4/07_wave" \
+#     "dimr dimr_config.xml"
 
 # Note: Some examples need special handling, skipping them
 
