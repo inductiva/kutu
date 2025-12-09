@@ -1,0 +1,29 @@
+#getNumberOfProcessors
+[ -n "$FOAM_TUTORIALS" ] || export FOAM_TUTORIALS="$WM_PROJECT_DIR"/tutorials
+# Basic sanity checks
+[ -d "$FOAM_TUTORIALS" ] || echo "No OpenFOAM tutorials? : $FOAM_TUTORIALS" 1>&2
+# Darwin workaround - SIP clearing DYLD_LIBRARY_PATH variable
+if [ -n "$FOAM_LD_LIBRARY_PATH" ] && [ -z "$DYLD_LIBRARY_PATH" ]
+then
+    export DYLD_LIBRARY_PATH="$FOAM_LD_LIBRARY_PATH"
+fi
+
+dict="${1:-system/decomposeParDict}"
+case "$dict" in
+(system/*)  # Already qualified
+    ;;
+(*)
+    # If it does not exist, assume it refers to location in system/
+    [ -f "$dict" ] || dict="system/$dict"
+    ;;
+esac
+# Re-use positional parameters for automatic whitespace elimination
+set -- $(foamDictionary -entry numberOfSubdomains -value "$dict" 2>/dev/null)
+if [ "$#" -eq 1 ]
+then
+    echo "$1"
+else
+    echo "Error getting 'numberOfSubdomains' from '$dict'" 1>&2
+    echo 1      # Fallback is 1 proc (serial)
+    exit 1
+fi
