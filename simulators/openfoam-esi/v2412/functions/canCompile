@@ -1,0 +1,35 @@
+#canCompile
+[ -n "$FOAM_TUTORIALS" ] || export FOAM_TUTORIALS="$WM_PROJECT_DIR"/tutorials
+# Basic sanity checks
+[ -d "$FOAM_TUTORIALS" ] || echo "No OpenFOAM tutorials? : $FOAM_TUTORIALS" 1>&2
+# Darwin workaround - SIP clearing DYLD_LIBRARY_PATH variable
+if [ -n "$FOAM_LD_LIBRARY_PATH" ] && [ -z "$DYLD_LIBRARY_PATH" ]
+then
+    export DYLD_LIBRARY_PATH="$FOAM_LD_LIBRARY_PATH"
+fi
+
+
+# system
+if ! command -v make >/dev/null
+then
+    echo "No system 'make' command found ... cannot compile" 1>&2
+    exit 1
+fi
+# OpenFOAM-specific
+if ! command -v wmake >/dev/null
+then
+    echo "No openfoam 'wmake' command found ... cannot compile" 1>&2
+    exit 1
+fi
+local cxx_compiler
+cxx_compiler="$(wmake -show-cxx 2>/dev/null)"
+if [ -z "$cxx_compiler" ]
+then
+    echo "No wmake rule for C++ compiler ... cannot compile" 1>&2
+    exit 1
+elif ! command -v "$cxx_compiler"  >/dev/null
+then
+    echo "No path to C++ compiler ($cxx_compiler) ... cannot compile" 1>&2
+    exit 1
+fi
+exit 0
