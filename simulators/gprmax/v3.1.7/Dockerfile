@@ -96,7 +96,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
     openmpi-bin \
-    libopenmpi3 \
+    libopenmpi40 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
