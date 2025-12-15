@@ -6,8 +6,7 @@ FROM python:3.11-slim
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    OMP_NUM_THREADS=4
+    PYTHONDONTWRITEBYTECODE=1
 
 # Install system dependencies (gcc for OpenMP support)
 RUN apt-get update && apt-get install -y --no-install-recommends \

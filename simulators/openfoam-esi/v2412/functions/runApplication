@@ -1,0 +1,68 @@
+[ -n "$FOAM_TUTORIALS" ] || export FOAM_TUTORIALS="$WM_PROJECT_DIR"/tutorials
+
+# Basic sanity checks
+[ -d "$FOAM_TUTORIALS" ] || echo "No OpenFOAM tutorials? : $FOAM_TUTORIALS" 1>&2
+
+# Darwin workaround - SIP clearing DYLD_LIBRARY_PATH variable
+if [ -n "$FOAM_LD_LIBRARY_PATH" ] && [ -z "$DYLD_LIBRARY_PATH" ]
+then
+    export DYLD_LIBRARY_PATH="$FOAM_LD_LIBRARY_PATH"
+fi
+
+# Parse options until executable is encountered
+while [ "$#" -gt 0 ] && [ -z "$appRun" ]
+do
+    case "$1" in
+    ('') ;;  # Ignore junk
+
+    (-a | -append)
+        logMode=append
+        ;;
+    (-o | -overwrite)
+        logMode=overwrite
+        ;;
+    (-s | -suffix)
+        logFile=".$2"
+        shift
+        ;;
+
+    (-decompose-dict=*)
+        optValue="${1#*=}"
+        case "$optValue" in
+        ('' | none | false) ;;  ## Ignore
+        (*) appArgs="$appArgs -decomposeParDict $optValue" ;;
+        esac
+        ;;
+
+    (-decomposeParDict)
+        optValue="$2"
+        shift
+        case "$optValue" in
+        ('' | none | false) ;; ## Ignore
+        (*) appArgs="$appArgs -decomposeParDict $optValue" ;;
+        esac
+        ;;
+
+    (*)
+        appRun="$1"
+        ;;
+    esac
+    shift
+done
+
+appName="${appRun##*/}"
+logFile="log.$appName$logFile"
+
+if [ -f "$logFile" ] && [ -z "$logMode" ]
+then
+    echo "$appName already run on $PWD:" \
+            "remove log file '$logFile' to re-run"
+else
+    echo "Running $appRun on $PWD"
+    if [ "$logMode" = append ]
+    then
+        $appRun $appArgs "$@" >> $logFile 2>&1
+    else
+        $appRun $appArgs "$@" > $logFile 2>&1
+    fi
+fi
