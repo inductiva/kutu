@@ -55,8 +55,11 @@ WORKDIR /opt
 # Clone gprMax repository
 RUN git clone https://github.com/gprMax/gprMax.git /opt/gprMax
 
-# Change to gprMax directory
+# Change to gprMax directory and checkout specific commit
 WORKDIR /opt/gprMax
+
+# Checkout specific commit for version 3.1.7
+RUN git checkout 368e7c1
 
 # Install Python dependencies including mpi4py
 RUN pip install --no-cache-dir --upgrade pip && \
