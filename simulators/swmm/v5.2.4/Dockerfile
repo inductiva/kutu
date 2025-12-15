@@ -93,11 +93,11 @@ new = """        // --- run SWMM
         else printf("\\n");
 
         // Return non-zero exit code on error
-        if (errorCode != 0 || swmm_getError(errMsg, msgLen) > 0)
+        if (errorCode != 0)
+            return errorCode;
+        if (swmm_getError(errMsg, msgLen) > 0)
             return 1;
     }
-
-    return 0;
 }"""
 text = path.read_text()
 if old not in text:
