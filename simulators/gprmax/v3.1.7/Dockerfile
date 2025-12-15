@@ -36,8 +36,7 @@ FROM python:3.11-slim AS build
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PIP_DEFAULT_TIMEOUT=120
+    PYTHONDONTWRITEBYTECODE=1
 
 # Install system dependencies including OpenMPI
 RUN apt-get update && apt-get install -y --no-install-recommends \
