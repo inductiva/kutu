@@ -72,13 +72,10 @@ RUN pip install --no-cache-dir --upgrade pip && \
     tqdm \
     mpi4py
 
-# Install the python packages from /opt/gprMax/requirements.txt 
-RUN pip install --no-cache-dir -r /opt/gprMax/requirements.txt
 
 # Build and install gprMax
-RUN python setup.py build && \
-    python setup.py install
-
+RUN python setup.py build \
+ && python setup.py install
 
 # ============================================
 # Stage 3: Final runtime image
