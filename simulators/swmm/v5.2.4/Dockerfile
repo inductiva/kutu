@@ -59,6 +59,52 @@ path.write_text(text.replace(old, new, 1))
 PY
 RUN grep -n "MAXFNAME" src/consts.h
 
+# Patch main.c to return proper exit codes on error instead of always returning 0.
+RUN python3 - <<'PY'
+from pathlib import Path
+path = Path("src/main.c")
+old = """        // --- run SWMM
+        swmm_run(inputFile, reportFile, binaryFile);
+
+        // Display closing status on console
+        runTime = difftime(time(0), start);
+        printf("\\n\\n... EPA SWMM completed in %.2f seconds.", runTime);
+        if      ( swmm_getError(errMsg, msgLen) > 0 ) printf(" There are errors.\\n");
+        else if ( swmm_getWarnings() > 0 ) printf(" There are warnings.\\n");
+        else printf("\\n");
+    }
+
+// --- Use the code below if you need to keep the console window visible
+/* 
+    printf("    Press Enter to continue...");
+    getchar();
+*/
+
+    return 0;
+}"""
+new = """        // --- run SWMM
+        int errorCode = swmm_run(inputFile, reportFile, binaryFile);
+
+        // Display closing status on console
+        runTime = difftime(time(0), start);
+        printf("\\n\\n... EPA SWMM completed in %.2f seconds.", runTime);
+        if      ( swmm_getError(errMsg, msgLen) > 0 ) printf(" There are errors.\\n");
+        else if ( swmm_getWarnings() > 0 ) printf(" There are warnings.\\n");
+        else printf("\\n");
+
+        // Return non-zero exit code on error
+        if (errorCode != 0)
+            return errorCode;
+        if (swmm_getError(errMsg, msgLen) > 0)
+            return 1;
+    }
+}"""
+text = path.read_text()
+if old not in text:
+    raise SystemExit("main.c return block not found")
+path.write_text(text.replace(old, new, 1))
+PY
+
 RUN cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && \
     cmake --build build -j"$(nproc)" && \
     install -d /opt/swmm/bin /opt/swmm/lib && \
