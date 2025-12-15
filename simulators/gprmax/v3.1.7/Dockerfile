@@ -51,33 +51,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Set working directory
 WORKDIR /opt
 
-# Clone gprMax repository
-RUN git clone https://github.com/gprMax/gprMax.git /opt/gprMax
+# Pin the exact release so CI/local are identical
+ARG GPRMAX_REF=v.3.1.7
+RUN git clone --depth 1 --branch ${GPRMAX_REF} https://github.com/gprMax/gprMax.git /opt/gprMax
 
-# Change to gprMax directory and checkout specific commit
 WORKDIR /opt/gprMax
 
-# Checkout specific commit for version 3.1.7
-RUN git checkout 368e7c1
+RUN python -m pip install --no-cache-dir --upgrade pip setuptools wheel \
+ && python -m pip install --no-cache-dir --retries 10 --timeout 120 \
+      colorama cython h5py matplotlib numpy psutil scipy terminaltables tqdm mpi4py
 
-# Install Python dependencies including mpi4py
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir \
-    colorama \
-    cython \
-    h5py \
-    matplotlib \
-    numpy \
-    psutil \
-    scipy \
-    terminaltables \
-    tqdm \
-    mpi4py
+# Build binaries
+RUN python setup.py build
 
+# Install gprMax
+RUN python -m pip install --no-cache-dir --no-deps .
 
-# Build and install gprMax
-RUN python setup.py build \
- && python setup.py install
 
 # ============================================
 # Stage 3: Final runtime image
