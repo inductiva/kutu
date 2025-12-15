@@ -72,8 +72,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
     tqdm \
     mpi4py
 
-# Install the python packages from /opt/gprMax/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Install the python packages from /opt/gprMax/requirements.txt 
+RUN pip install --no-cache-dir -r /opt/gprMax/requirements.txt
 
 # Build and install gprMax
 RUN python setup.py build && \
