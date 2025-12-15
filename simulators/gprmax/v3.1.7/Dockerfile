@@ -79,8 +79,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
     jupyterlab-pygments
 
 # Build and install gprMax using pip
-RUN pip install --no-cache-dir .
-
+RUN pip install --no-cache-dir --no-build-isolation .
 
 # ============================================
 # Stage 3: Final runtime image
