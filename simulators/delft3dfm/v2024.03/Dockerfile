@@ -284,13 +284,34 @@ ENV D3D_HOME=/opt/delft3dfm/
 ENV ARCH=lnx64
 ENV PROC_DEF_DIR=/opt/delft3dfm/share/delft3d
 
-# Create entrypoint script that sets stack size
+# Create Singularity-compatible environment setup
+RUN mkdir -p /.singularity.d/env && \
+    cat > /.singularity.d/env/90-delft3d-setup.sh << 'EOF'
+#!/bin/bash
+# This script is automatically sourced by Singularity/Apptainer
+# Set unlimited stack size if possible
+ulimit -s unlimited 2>/dev/null || true
+
+# Set stack-related environment variables as fallback
+export OMP_STACKSIZE=512M
+export KMP_STACKSIZE=512M
+export FORT_STACKSIZE=512M
+EOF
+
+RUN chmod +x /.singularity.d/env/90-delft3d-setup.sh
+
+# Create entrypoint wrapper for Docker
 RUN cat > /docker-entrypoint.sh << 'EOF'
 #!/bin/bash
 set -e
 
-# Set unlimited stack size to prevent segfaults in Fortran code
-ulimit -s unlimited
+# Try to set unlimited stack size (works in Docker)
+ulimit -s unlimited 2>/dev/null || true
+
+# Set stack-related environment variables as fallback
+export OMP_STACKSIZE=512M
+export KMP_STACKSIZE=512M
+export FORT_STACKSIZE=512M
 
 # Execute the command
 exec "$@"
@@ -298,5 +319,6 @@ EOF
 
 RUN chmod +x /docker-entrypoint.sh
 
+# Set entrypoint for Docker (Singularity will ignore this)
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/bin/bash"]
