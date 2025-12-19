@@ -283,3 +283,20 @@ ENV LESSCLOSE="/usr/bin/lesspipe %s %s"
 ENV D3D_HOME=/opt/delft3dfm/
 ENV ARCH=lnx64
 ENV PROC_DEF_DIR=/opt/delft3dfm/share/delft3d
+
+# Create entrypoint script that sets stack size
+RUN cat > /docker-entrypoint.sh << 'EOF'
+#!/bin/bash
+set -e
+
+# Set unlimited stack size to prevent segfaults in Fortran code
+ulimit -s unlimited
+
+# Execute the command
+exec "$@"
+EOF
+
+RUN chmod +x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/bin/bash"]
