@@ -129,6 +129,10 @@ RUN export NUM_JOBS=$(nproc) && \
     mkdir -p /opt/delft3dfm/bin /opt/delft3dfm/lib /opt/delft3dfm/scripts && \
     find /delft3dfm/build_fmsuite -type f -executable \( -name "delwaq" -o -name "wave_exe" -o -name "dimr" -o -name "dfmoutput" -o -name "delpar" -o -name "rr" -o -name "maptonetcdf" -o -name "swan_mpi" -o -name "swan_omp" \) -exec cp {} /opt/delft3dfm/bin/ \; && \
     find /delft3dfm/build_fmsuite -name "*.so" -exec cp {} /opt/delft3dfm/lib/ \; && \
+    cd /opt/delft3dfm/lib && \
+    if [ ! -f libwave.so ]; then \
+        find . -maxdepth 1 -name "libwave_*.so" -print -exec ln -s {} libwave.so \; ; \
+    fi && \
     cp /usr/local/esmf/bin/binO/Linux.intel.64.intelmpi.default/ESMF_RegridWeightGen /opt/delft3dfm/bin/ && \
     cp /delft3dfm/src/third_party_open/esmf/lnx64/scripts/ESMF_RegridWeightGen_in_Delft3D-WAVE.sh /opt/delft3dfm/scripts/ && \
     cp /delft3dfm/src/third_party_open/swan/scripts/swan.sh /opt/delft3dfm/scripts/ && \
