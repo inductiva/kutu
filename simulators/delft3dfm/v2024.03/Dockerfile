@@ -42,6 +42,8 @@ RUN /usr/bin/python3 ./configure \
         --download-f2cblaslapack=1 \
         --download-metis=1 \
         --download-parmetis=1 \
+        FFLAGS="-heap-arrays 1" \
+        FCFLAGS="-heap-arrays 1" \
     || (cat configure.log && exit 1)
 RUN make all && make install
 ENV PETSC_DIR=/usr/local/petsc-3.19
@@ -65,11 +67,21 @@ RUN ./configure CC=mpiicc CXX=mpiicxx FC=mpiifort --enable-parallel --enable-sha
 RUN make install
 
 ## install netcdf fortran-libs
+## install netcdf fortran-libs
 WORKDIR /home/delft3dfm_compile/dependencies
 RUN wget github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.5.0.tar.gz -O netcdf-fortran-4.5.0.tar.gz && tar -xf netcdf-fortran-4.5.0.tar.gz
 WORKDIR /home/delft3dfm_compile/dependencies/netcdf-fortran-4.5.0
 ENV LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}
-RUN ./configure CC=mpiicc CXX=mpiicxx FC=mpiifort F77=mpiifort --prefix=/usr/local --disable-fortran-type-check CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib" CFLAGS="-m64 -diag-disable=10441" --enable-shared --host=x86_64-pc-linux
+RUN ./configure CC=mpiicc CXX=mpiicxx FC=mpiifort F77=mpiifort \
+    --prefix=/usr/local \
+    --disable-fortran-type-check \
+    CPPFLAGS="-I/usr/local/include" \
+    LDFLAGS="-L/usr/local/lib" \
+    CFLAGS="-m64 -diag-disable=10441" \
+    FCFLAGS="-heap-arrays 1" \
+    FFLAGS="-heap-arrays 1" \
+    --enable-shared \
+    --host=x86_64-pc-linux
 RUN make install
 
 # Install ESMF (required for D-Waves grid regridding)
@@ -110,12 +122,17 @@ RUN export NUM_JOBS=$(nproc) && \
         -D CONFIGURATION_TYPE="fm-suite" \
         -D CMAKE_BUILD_TYPE=Release \
         -D CMAKE_INSTALL_PREFIX=/opt/delft3dfm \
+        -D CMAKE_Fortran_FLAGS="-heap-arrays 1" \
         -D CMAKE_EXE_LINKER_FLAGS="-L/opt/intel/oneapi/mpi/2021.6.0/lib -lmpifort" && \
     make -j${NUM_JOBS} && \
     make install || true && \
     mkdir -p /opt/delft3dfm/bin /opt/delft3dfm/lib /opt/delft3dfm/scripts && \
     find /delft3dfm/build_fmsuite -type f -executable \( -name "delwaq" -o -name "wave_exe" -o -name "dimr" -o -name "dfmoutput" -o -name "delpar" -o -name "rr" -o -name "maptonetcdf" -o -name "swan_mpi" -o -name "swan_omp" \) -exec cp {} /opt/delft3dfm/bin/ \; && \
     find /delft3dfm/build_fmsuite -name "*.so" -exec cp {} /opt/delft3dfm/lib/ \; && \
+    cd /opt/delft3dfm/lib && \
+    if [ ! -f libwave.so ]; then \
+        find . -maxdepth 1 -name "libwave_*.so" -print -exec ln -s {} libwave.so \; ; \
+    fi && \
     cp /usr/local/esmf/bin/binO/Linux.intel.64.intelmpi.default/ESMF_RegridWeightGen /opt/delft3dfm/bin/ && \
     cp /delft3dfm/src/third_party_open/esmf/lnx64/scripts/ESMF_RegridWeightGen_in_Delft3D-WAVE.sh /opt/delft3dfm/scripts/ && \
     cp /delft3dfm/src/third_party_open/swan/scripts/swan.sh /opt/delft3dfm/scripts/ && \
@@ -132,6 +149,7 @@ RUN export NUM_JOBS=$(nproc) && \
         -D CONFIGURATION_TYPE="dflowfm" \
         -D CMAKE_BUILD_TYPE=Release \
         -D CMAKE_INSTALL_PREFIX=/opt/delft3dfm \
+        -D CMAKE_Fortran_FLAGS="-heap-arrays 1" \
         -D CMAKE_EXE_LINKER_FLAGS="-L/opt/intel/oneapi/mpi/2021.6.0/lib -lmpifort" && \
     make -j${NUM_JOBS} && \
     make install || true && \
@@ -283,3 +301,42 @@ ENV LESSCLOSE="/usr/bin/lesspipe %s %s"
 ENV D3D_HOME=/opt/delft3dfm/
 ENV ARCH=lnx64
 ENV PROC_DEF_DIR=/opt/delft3dfm/share/delft3d
+
+# Create Singularity-compatible environment setup
+RUN mkdir -p /.singularity.d/env && \
+    cat > /.singularity.d/env/90-delft3d-setup.sh << 'EOF'
+#!/bin/bash
+# This script is automatically sourced by Singularity/Apptainer
+# Set unlimited stack size if possible
+ulimit -s unlimited 2>/dev/null || true
+
+# Set stack-related environment variables as fallback
+export OMP_STACKSIZE=512M
+export KMP_STACKSIZE=512M
+export FORT_STACKSIZE=512M
+EOF
+
+RUN chmod +x /.singularity.d/env/90-delft3d-setup.sh
+
+# Create entrypoint wrapper for Docker
+RUN cat > /docker-entrypoint.sh << 'EOF'
+#!/bin/bash
+set -e
+
+# Try to set unlimited stack size (works in Docker)
+ulimit -s unlimited 2>/dev/null || true
+
+# Set stack-related environment variables as fallback
+export OMP_STACKSIZE=512M
+export KMP_STACKSIZE=512M
+export FORT_STACKSIZE=512M
+
+# Execute the command
+exec "$@"
+EOF
+
+RUN chmod +x /docker-entrypoint.sh
+
+# Set entrypoint for Docker (Singularity will ignore this)
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/bin/bash"]
