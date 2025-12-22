@@ -110,6 +110,7 @@ RUN export NUM_JOBS=$(nproc) && \
         -D CONFIGURATION_TYPE="fm-suite" \
         -D CMAKE_BUILD_TYPE=Release \
         -D CMAKE_INSTALL_PREFIX=/opt/delft3dfm \
+        -D CMAKE_Fortran_FLAGS="-heap-arrays 64" \
         -D CMAKE_EXE_LINKER_FLAGS="-L/opt/intel/oneapi/mpi/2021.6.0/lib -lmpifort" && \
     make -j${NUM_JOBS} && \
     make install || true && \
@@ -132,6 +133,7 @@ RUN export NUM_JOBS=$(nproc) && \
         -D CONFIGURATION_TYPE="dflowfm" \
         -D CMAKE_BUILD_TYPE=Release \
         -D CMAKE_INSTALL_PREFIX=/opt/delft3dfm \
+        -D CMAKE_Fortran_FLAGS="-heap-arrays 64" \
         -D CMAKE_EXE_LINKER_FLAGS="-L/opt/intel/oneapi/mpi/2021.6.0/lib -lmpifort" && \
     make -j${NUM_JOBS} && \
     make install || true && \
