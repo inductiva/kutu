@@ -42,8 +42,8 @@ RUN /usr/bin/python3 ./configure \
         --download-f2cblaslapack=1 \
         --download-metis=1 \
         --download-parmetis=1 \
-        FFLAGS="-heap-arrays 64" \
-        FCFLAGS="-heap-arrays 64" \
+        FFLAGS="-heap-arrays 1" \
+        FCFLAGS="-heap-arrays 1" \
     || (cat configure.log && exit 1)
 RUN make all && make install
 ENV PETSC_DIR=/usr/local/petsc-3.19
@@ -78,8 +78,8 @@ RUN ./configure CC=mpiicc CXX=mpiicxx FC=mpiifort F77=mpiifort \
     CPPFLAGS="-I/usr/local/include" \
     LDFLAGS="-L/usr/local/lib" \
     CFLAGS="-m64 -diag-disable=10441" \
-    FCFLAGS="-heap-arrays 64" \
-    FFLAGS="-heap-arrays 64" \
+    FCFLAGS="-heap-arrays 1" \
+    FFLAGS="-heap-arrays 1" \
     --enable-shared \
     --host=x86_64-pc-linux
 RUN make install
@@ -122,7 +122,7 @@ RUN export NUM_JOBS=$(nproc) && \
         -D CONFIGURATION_TYPE="fm-suite" \
         -D CMAKE_BUILD_TYPE=Release \
         -D CMAKE_INSTALL_PREFIX=/opt/delft3dfm \
-        -D CMAKE_Fortran_FLAGS="-heap-arrays 64" \
+        -D CMAKE_Fortran_FLAGS="-heap-arrays 1" \
         -D CMAKE_EXE_LINKER_FLAGS="-L/opt/intel/oneapi/mpi/2021.6.0/lib -lmpifort" && \
     make -j${NUM_JOBS} && \
     make install || true && \
@@ -145,7 +145,7 @@ RUN export NUM_JOBS=$(nproc) && \
         -D CONFIGURATION_TYPE="dflowfm" \
         -D CMAKE_BUILD_TYPE=Release \
         -D CMAKE_INSTALL_PREFIX=/opt/delft3dfm \
-        -D CMAKE_Fortran_FLAGS="-heap-arrays 64" \
+        -D CMAKE_Fortran_FLAGS="-heap-arrays 1" \
         -D CMAKE_EXE_LINKER_FLAGS="-L/opt/intel/oneapi/mpi/2021.6.0/lib -lmpifort" && \
     make -j${NUM_JOBS} && \
     make install || true && \
