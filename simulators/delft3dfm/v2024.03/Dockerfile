@@ -42,6 +42,8 @@ RUN /usr/bin/python3 ./configure \
         --download-f2cblaslapack=1 \
         --download-metis=1 \
         --download-parmetis=1 \
+        FFLAGS="-heap-arrays 64" \
+        FCFLAGS="-heap-arrays 64" \
     || (cat configure.log && exit 1)
 RUN make all && make install
 ENV PETSC_DIR=/usr/local/petsc-3.19
@@ -65,11 +67,21 @@ RUN ./configure CC=mpiicc CXX=mpiicxx FC=mpiifort --enable-parallel --enable-sha
 RUN make install
 
 ## install netcdf fortran-libs
+## install netcdf fortran-libs
 WORKDIR /home/delft3dfm_compile/dependencies
 RUN wget github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.5.0.tar.gz -O netcdf-fortran-4.5.0.tar.gz && tar -xf netcdf-fortran-4.5.0.tar.gz
 WORKDIR /home/delft3dfm_compile/dependencies/netcdf-fortran-4.5.0
 ENV LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}
-RUN ./configure CC=mpiicc CXX=mpiicxx FC=mpiifort F77=mpiifort --prefix=/usr/local --disable-fortran-type-check CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib" CFLAGS="-m64 -diag-disable=10441" --enable-shared --host=x86_64-pc-linux
+RUN ./configure CC=mpiicc CXX=mpiicxx FC=mpiifort F77=mpiifort \
+    --prefix=/usr/local \
+    --disable-fortran-type-check \
+    CPPFLAGS="-I/usr/local/include" \
+    LDFLAGS="-L/usr/local/lib" \
+    CFLAGS="-m64 -diag-disable=10441" \
+    FCFLAGS="-heap-arrays 64" \
+    FFLAGS="-heap-arrays 64" \
+    --enable-shared \
+    --host=x86_64-pc-linux
 RUN make install
 
 # Install ESMF (required for D-Waves grid regridding)
