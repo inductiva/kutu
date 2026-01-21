@@ -47,7 +47,19 @@ RUN apt update -qq && \
     cmake .. && \
     make -j 4 && \
     cp -a /openfast/install/bin/* /usr/local/bin/ && \
-    cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon.so
+    cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon.so && \
+    rm -rf /openfast/ROSCO && \
+    cd /openfast && \
+    # Compile ROSCO Controller (Rosco can be used with openfast)
+    # This will generate /openfast/ROSCO/rosco/controller/build/libdiscon.so
+    git clone --branch v2.9.4 https://github.com/NREL/ROSCO.git && \
+    cd ROSCO/rosco/controller/ && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make -j 4 && \
+    cp -a /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x86_64-linux-gnu/libdiscon_v2.9.4.so
+     
 
 
 RUN cd / && \
@@ -94,6 +106,7 @@ COPY --from=build /openfast/ROSCO/rosco/controller/build/libdiscon.so /usr/lib/x
 COPY --from=build /usr/lib/x86_64-linux-gnu/libgomp.so.1 /usr/lib/x86_64-linux-gnu/
 COPY --from=build /usr/lib/x86_64-linux-gnu/libblas.so.3 /usr/lib/x86_64-linux-gnu/
 COPY --from=build /usr/lib/x86_64-linux-gnu/liblapack.so.3 /usr/lib/x86_64-linux-gnu/
+COPY --from=build /usr/lib/x86_64-linux-gnu/libdiscon* /usr/lib/x86_64-linux-gnu/
 
 # Copy test environment files
 COPY --from=test_env /home /home
